@@ -74,10 +74,12 @@ export class VYI {
     */
     constructor(pVYIData) {
         VYI.logger.registerType(&apos;VYI-Module&apos;, &apos;#ff6600&apos;);
-        if (pVYIData instanceof Object) {
-            this.parse(pVYIData);
-        } else {
-            VYI.logger.prefix(&apos;VYI-module&apos;).error(&apos;Invalid vyiData type! Cannot parse!&apos;);
+        if (pVYIData) {
+            if (pVYIData instanceof Object) {
+                this.parse(pVYIData);
+            } else {
+                VYI.logger.prefix(&apos;VYI-module&apos;).error(&apos;Invalid vyiData type! Cannot parse!&apos;);
+            }
         }
     }
     /**
@@ -176,12 +178,16 @@ export class VYI {
      * @returns {Icon|undefined} The icon that has the name pName or undefined.
      */
     getIcon(pName) {
-        for (const icon of this.icons) {
-            // If the icon has the same name, return that icon
-            if (icon.getName() === pName) {
-                return icon;
-            }
-        };
+        if (typeof(pName) === &apos;string&apos;) {
+            for (const icon of this.icons) {
+                // If the icon has the same name, return that icon
+                if (icon.getName() === pName) {
+                    return icon;
+                }
+            };
+        } else {
+            this.logger.prefix(&apos;VYI-module&apos;).error(&apos;Invalid name type used!&apos;);
+        }
     }
     /**
      * Exports this VYI into VYI format.

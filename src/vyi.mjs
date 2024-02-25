@@ -35,10 +35,12 @@ export class VYI {
     */
     constructor(pVYIData) {
         VYI.logger.registerType('VYI-Module', '#ff6600');
-        if (pVYIData instanceof Object) {
-            this.parse(pVYIData);
-        } else {
-            VYI.logger.prefix('VYI-module').error('Invalid vyiData type! Cannot parse!');
+        if (pVYIData) {
+            if (pVYIData instanceof Object) {
+                this.parse(pVYIData);
+            } else {
+                VYI.logger.prefix('VYI-module').error('Invalid vyiData type! Cannot parse!');
+            }
         }
     }
     /**
