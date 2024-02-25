@@ -1,3 +1,4 @@
+import { VYI } from './vyi.mjs';
 import { Frame } from './frame.mjs';
 
 export class Icon {
@@ -46,17 +47,10 @@ export class Icon {
     /**
      * Creates this icon instance.
      * @param {Object} pIconData - The icon data that is used to build this icon.
-     * @param {VYI} pVYI - The vyi that owns this icon.
      * @private
      */
-    constructor(pIconData, pVYI) {
-        /**
-         * The VYI that owns this icon.
-         * @private
-         * @type {pVYI}
-         */
-        this.vyi = pVYI;
-        this.sift(pIconData);
+    constructor(pIconData) {
+        this.parse(pIconData);
     }
     /**
      * Swaps the positions of two elements in an array.
@@ -69,11 +63,11 @@ export class Icon {
         [pArray[pIndex1], pArray[pIndex2]] = [pArray[pIndex2], pArray[pIndex1]];
     }
     /**
-     * Sifts through the icon data and adds data to this icon.
+     * parses through the icon data and adds data to this icon.
      * @param {Object} pIconData - The icon data that is used to build this icon.
      * @private
      */
-    sift(pIconData) {
+    parse(pIconData) {
         // Loop through pIconData and create this icon
         const iconName = pIconData[0];
         const iconWidth = pIconData[1];
@@ -157,7 +151,7 @@ export class Icon {
             if (typeof(pDataURL) === 'string') {
                 this.dataURL = pDataURL;
             } else {
-                this.vyi.logger.prefix('VYI-module').error('Invalid data url type!');
+                VYI.logger.prefix('VYI-module').error('Invalid data url type!');
             }
         }
         return this;
@@ -179,7 +173,7 @@ export class Icon {
             if (typeof(pDelay) === 'number') {
                 this.delay = pDelay;
             } else {
-                this.vyi.logger.prefix('VYI-module').error('Invalid delay type!');
+                VYI.logger.prefix('VYI-module').error('Invalid delay type!');
             }
         }
         return this;
@@ -201,7 +195,7 @@ export class Icon {
             if (typeof(pName) === 'string') {
                 this.name = pName;
             } else {
-                this.vyi.logger.prefix('VYI-Module').error('Invalid type for pName!');
+                VYI.logger.prefix('VYI-Module').error('Invalid type for pName!');
             }
         }
         return this;
@@ -225,7 +219,7 @@ export class Icon {
                     pFrame.setDelay(pDelay);
                 });
             } else {
-                this.vyi.logger.prefix('VYI-Module').error('Invalid type for pDelay!');
+                VYI.logger.prefix('VYI-Module').error('Invalid type for pDelay!');
             }
         }
         return this;
@@ -237,7 +231,7 @@ export class Icon {
      */
     addState(pIconData) {
         if (pIconData instanceof Object) {
-            const state = new Icon(pIconData, this.vyi);
+            const state = new Icon(pIconData);
             this.states.push(state);
             return state;
         }
@@ -261,7 +255,7 @@ export class Icon {
                 index = this.states.indexOf(state);
             }
         } else {
-            this.vyi.logger.prefix('VYI-Module').error('Failed to remove state!');
+            VYI.logger.prefix('VYI-Module').error('Failed to remove state!');
             return this;
         }
         if (typeof(index) === 'number') {
@@ -278,18 +272,17 @@ export class Icon {
     addFrame(pFrameData) {
         if (pFrameData) {
             if (pFrameData instanceof Object) {
-                // We pass "this.vyi" because this passes the vyi module to the frane.
-                const frame = new Frame(pFrameData, this.vyi);
+                const frame = new Frame(pFrameData);
                 // Add the frame to the frames array.
                 this.frames.push(frame);
                 // Re-index frames after a change
                 this.indexFrames();
                 return frame;
             } else {
-                this.vyi.logger.prefix('VYI-Module').error('Invalid frame data passed!');
+                VYI.logger.prefix('VYI-Module').error('Invalid frame data passed!');
             }
         } else {
-            this.vyi.logger.prefix('VYI-Module').error('No frame data passed!');
+            VYI.logger.prefix('VYI-Module').error('No frame data passed!');
         }
     }
     /**
@@ -312,10 +305,10 @@ export class Icon {
                     index = pIndex;
                 }
             } else {
-                this.vyi.logger.prefix('VYI-Module').error('Invalid pIndex type!');
+                VYI.logger.prefix('VYI-Module').error('Invalid pIndex type!');
             }
         } else {
-            this.vyi.logger.prefix('VYI-Module').error('Failed to remove frame!');
+            VYI.logger.prefix('VYI-Module').error('Failed to remove frame!');
         }
         if (typeof(index) === 'number') {
             // Remove the frame
@@ -350,10 +343,10 @@ export class Icon {
                 // Re-index frames after a change
                 this.indexFrames();
             } else {
-                this.vyi.logger.prefix('VYI-Module').error('There was no frame found at pCurrentIndex, or there was no frame found at pIndex!');
+                VYI.logger.prefix('VYI-Module').error('There was no frame found at pCurrentIndex, or there was no frame found at pIndex!');
             }
         } else {
-            this.vyi.logger.prefix('VYI-Module').error('Invalid type used!');
+            VYI.logger.prefix('VYI-Module').error('Invalid type used!');
         }
         return this;
     }
@@ -367,7 +360,7 @@ export class Icon {
         if (typeof(pIndex) === 'number') {
             return this.frames[pIndex];
         } else {
-            this.vyi.logger.prefix('VYI-Module').error('Invalid type used!');
+            VYI.logger.prefix('VYI-Module').error('Invalid type used!');
         }
     }
     /**

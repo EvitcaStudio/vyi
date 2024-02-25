@@ -1,3 +1,5 @@
+import { VYI } from './vyi.mjs';
+
 export class Frame {
     /**
      * The delay of this frame.
@@ -26,24 +28,17 @@ export class Frame {
     /**
      * Create this frame class instance.
      * @param {Object} pFrameData - The frame data that is used to build this frame.
-     * @param {VYI} pVYI - The vyi that owns this frame.
      * @private
      */
-    constructor(pFrameData, pVYI) {
-        /**
-         * The VYI that owns this icon.
-         * @private
-         * @type {pVYI}
-         */
-        this.vyi = pVYI;
-        this.sift(pFrameData);
+    constructor(pFrameData) {
+        this.parse(pFrameData);
     }
     /**
-     * Sifts through the icon data and adds data to this frame.
+     * parses through the icon data and adds data to this frame.
      * @param {Object} pFrameData - The frame data that is used to build this frame.
      * @private
      */
-    sift(pFrameData) {
+    parse(pFrameData) {
         // Loop through frame data and build frame.
         const dataURL = pFrameData[0];
         const frameDelay = pFrameData[1];
@@ -62,7 +57,7 @@ export class Frame {
             if (typeof(pDelay) === 'number') {
                 this.delay = pDelay;
             } else {
-                this.vyi.logger.prefix('VYI-module').error('Invalid delay type!');
+                VYI.logger.prefix('VYI-module').error('Invalid delay type!');
             }
         }
         return this;
@@ -84,7 +79,7 @@ export class Frame {
             if (typeof(pDataURL) === 'string') {
                 this.dataURL = pDataURL;
             } else {
-                this.vyi.logger.prefix('VYI-module').error('Invalid data url type!');
+                VYI.logger.prefix('VYI-module').error('Invalid data url type!');
             }
         }
         return this;
@@ -107,7 +102,7 @@ export class Frame {
             if (typeof(pIndex) === 'number') {
                 this.index = pIndex;
             } else {
-                this.vyi.logger.prefix('VYI-module').error('Invalid index type!');
+                VYI.logger.prefix('VYI-module').error('Invalid index type!');
             }
         }
         return this;

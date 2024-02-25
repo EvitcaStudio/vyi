@@ -5,24 +5,12 @@ export class VYI {
 	/**
 	 * The version of the module.
 	 */
-	version = "VERSION_REPLACE_ME";
-    /**
-     * A message that is attached to exported vyi's made with this tool.
-     * @private
-     * @type {string}
-     */
-    generatedMessage = 'https://github.com/EvitcaStudio/vyi-reader'
+	static version = "VERSION_REPLACE_ME";
     /** The logger module this module uses to log errors / logs.
      * @private
      * @type {Object}
      */
-    logger = new Logger();
-    /**
-     * If this VYI has initialized a vyi.
-     * @private
-     * @type {boolean}
-     */
-    initiated = false;
+    static logger = new Logger();
     /**
      * An array of icons that belong to this VYI
      * @private
@@ -34,7 +22,7 @@ export class VYI {
      * @private
      * @type {string}
      */
-    name = 'rename-this-vyi';
+    name = 'vyi-to-be-renamed';
     /**
      * The version of the VYI.
      * @private
@@ -43,23 +31,24 @@ export class VYI {
     formatVersion;
     /**
      * Initializes this module with the information from the VYI passed.
-     * @param {Object|string} pVYIData - A string containing the path to the vyi json or a JSON / Javascript object containing the vyi information.
-     * @returns {Promise} A promsie that will be resolved when the vyi's data is loaded/created.
+     * @param {Object} pVYIData - A JSON / Javascript object containing the vyi information.
     */
-	constructor(pVYIData) {
-        return new Promise((pResolve, pReject) => {
-            this.logger.registerType('VYI-Module', '#ff6600');
-            this.sift(pVYIData, pResolve);
-        });
-	}
+    constructor(pVYIData) {
+        VYI.logger.registerType('VYI-Module', '#ff6600');
+        if (pVYIData instanceof Object) {
+            this.parse(pVYIData);
+        } else {
+            VYI.logger.prefix('VYI-module').error('Invalid vyiData type! Cannot parse!');
+        }
+    }
     /**
      * Initializes this module with the information from the VYI passed.
+     * Can call parse multiple times with different data to "merge" vyis.
      * @async
      * @param {Object|string} pVYIData - A string containing the path to the vyi json or a JSON / Javascript object containing the vyi information.
-     * @param {any} - The resolve callback.
      */
-    async sift(pVYIData, pResolve) {
-        if (!this.initiated) {
+    async parse(pVYIData) {
+        try {
             if (pVYIData) {
                 let vyi;
                 // If the data is a path then we need to use fetch to acquire the data first
@@ -71,7 +60,7 @@ export class VYI {
                     vyi = pVYIData;
                 }
                 // If there is data to parse
-                // Then sift through it
+                // Then parse through it
                 if (vyi) {
                     /**
                      * An array of icons that this vyi holds.
@@ -82,23 +71,20 @@ export class VYI {
                      * The version of the vyi. 1 for default if no version is found.
                      * @type {number}
                      */
-                    this.formatVersion = vyi.v || 1;;
+                    this.formatVersion = vyi.v || 1;
 
                     if (Array.isArray(icons)) {
                         // Loop through the icons and add them to the vyi module instance.
                         icons.forEach((pIconData) => {
                             this.addIcon(pIconData);
                         });
-                        this.initiated = true;
-                        // Resolve the promise.
-                        if (typeof(pResolve) === 'function') {
-                            pResolve(this);
-                        }
                     } else {
-                        this.logger.prefix('VYI-module').error('Invalid .vyi file! Cannot parse.')
+                        VYI.logger.prefix('VYI-module').error('Invalid .vyi file! Cannot parse.');
                     }
                 }
             }
+        } catch (pError) {
+            VYI.logger.prefix('VYI-module').error(`Error processing vyi data: ${pError}`);
         }
     }
     /**
@@ -109,16 +95,15 @@ export class VYI {
     addIcon(pIconData) {
         if (pIconData) {
             if (pIconData instanceof Object) {
-                // We pass "this" because this passes the vyi module to the icon.
-                const icon = new Icon(pIconData, this);
+                const icon = new Icon(pIconData);
                 // Add the icon to the icons array.
                 this.icons.push(icon);
                 return icon;
             } else {
-                this.logger.prefix('VYI-module').error('Invalid icon data type passed!');
+                VYI.logger.prefix('VYI-module').error('Invalid icon data type passed!');
             }
         } else {
-            this.logger.prefix('VYI-module').error('No icon data passed!');
+            VYI.logger.prefix('VYI-module').error('No icon data passed!');
         }
     }
     /**
@@ -165,8 +150,6 @@ export class VYI {
         vyi.v = this.formatVersion;
         // Set the icons array
         vyi.i = [];
-        // A helpful note attached to this vyi
-        vyi.generatedMessage = this.generatedMessage;
         this.icons.forEach((pIcon) => {
             // Push the icon data to the vyi export object.
             vyi.i.push(pIcon.export());

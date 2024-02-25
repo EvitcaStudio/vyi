@@ -37,7 +37,9 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/frame.mjs</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">export class Frame {
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { VYI } from &apos;./vyi.mjs&apos;;
+
+export class Frame {
     /**
      * The delay of this frame.
      * @private
@@ -65,24 +67,17 @@
     /**
      * Create this frame class instance.
      * @param {Object} pFrameData - The frame data that is used to build this frame.
-     * @param {VYI} pVYI - The vyi that owns this frame.
      * @private
      */
-    constructor(pFrameData, pVYI) {
-        /**
-         * The VYI that owns this icon.
-         * @private
-         * @type {pVYI}
-         */
-        this.vyi = pVYI;
-        this.sift(pFrameData);
+    constructor(pFrameData) {
+        this.parse(pFrameData);
     }
     /**
-     * Sifts through the icon data and adds data to this frame.
+     * parses through the icon data and adds data to this frame.
      * @param {Object} pFrameData - The frame data that is used to build this frame.
      * @private
      */
-    sift(pFrameData) {
+    parse(pFrameData) {
         // Loop through frame data and build frame.
         const dataURL = pFrameData[0];
         const frameDelay = pFrameData[1];
@@ -101,7 +96,7 @@
             if (typeof(pDelay) === &apos;number&apos;) {
                 this.delay = pDelay;
             } else {
-                this.vyi.logger.prefix(&apos;VYI-module&apos;).error(&apos;Invalid delay type!&apos;);
+                VYI.logger.prefix(&apos;VYI-module&apos;).error(&apos;Invalid delay type!&apos;);
             }
         }
         return this;
@@ -123,7 +118,7 @@
             if (typeof(pDataURL) === &apos;string&apos;) {
                 this.dataURL = pDataURL;
             } else {
-                this.vyi.logger.prefix(&apos;VYI-module&apos;).error(&apos;Invalid data url type!&apos;);
+                VYI.logger.prefix(&apos;VYI-module&apos;).error(&apos;Invalid data url type!&apos;);
             }
         }
         return this;
@@ -146,7 +141,7 @@
             if (typeof(pIndex) === &apos;number&apos;) {
                 this.index = pIndex;
             } else {
-                this.vyi.logger.prefix(&apos;VYI-module&apos;).error(&apos;Invalid index type!&apos;);
+                VYI.logger.prefix(&apos;VYI-module&apos;).error(&apos;Invalid index type!&apos;);
             }
         }
         return this;

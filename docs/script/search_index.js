@@ -354,6 +354,12 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
+    "src/frame.mjs~frame#parse",
+    "class/src/frame.mjs~Frame.html#instance-method-parse",
+    "src/frame.mjs~Frame#parse",
+    "method"
+  ],
+  [
     "src/frame.mjs~frame#setdataurl",
     "class/src/frame.mjs~Frame.html#instance-method-setDataURL",
     "src/frame.mjs~Frame#setDataURL",
@@ -370,18 +376,6 @@ window.esdocSearchIndex = [
     "class/src/frame.mjs~Frame.html#instance-method-setIndex",
     "src/frame.mjs~Frame#setIndex",
     "method"
-  ],
-  [
-    "src/frame.mjs~frame#sift",
-    "class/src/frame.mjs~Frame.html#instance-method-sift",
-    "src/frame.mjs~Frame#sift",
-    "method"
-  ],
-  [
-    "src/frame.mjs~frame#vyi",
-    "class/src/frame.mjs~Frame.html#instance-member-vyi",
-    "src/frame.mjs~Frame#vyi",
-    "member"
   ],
   [
     "src/frame.mjs~frame.defaultdelay",
@@ -522,6 +516,12 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
+    "src/icon.mjs~icon#parse",
+    "class/src/icon.mjs~Icon.html#instance-method-parse",
+    "src/icon.mjs~Icon#parse",
+    "method"
+  ],
+  [
     "src/icon.mjs~icon#removeframe",
     "class/src/icon.mjs~Icon.html#instance-method-removeFrame",
     "src/icon.mjs~Icon#removeFrame",
@@ -570,21 +570,9 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/icon.mjs~icon#sift",
-    "class/src/icon.mjs~Icon.html#instance-method-sift",
-    "src/icon.mjs~Icon#sift",
-    "method"
-  ],
-  [
     "src/icon.mjs~icon#states",
     "class/src/icon.mjs~Icon.html#instance-member-states",
     "src/icon.mjs~Icon#states",
-    "member"
-  ],
-  [
-    "src/icon.mjs~icon#vyi",
-    "class/src/icon.mjs~Icon.html#instance-member-vyi",
-    "src/icon.mjs~Icon#vyi",
     "member"
   ],
   [
@@ -630,12 +618,6 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
-    "src/vyi.mjs~vyi#generatedmessage",
-    "class/src/vyi.mjs~VYI.html#instance-member-generatedMessage",
-    "src/vyi.mjs~VYI#generatedMessage",
-    "member"
-  ],
-  [
     "src/vyi.mjs~vyi#geticon",
     "class/src/vyi.mjs~VYI.html#instance-method-getIcon",
     "src/vyi.mjs~VYI#getIcon",
@@ -654,22 +636,16 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
-    "src/vyi.mjs~vyi#initiated",
-    "class/src/vyi.mjs~VYI.html#instance-member-initiated",
-    "src/vyi.mjs~VYI#initiated",
-    "member"
-  ],
-  [
-    "src/vyi.mjs~vyi#logger",
-    "class/src/vyi.mjs~VYI.html#instance-member-logger",
-    "src/vyi.mjs~VYI#logger",
-    "member"
-  ],
-  [
     "src/vyi.mjs~vyi#name",
     "class/src/vyi.mjs~VYI.html#instance-member-name",
     "src/vyi.mjs~VYI#name",
     "member"
+  ],
+  [
+    "src/vyi.mjs~vyi#parse",
+    "class/src/vyi.mjs~VYI.html#instance-method-parse",
+    "src/vyi.mjs~VYI#parse",
+    "method"
   ],
   [
     "src/vyi.mjs~vyi#removeicon",
@@ -678,15 +654,15 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/vyi.mjs~vyi#sift",
-    "class/src/vyi.mjs~VYI.html#instance-method-sift",
-    "src/vyi.mjs~VYI#sift",
-    "method"
+    "src/vyi.mjs~vyi.logger",
+    "class/src/vyi.mjs~VYI.html#static-member-logger",
+    "src/vyi.mjs~VYI.logger",
+    "member"
   ],
   [
-    "src/vyi.mjs~vyi#version",
-    "class/src/vyi.mjs~VYI.html#instance-member-version",
-    "src/vyi.mjs~VYI#version",
+    "src/vyi.mjs~vyi.version",
+    "class/src/vyi.mjs~VYI.html#static-member-version",
+    "src/vyi.mjs~VYI.version",
     "member"
   ]
 ]
