@@ -1,20 +1,20 @@
 window.esdocSearchIndex = [
   [
-    "vyi-reader/src/frame.mjs~frame",
+    "vyi/src/frame.mjs~frame",
     "class/src/frame.mjs~Frame.html",
-    "<span>Frame</span> <span class=\"search-result-import-path\">vyi-reader/src/frame.mjs</span>",
+    "<span>Frame</span> <span class=\"search-result-import-path\">vyi/src/frame.mjs</span>",
     "class"
   ],
   [
-    "vyi-reader/src/icon.mjs~icon",
+    "vyi/src/icon.mjs~icon",
     "class/src/icon.mjs~Icon.html",
-    "<span>Icon</span> <span class=\"search-result-import-path\">vyi-reader/src/icon.mjs</span>",
+    "<span>Icon</span> <span class=\"search-result-import-path\">vyi/src/icon.mjs</span>",
     "class"
   ],
   [
-    "vyi-reader/src/vyi.mjs~vyi",
+    "vyi/src/vyi.mjs~vyi",
     "class/src/vyi.mjs~VYI.html",
-    "<span>VYI</span> <span class=\"search-result-import-path\">vyi-reader/src/vyi.mjs</span>",
+    "<span>VYI</span> <span class=\"search-result-import-path\">vyi/src/vyi.mjs</span>",
     "class"
   ],
   [

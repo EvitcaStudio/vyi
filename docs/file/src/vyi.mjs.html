@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="../../">
-  <title data-ice="title">src/vyi.mjs | vyi-reader</title>
+  <title data-ice="title">src/vyi.mjs | vyi</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
   <script src="script/manual.js"></script>
-<meta name="description" content="A lightweight module to read / manage .vyi extensions created in the Vylocity Game Engine."><meta property="twitter:card" content="summary"><meta property="twitter:title" content="vyi-reader"><meta property="twitter:description" content="A lightweight module to read / manage .vyi extensions created in the Vylocity Game Engine."><meta property="twitter:image" content="./evitcastudio_round_branding.png"></head>
+<meta name="description" content="A lightweight module to read / manage .vyi extensions created in the Vylocity Game Engine."><meta property="twitter:card" content="summary"><meta property="twitter:title" content="vyi"><meta property="twitter:description" content="A lightweight module to read / manage .vyi extensions created in the Vylocity Game Engine."><meta property="twitter:image" content="./evitcastudio_round_branding.png"></head>
 <body class="layout-container" data-ice="rootContainer">
 
 <header>
@@ -24,7 +24,7 @@
   </span>
     <ul class="search-result"></ul>
   </div>
-<a style="position:relative; top:3px;" href="https://github.com/EvitcaStudio/vyi-reader"><img width="20px" src="./image/github.png"></a></header>
+<a style="position:relative; top:3px;" href="https://github.com/EvitcaStudio/vyi"><img width="20px" src="./image/github.png"></a></header>
 
 <nav class="navigation" data-ice="nav"><div>
   <ul>
@@ -83,7 +83,8 @@ export class VYI {
     /**
      * Initializes this module with the information from the VYI passed.
      * @param {Object|string} pVYIData - A string containing the path to the vyi json or a JSON / Javascript object containing the vyi information.
-     */
+     * @returns {Promise} A promsie that will be resolved when the vyi&apos;s data is loaded/created.
+    */
 	constructor(pVYIData) {
         return new Promise((pResolve, pReject) =&gt; {
             this.logger.registerType(&apos;VYI-Module&apos;, &apos;#ff6600&apos;);

@@ -1,5 +1,5 @@
 {
-  "name": "vyi-reader",
+  "name": "vyi",
   "version": "1.0.0",
   "description": "A lightweight module to read / manage .vyi extensions created in the Vylocity Game Engine.",
   "private": true,
@@ -15,6 +15,6 @@
   "license": "",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/EvitcaStudio/VYI-Reader"
+    "url": "git+https://github.com/EvitcaStudio/vyi"
   }
 }

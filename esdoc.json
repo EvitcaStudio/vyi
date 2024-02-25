@@ -16,9 +16,9 @@
         "typeInference": {"enable": true},
         "brand": {
           "logo": "./evitcastudio_round_branding.png",
-          "title": "vyi-reader",
+          "title": "vyi",
           "description": "A lightweight module to read / manage .vyi extensions created in the Vylocity Game Engine.",
-          "repository": "https://github.com/EvitcaStudio/vyi-reader",
+          "repository": "https://github.com/EvitcaStudio/vyi",
           "author": "https://github.com/doubleactii",
           "image": "./evitcastudio_round_branding.png"
         }

@@ -44,7 +44,8 @@ export class VYI {
     /**
      * Initializes this module with the information from the VYI passed.
      * @param {Object|string} pVYIData - A string containing the path to the vyi json or a JSON / Javascript object containing the vyi information.
-     */
+     * @returns {Promise} A promsie that will be resolved when the vyi's data is loaded/created.
+    */
 	constructor(pVYIData) {
         return new Promise((pResolve, pReject) => {
             this.logger.registerType('VYI-Module', '#ff6600');

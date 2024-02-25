@@ -47,6 +47,7 @@ export class Icon {
      * Creates this icon instance.
      * @param {Object} pIconData - The icon data that is used to build this icon.
      * @param {VYI} pVYI - The vyi that owns this icon.
+     * @private
      */
     constructor(pIconData, pVYI) {
         /**

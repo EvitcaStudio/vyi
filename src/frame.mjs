@@ -27,6 +27,7 @@ export class Frame {
      * Create this frame class instance.
      * @param {Object} pFrameData - The frame data that is used to build this frame.
      * @param {VYI} pVYI - The vyi that owns this frame.
+     * @private
      */
     constructor(pFrameData, pVYI) {
         /**
