@@ -1,5 +1,42 @@
-import { Logger } from './vendor/logger.min.mjs';
-import { Icon } from './icon.mjs';
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">src/vyi.mjs | vyi-reader</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="A lightweight module to read / manage .vyi extensions created in the Vylocity Game Engine."><meta property="twitter:card" content="summary"><meta property="twitter:title" content="vyi-reader"><meta property="twitter:description" content="A lightweight module to read / manage .vyi extensions created in the Vylocity Game Engine."><meta property="twitter:image" content="./evitcastudio_round_branding.png"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./" style="display: flex; align-items: center;"><img src="./image/brand_logo.png" style="width:34px;"></a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/EvitcaStudio/vyi-reader"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/vyi.mjs~VYI.html">VYI</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/vyi.mjs</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { Logger } from &apos;./vendor/logger.min.mjs&apos;;
+import { Icon } from &apos;./icon.mjs&apos;;
 
 // /**
 //  * FORMAT
@@ -48,7 +85,7 @@ import { Icon } from './icon.mjs';
 //  *         ]
 //  *         
 //  *     ] // icon 1
-//  *  ] // array of icons, the length of "i" is how many "icons" are in the vyi
+//  *  ] // array of icons, the length of &quot;i&quot; is how many &quot;icons&quot; are in the vyi
 //  * }
 //  */
 // // ...
@@ -57,7 +94,7 @@ export class VYI {
 	/**
 	 * The version of the module.
 	 */
-	version = "VERSION_REPLACE_ME";
+	version = &quot;VERSION_REPLACE_ME&quot;;
     /** The logger module this module uses to log errors / logs.
      * @private
      * @type {Object}
@@ -80,7 +117,7 @@ export class VYI {
      * @private
      * @type {string}
      */
-    name = 'default-name';
+    name = &apos;default-name&apos;;
     /**
      * The version of the VYI.
      * @private
@@ -92,7 +129,7 @@ export class VYI {
      * @param {Object|string} pVYIData - A string containing the path to the vyi json or a JSON / Javascript object containing the vyi information.
      */
 	constructor(pVYIData) {
-        this.logger.registerType('VYI-Module', '#ff6600');
+        this.logger.registerType(&apos;VYI-Module&apos;, &apos;#ff6600&apos;);
         this.init(pVYIData);
 	}
     /**
@@ -117,7 +154,7 @@ export class VYI {
             let vyi;
             // If the data is a path then we need to use fetch to acquire the data first
             // Then sift through it
-            if (typeof(pVYIData) === 'string') {
+            if (typeof(pVYIData) === &apos;string&apos;) {
                 const url = pVYIData;
                 const response = await fetch(url);
                 vyi = await response.json();
@@ -136,7 +173,7 @@ export class VYI {
             const icons = vyi.i;
             this.vyiVersion = vyiVersion;
             // Loop through the icons and add them to the vyi module instance.
-            icons.forEach((pIconData) => {
+            icons.forEach((pIconData) =&gt; {
                 this.addIcon(pIconData);
             });
         }
@@ -149,16 +186,16 @@ export class VYI {
     addIcon(pIconData) {
         if (pIconData) {
             if (pIconData instanceof Object) {
-                // We pass "this" because this passes the vyi module to the icon.
+                // We pass &quot;this&quot; because this passes the vyi module to the icon.
                 const icon = new Icon(pIconData, this);
                 // Add the icon to the icons array.
                 this.icons.push(icon);
                 return icon;
             } else {
-                this.logger.prefix('VYI-module').error('Invalid icon data type passed!');
+                this.logger.prefix(&apos;VYI-module&apos;).error(&apos;Invalid icon data type passed!&apos;);
             }
         } else {
-            this.logger.prefix('VYI-module').error('No icon data passed!');
+            this.logger.prefix(&apos;VYI-module&apos;).error(&apos;No icon data passed!&apos;);
         }
     }
     /**
@@ -177,7 +214,7 @@ export class VYI {
     getIconNames() {
         // Array to store the icon names.
         const iconNames = [];
-        this.icons.forEach((pIcon) => {
+        this.icons.forEach((pIcon) =&gt; {
             iconNames.push(pIcon.name);
         });
         return iconNames;
@@ -191,4 +228,20 @@ export class VYI {
         // ...
         return vyiData;
     }
-}
+}</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

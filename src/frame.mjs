@@ -20,33 +20,48 @@ export class Frame {
     /**
      * Create this frame class instance.
      * @param {Object} pFrameData - The frame data that is used to build this frame.
+     * @param {number} pIndex - The index of this frame.
      * @param {VYI} pVYI - The vyi that owns this frame.
      */
-    constructor(pFrameData, pVYI) {
+    constructor(pFrameData, pIndex, pVYI) {
         /**
          * The VYI that owns this icon.
          * @private
          * @type {pVYI}
          */
         this.vyi = pVYI;
-        this.sift(pFrameData);
+        this.sift(pFrameData, pIndex);
     }
     /**
      * Sifts through the icon data and adds data to this frame.
      * @param {Object} pFrameData - The frame data that is used to build this frame.
+     * @param {number} pIndex - The index of this frame.
      * @private
      */
-    sift(pFrameData) {
+    sift(pFrameData, pIndex) {
         // Loop through frame data and build frame.
+        const dataURL = pFrameData[0];
+        const frameDelay = pFrameData[1];
+        // Set the data url
+        this.setDataURL(dataURL);
+        // Set the frame delay
+        this.setDelay(frameDelay);
+        // Set the index of the frame
+        this.setIndex(pIndex);
     }
     /**
      * Sets the delay of this frame in ms.
-     * Type checking is done in the API that calls this. All values are sanitized prior.
      * @param {number} pDelay - The delay in ms to set this frame to.
      * @returns {self} This frame instance.
      */
     setDelay(pDelay) {
-        this.delay = pDelay;
+        if (pDelay) {
+            if (typeof(pDelay) === 'number') {
+                this.delay = pDelay;
+            } else {
+                this.vyi.logger.prefix('VYI-module').error('Invalid delay type!');
+            }
+        }
         return this;
     }
     /**
@@ -55,10 +70,12 @@ export class Frame {
      * @returns {self} This frame instance.
      */
     setDataURL(pDataURL) {
-        if (typeof(pDataURL) === 'string') {
-            this.dataURL = pDataURL;
-        } else {
-            this.vyi.logger.prefix('VYI-module').error('Invalid data url type!');
+        if (pDataURL) {
+            if (typeof(pDataURL) === 'string') {
+                this.dataURL = pDataURL;
+            } else {
+                this.vyi.logger.prefix('VYI-module').error('Invalid data url type!');
+            }
         }
         return this;
     }
@@ -68,6 +85,22 @@ export class Frame {
      */
     getDelay() {
         return this.delay;
+    }
+    /**
+     * Sets the index of the frame.
+     * @private
+     * @param {number} pIndex - THe index to set the frame to.
+     * @returns {self} This frame instance.
+     */
+    setIndex(pIndex) {
+        if (pIndex) {
+            if (typeof(pIndex) === 'number') {
+                this.index = pIndex;
+            } else {
+                this.vyi.logger.prefix('VYI-module').error('Invalid index type!');
+            }
+        }
+        return this;
     }
     /**
      * Gets the index of this frame.

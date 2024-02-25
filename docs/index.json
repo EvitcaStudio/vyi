@@ -1,0 +1,922 @@
+[
+  {
+    "__docId__": 1,
+    "kind": "external",
+    "name": "Infinity",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Infinity",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Infinity",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 2,
+    "kind": "external",
+    "name": "NaN",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NaN",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~NaN",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 3,
+    "kind": "external",
+    "name": "undefined",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~undefined",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 4,
+    "kind": "external",
+    "name": "null",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~null",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 5,
+    "kind": "external",
+    "name": "Object",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Object",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 6,
+    "kind": "external",
+    "name": "object",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~object",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 7,
+    "kind": "external",
+    "name": "Function",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Function",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 8,
+    "kind": "external",
+    "name": "function",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~function",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 9,
+    "kind": "external",
+    "name": "Boolean",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Boolean",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 10,
+    "kind": "external",
+    "name": "boolean",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~boolean",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 11,
+    "kind": "external",
+    "name": "Symbol",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Symbol",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 12,
+    "kind": "external",
+    "name": "Error",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Error",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 13,
+    "kind": "external",
+    "name": "EvalError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/EvalError",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~EvalError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 14,
+    "kind": "external",
+    "name": "InternalError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/InternalError",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~InternalError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 15,
+    "kind": "external",
+    "name": "RangeError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~RangeError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 16,
+    "kind": "external",
+    "name": "ReferenceError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ReferenceError",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~ReferenceError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 17,
+    "kind": "external",
+    "name": "SyntaxError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SyntaxError",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~SyntaxError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 18,
+    "kind": "external",
+    "name": "TypeError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~TypeError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 19,
+    "kind": "external",
+    "name": "URIError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/URIError",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~URIError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 20,
+    "kind": "external",
+    "name": "Number",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Number",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 21,
+    "kind": "external",
+    "name": "number",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~number",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 22,
+    "kind": "external",
+    "name": "Date",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Date",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 23,
+    "kind": "external",
+    "name": "String",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~String",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 24,
+    "kind": "external",
+    "name": "string",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~string",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 25,
+    "kind": "external",
+    "name": "RegExp",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~RegExp",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 26,
+    "kind": "external",
+    "name": "Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 27,
+    "kind": "external",
+    "name": "Int8Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int8Array",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Int8Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 28,
+    "kind": "external",
+    "name": "Uint8Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Uint8Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 29,
+    "kind": "external",
+    "name": "Uint8ClampedArray",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8ClampedArray",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Uint8ClampedArray",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 30,
+    "kind": "external",
+    "name": "Int16Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int16Array",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Int16Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 31,
+    "kind": "external",
+    "name": "Uint16Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint16Array",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Uint16Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 32,
+    "kind": "external",
+    "name": "Int32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int32Array",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Int32Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 33,
+    "kind": "external",
+    "name": "Uint32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint32Array",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Uint32Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 34,
+    "kind": "external",
+    "name": "Float32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float32Array",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Float32Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 35,
+    "kind": "external",
+    "name": "Float64Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float64Array",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Float64Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 36,
+    "kind": "external",
+    "name": "Map",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Map",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 37,
+    "kind": "external",
+    "name": "Set",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Set",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 38,
+    "kind": "external",
+    "name": "WeakMap",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~WeakMap",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 39,
+    "kind": "external",
+    "name": "WeakSet",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakSet",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~WeakSet",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 40,
+    "kind": "external",
+    "name": "ArrayBuffer",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~ArrayBuffer",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 41,
+    "kind": "external",
+    "name": "DataView",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~DataView",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 42,
+    "kind": "external",
+    "name": "JSON",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~JSON",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 43,
+    "kind": "external",
+    "name": "Promise",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Promise",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 44,
+    "kind": "external",
+    "name": "Generator",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Generator",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 45,
+    "kind": "external",
+    "name": "GeneratorFunction",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/GeneratorFunction",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~GeneratorFunction",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 46,
+    "kind": "external",
+    "name": "Reflect",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Reflect",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 47,
+    "kind": "external",
+    "name": "Proxy",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Proxy",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 48,
+    "kind": "file",
+    "name": "src/vyi.mjs",
+    "content": "import { Logger } from './vendor/logger.min.mjs';\r\nimport { Icon } from './icon.mjs';\r\n\r\n// /**\r\n//  * FORMAT\r\n//  * {\r\n//  *  v: 1, // version\r\n//  *  i: [\r\n//  *     [empty] // icon 0\r\n//  *     [\r\n//  *         name, // 0\r\n//  *         width, // 1\r\n//  *         height, // 2\r\n//  *         frame delay, // 3\r\n//  *         data url, // 4\r\n//  *         frame array // 5\r\n//  *         [\r\n//  *            // frame 1 \r\n//  *               [\r\n//  *                  data url,\r\n//                     frame delay\r\n//  *              ],\r\n//  *            // frame 2 \r\n//  *               [\r\n//  *                  data url,\r\n//                     frame delay\r\n//  *              ],\r\n//  *            // etc\r\n//  *         ]\r\n//  *         states array // 6 // optional\r\n//  *         [\r\n//  *              [\r\n//  *                  state name, // 0\r\n//  *                  state data url, // 1\r\n//  *                  state frame delay, // 2\r\n//  *                  state frame array  // 3 // optional\r\n//  *                  [\r\n//  *                      [\r\n//  *                          state frame data url,\r\n//  *                          state frame delay\r\n//  *                      ],\r\n//  *                      [\r\n//  *                          state frame data url,\r\n//  *                          state frame delay\r\n//  *                      ]\r\n//  *                  ]\r\n//  *              ]\r\n//  *         ]\r\n//  *         \r\n//  *     ] // icon 1\r\n//  *  ] // array of icons, the length of \"i\" is how many \"icons\" are in the vyi\r\n//  * }\r\n//  */\r\n// // ...\r\n\r\nexport class VYI {\r\n\t/**\r\n\t * The version of the module.\r\n\t */\r\n\tversion = \"VERSION_REPLACE_ME\";\r\n    /** The logger module this module uses to log errors / logs.\r\n     * @private\r\n     * @type {Object}\r\n     */\r\n    logger = new Logger();\r\n    /**\r\n     * If this VYI has initialized a vyi.\r\n     * @private\r\n     * @type {boolean}\r\n     */\r\n    initiated = false;\r\n    /**\r\n     * An array of icons that belong to this VYI\r\n     * @private\r\n     * @type {Array}\r\n     */\r\n    icons = [];\r\n    /**\r\n     * The name of this vyi.\r\n     * @private\r\n     * @type {string}\r\n     */\r\n    name = 'default-name';\r\n    /**\r\n     * The version of the VYI.\r\n     * @private\r\n     * @type {number}\r\n     */\r\n    vyiVersion;\r\n    /**\r\n     * Initializes this module with the information from the VYI passed.\r\n     * @param {Object|string} pVYIData - A string containing the path to the vyi json or a JSON / Javascript object containing the vyi information.\r\n     */\r\n\tconstructor(pVYIData) {\r\n        this.logger.registerType('VYI-Module', '#ff6600');\r\n        this.init(pVYIData);\r\n\t}\r\n    /**\r\n     * Initializes this module with the information from the VYI passed.\r\n     * @param {Object|string} pVYIData - A string containing the path to the vyi json or a JSON / Javascript object containing the vyi information.\r\n     * @private\r\n     */\r\n    async init(pVYIData) {\r\n        // Can only be initialized one time.\r\n        if (!this.initiated) { \r\n            await this.sift(pVYIData);\r\n            this.initiated = true;\r\n        }\r\n    }\r\n    /**\r\n     * Initializes this module with the information from the VYI passed.\r\n     * @param {Object|string} pVYIData - A string containing the path to the vyi json or a JSON / Javascript object containing the vyi information.\r\n     * @private\r\n     */\r\n    async sift(pVYIData) {\r\n        if (pVYIData) {\r\n            let vyi;\r\n            // If the data is a path then we need to use fetch to acquire the data first\r\n            // Then sift through it\r\n            if (typeof(pVYIData) === 'string') {\r\n                const url = pVYIData;\r\n                const response = await fetch(url);\r\n                vyi = await response.json();\r\n            } else if (pVYIData instanceof Object) {\r\n                vyi = pVYIData;\r\n            }\r\n            /**\r\n             * The version of the vyi.\r\n             * @type {number}\r\n             */\r\n            const vyiVersion = vyi.v;\r\n            /**\r\n             * An array of icons that this vyi holds.\r\n             * @type {Array}\r\n             */\r\n            const icons = vyi.i;\r\n            this.vyiVersion = vyiVersion;\r\n            // Loop through the icons and add them to the vyi module instance.\r\n            icons.forEach((pIconData) => {\r\n                this.addIcon(pIconData);\r\n            });\r\n        }\r\n    }\r\n    /**\r\n     * Adds an icon to this VYI.\r\n     * @param {Object} pIconData - The icon data to use.\r\n     * @returns {Icon|undefined} - The Icon added or undefined.\r\n     */\r\n    addIcon(pIconData) {\r\n        if (pIconData) {\r\n            if (pIconData instanceof Object) {\r\n                // We pass \"this\" because this passes the vyi module to the icon.\r\n                const icon = new Icon(pIconData, this);\r\n                // Add the icon to the icons array.\r\n                this.icons.push(icon);\r\n                return icon;\r\n            } else {\r\n                this.logger.prefix('VYI-module').error('Invalid icon data type passed!');\r\n            }\r\n        } else {\r\n            this.logger.prefix('VYI-module').error('No icon data passed!');\r\n        }\r\n    }\r\n    /**\r\n     * Removes the icon from this VYI.\r\n     * @param {Icon} - The icon to remove.\r\n     */\r\n    removeIcon(pIcon) {\r\n        if (this.icons.includes(pIcon)) {\r\n            this.icons.splice(this.icons.indexOf(pIcon), 1);\r\n        }\r\n    }\r\n    /**\r\n     * Returns all the icon names in this vyi.\r\n     * @returns {Array} An array of icon names in this vyi.\r\n     */\r\n    getIconNames() {\r\n        // Array to store the icon names.\r\n        const iconNames = [];\r\n        this.icons.forEach((pIcon) => {\r\n            iconNames.push(pIcon.name);\r\n        });\r\n        return iconNames;\r\n    }\r\n    /**\r\n     * Exports this VYI into VYI format.\r\n     * @returns {Object} Returns the vyi data.\r\n     */\r\n    export() {\r\n        const vyiData = {};\r\n        // ...\r\n        return vyiData;\r\n    }\r\n}",
+    "static": true,
+    "longname": "C:/Users/jared/Documents/Github/vyi-reader/src/vyi.mjs",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 49,
+    "kind": "class",
+    "name": "VYI",
+    "memberof": "src/vyi.mjs",
+    "static": true,
+    "longname": "src/vyi.mjs~VYI",
+    "access": "public",
+    "export": true,
+    "importPath": "vyi-reader/src/vyi.mjs",
+    "importStyle": "{VYI}",
+    "description": null,
+    "lineNumber": 56,
+    "undocument": true,
+    "interface": false
+  },
+  {
+    "__docId__": 50,
+    "kind": "member",
+    "name": "version",
+    "memberof": "src/vyi.mjs~VYI",
+    "static": false,
+    "longname": "src/vyi.mjs~VYI#version",
+    "access": "public",
+    "description": "The version of the module.",
+    "lineNumber": 60,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 51,
+    "kind": "member",
+    "name": "logger",
+    "memberof": "src/vyi.mjs~VYI",
+    "static": false,
+    "longname": "src/vyi.mjs~VYI#logger",
+    "access": "private",
+    "description": "The logger module this module uses to log errors / logs.",
+    "lineNumber": 65,
+    "type": {
+      "nullable": null,
+      "types": [
+        "Object"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 52,
+    "kind": "member",
+    "name": "initiated",
+    "memberof": "src/vyi.mjs~VYI",
+    "static": false,
+    "longname": "src/vyi.mjs~VYI#initiated",
+    "access": "private",
+    "description": "If this VYI has initialized a vyi.",
+    "lineNumber": 71,
+    "type": {
+      "nullable": null,
+      "types": [
+        "boolean"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 53,
+    "kind": "member",
+    "name": "icons",
+    "memberof": "src/vyi.mjs~VYI",
+    "static": false,
+    "longname": "src/vyi.mjs~VYI#icons",
+    "access": "private",
+    "description": "An array of icons that belong to this VYI",
+    "lineNumber": 77,
+    "type": {
+      "nullable": null,
+      "types": [
+        "Array"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 54,
+    "kind": "member",
+    "name": "name",
+    "memberof": "src/vyi.mjs~VYI",
+    "static": false,
+    "longname": "src/vyi.mjs~VYI#name",
+    "access": "private",
+    "description": "The name of this vyi.",
+    "lineNumber": 83,
+    "type": {
+      "nullable": null,
+      "types": [
+        "string"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 55,
+    "kind": "member",
+    "name": "vyiVersion",
+    "memberof": "src/vyi.mjs~VYI",
+    "static": false,
+    "longname": "src/vyi.mjs~VYI#vyiVersion",
+    "access": "private",
+    "description": "The version of the VYI.",
+    "lineNumber": 89,
+    "type": {
+      "nullable": null,
+      "types": [
+        "number"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 56,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "src/vyi.mjs~VYI",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/vyi.mjs~VYI#constructor",
+    "access": "public",
+    "description": "Initializes this module with the information from the VYI passed.",
+    "lineNumber": 94,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object",
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "pVYIData",
+        "description": "A string containing the path to the vyi json or a JSON / Javascript object containing the vyi information."
+      }
+    ]
+  },
+  {
+    "__docId__": 57,
+    "kind": "method",
+    "name": "init",
+    "memberof": "src/vyi.mjs~VYI",
+    "generator": false,
+    "async": true,
+    "static": false,
+    "longname": "src/vyi.mjs~VYI#init",
+    "access": "private",
+    "description": "Initializes this module with the information from the VYI passed.",
+    "lineNumber": 103,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object",
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "pVYIData",
+        "description": "A string containing the path to the vyi json or a JSON / Javascript object containing the vyi information."
+      }
+    ],
+    "return": null
+  },
+  {
+    "__docId__": 59,
+    "kind": "method",
+    "name": "sift",
+    "memberof": "src/vyi.mjs~VYI",
+    "generator": false,
+    "async": true,
+    "static": false,
+    "longname": "src/vyi.mjs~VYI#sift",
+    "access": "private",
+    "description": "Initializes this module with the information from the VYI passed.",
+    "lineNumber": 115,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object",
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "pVYIData",
+        "description": "A string containing the path to the vyi json or a JSON / Javascript object containing the vyi information."
+      }
+    ],
+    "return": null
+  },
+  {
+    "__docId__": 61,
+    "kind": "method",
+    "name": "addIcon",
+    "memberof": "src/vyi.mjs~VYI",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/vyi.mjs~VYI#addIcon",
+    "access": "public",
+    "description": "Adds an icon to this VYI.",
+    "lineNumber": 149,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Icon|undefined} - The Icon added or undefined."
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "pIconData",
+        "description": "The icon data to use."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Icon",
+        "undefined"
+      ],
+      "spread": false,
+      "description": "The Icon added or undefined."
+    }
+  },
+  {
+    "__docId__": 62,
+    "kind": "method",
+    "name": "removeIcon",
+    "memberof": "src/vyi.mjs~VYI",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/vyi.mjs~VYI#removeIcon",
+    "access": "public",
+    "description": "Removes the icon from this VYI.",
+    "lineNumber": 168,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Icon"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "-",
+        "description": "The icon to remove."
+      }
+    ],
+    "return": null
+  },
+  {
+    "__docId__": 63,
+    "kind": "method",
+    "name": "getIconNames",
+    "memberof": "src/vyi.mjs~VYI",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/vyi.mjs~VYI#getIconNames",
+    "access": "public",
+    "description": "Returns all the icon names in this vyi.",
+    "lineNumber": 177,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Array} An array of icon names in this vyi."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Array"
+      ],
+      "spread": false,
+      "description": "An array of icon names in this vyi."
+    },
+    "params": []
+  },
+  {
+    "__docId__": 64,
+    "kind": "method",
+    "name": "export",
+    "memberof": "src/vyi.mjs~VYI",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/vyi.mjs~VYI#export",
+    "access": "public",
+    "description": "Exports this VYI into VYI format.",
+    "lineNumber": 189,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Object} Returns the vyi data."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Object"
+      ],
+      "spread": false,
+      "description": "Returns the vyi data."
+    },
+    "params": []
+  },
+  {
+    "kind": "index",
+    "content": "# vyi-reader\r\nA lightweight module to read / manage .vyi extensions created in the Vylocity Game Engine.\r\n",
+    "longname": "C:\\Users\\jared\\Documents\\Github\\vyi-reader\\README.md",
+    "name": "./README.md",
+    "static": true,
+    "access": "public"
+  },
+  {
+    "kind": "packageJSON",
+    "content": "{\n  \"name\": \"vyi-reader\",\n  \"version\": \"1.0.0\",\n  \"description\": \"A lightweight module to read / manage .vyi extensions created in the Vylocity Game Engine.\",\n  \"private\": true,\n  \"scripts\": {\n    \"test\": \"echo \\\"Error: no test specified\\\" && exit 1\",\n    \"build\": \"npx webpack && npm run build:minify && node add-version-script.js && node add-banner-script.js\",\n    \"build:minify\": \"uglifyjs dist/vyi.min.mjs -m -c --comments -o dist/vyi.min.mjs\",\n    \"build:prod\": \"npx webpack --mode production && npm run build:minify && node add-version-script.js && node add-banner-script.js && npm run build:docs\",\n    \"build:docs\": \"esdoc -c esdoc.json\"\n  },\n  \"keywords\": [],\n  \"author\": \"https://github.com/doubleactii\",\n  \"license\": \"\",\n  \"repository\": {\n    \"type\": \"git\",\n    \"url\": \"git+https://github.com/EvitcaStudio/VYI-Reader\"\n  }\n}\n",
+    "longname": "C:\\Users\\jared\\Documents\\Github\\vyi-reader\\package.json",
+    "name": "package.json",
+    "static": true,
+    "access": "public"
+  }
+]

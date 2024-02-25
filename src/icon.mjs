@@ -1,5 +1,45 @@
 import { Frame } from './frame.mjs';
-
+//  *     [
+//  *         name, // 0
+//  *         width, // 1
+//  *         height, // 2
+//  *         frame delay, // 3
+//  *         data url, // 4
+//  *         frame array // 5
+//  *         [
+//  *            // frame 1 
+//  *               [
+//  *                  data url,
+//                     frame delay
+//  *              ],
+//  *            // frame 2 
+//  *               [
+//  *                  data url,
+//                     frame delay
+//  *              ],
+//  *            // etc
+//  *         ]
+//  *         states array // 6 // optional
+//  *         [
+//  *              [
+//  *                  state name, // 0
+//  *                  state data url, // 1
+//  *                  state frame delay, // 2
+//  *                  state frame array  // 3 // optional
+//  *                  [
+//  *                      [
+//  *                          state frame data url,
+//  *                          state frame delay
+//  *                      ],
+//  *                      [
+//  *                          state frame data url,
+//  *                          state frame delay
+//  *                      ]
+//  *                  ]
+//  *              ]
+//  *         ]
+//  *         
+//  *     ]
 // A icon can have states that are also icons
 export class Icon {
     /**
@@ -27,13 +67,25 @@ export class Icon {
      */
     height = 32;
     /**
+     * The data URL of the sprite in this frame.
+     * @private
+     * @type {string}
+     */
+    dataURL;
+    /**
+     * The delay of this frame.
+     * @private
+     * @type {number}
+     */
+    delay = 100;
+    /**
      * The name of this icon.
      * @private
      * @type {string}
      */
-    name;
+    name = 'default-name';
     /**
-     * Creates the icon class.
+     * Creates this icon instance.
      * @param {Object} pIconData - The icon data that is used to build this icon.
      * @param {VYI} pVYI - The vyi that owns this icon.
      */
@@ -53,6 +105,37 @@ export class Icon {
      */
     sift(pIconData) {
         // Loop through pIconData and create this icon
+        const iconName = pIconData[0];
+        const iconWidth = pIconData[1];
+        const iconHeight = pIconData[2];
+        const iconDelay = pIconData[3];
+        const iconDataURL = pIconData[4];
+        const frameArray = pIconData[5];
+        const stateArray = pIconData[6];
+
+        // Set name
+        this.rename(iconName);
+        // Set size
+        this.setSize(iconWidth, iconHeight);
+        // Set icon delay
+        this.setDelay(iconDelay);
+        // Set dataURL
+        this.setDataURL(iconDataURL);
+        // Check if the frame data is an array
+        if (Array.isArray(frameArray)) {
+            // If the frame array has data then we need to store it.
+            if (frameArray.length) {
+                // We use the count to assign indexes to the frames.
+                let count = 0;
+                frameArray.forEach((pFrame) => {
+                    // pFrame is an array holding the datalURL and frameDelay of the frame
+                    this.addFrame(pFrame, count);
+                    count++;
+                });
+            }
+        }
+        console.log(this);
+        console.log(pIconData, 'iconData');
     }
     /**
      * Sets the size of this icon.
@@ -69,15 +152,55 @@ export class Icon {
         }
     }
     /**
+     * Sets the data url of this icon.
+     * @param {DataURL} pDataURL - The base64 data of this image.
+     * @returns {self} This icon instance.
+     */
+    setDataURL(pDataURL) {
+        if (pDataURL) {
+            if (typeof(pDataURL) === 'string') {
+                this.dataURL = pDataURL;
+            } else {
+                this.vyi.logger.prefix('VYI-module').error('Invalid data url type!');
+            }
+        }
+        return this;
+    }
+    /**
+     * Sets the delay of this icon in ms.
+     * Type checking is done in the API that calls this. All values are sanitized prior.
+     * @param {number} pDelay - The delay in ms to set this icon to.
+     * @returns {self} This icon instance.
+     */
+    setDelay(pDelay) {
+        if (pDelay) {
+            if (typeof(pDelay) === 'number') {
+                this.delay = pDelay;
+            } else {
+                this.vyi.logger.prefix('VYI-module').error('Invalid delay type!');
+            }
+        }
+        return this;
+    }
+    /**
+     * Gets the delay of this icon.
+     * @returns {number} The delay of this icon.
+     */
+    getDelay() {
+        return this.delay;
+    }
+    /**
      * 
      * @param {string} pName - The new name of the icon.
      * @returns {self} This icon instance.
      */
     rename(pName) {
-        if (typeof(pName) === 'string') {
-            this.name = pName;
-        } else {
-            this.vyi.logger.prefix('VYI-Module').error('Invalid type for pName!');
+        if (pName) {
+            if (typeof(pName) === 'string') {
+                this.name = pName;
+            } else {
+                this.vyi.logger.prefix('VYI-Module').error('Invalid type for pName!');
+            }
         }
         return this;
     }
@@ -87,12 +210,14 @@ export class Icon {
      * @returns {self} This icon instance.
      */
     setAllFrameDelays(pDelay) {
-        if (typeof(pDelay) === 'number') {
-            this.frames.forEach((pFrame) => {
-                pFrame.setDelay(pDelay);
-            });
-        } else {
-            this.vyi.logger.prefix('VYI-Module').error('Invalid type for pDelay!');
+        if (pDelay) {
+            if (typeof(pDelay) === 'number') {
+                this.frames.forEach((pFrame) => {
+                    pFrame.setDelay(pDelay);
+                });
+            } else {
+                this.vyi.logger.prefix('VYI-Module').error('Invalid type for pDelay!');
+            }
         }
         return this;
     }
@@ -106,6 +231,8 @@ export class Icon {
         if (pFrame) {
             if (typeof(pDelay) === 'number') {
                 pFrame.setDelay(pDelay);
+            } else {
+                this.vyi.logger.prefix('VYI-Module').error('Invalid type for pDelay.');
             }
         } else {
             this.vyi.logger.prefix('VYI-Module').error('Frame not found. Cannot set frame delay.');
@@ -114,13 +241,18 @@ export class Icon {
     }
     /**
      * Adds a new frame to this icon.
+     * @param {Object} pFrameData - The frame data to give this frame.
+     * @param {number} pIndex - The index of this frame.
      * @returns {Frame|undefined} The frame that was added or undefined.
      */
-    addFrame(pFrameData) {
+    addFrame(pFrameData, pIndex) {
         if (pFrameData) {
             if (pFrameData instanceof Object) {
                 // We pass "this.vyi" because this passes the vyi module to the frane.
-                return new Frame(pFrameData, this.vyi);
+                const frame = new Frame(pFrameData, pIndex, this.vyi);
+                // Add the frame to the frames array.
+                this.frames.push(frame);
+                return frame;
             } else {
                 this.vyi.logger.prefix('VYI-Module').error('Invalid frame data passed!');
             }
@@ -134,8 +266,10 @@ export class Icon {
      * @returns {self} This icon instance.
      */
     removeFrame(pFrame) {
-        if (this.frames.includes(pFrame)) {
-            this.frames.splice(this.frames.indexOf(pFrame), 1);
+        if (pFrame) {
+            if (this.frames.includes(pFrame)) {
+                this.frames.splice(this.frames.indexOf(pFrame), 1);
+            }
         }
         return this;
     }

@@ -4,9 +4,17 @@
   "description": "A lightweight module to read / manage .vyi extensions created in the Vylocity Game Engine.",
   "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx webpack && npm run build:minify && node add-version-script.js && node add-banner-script.js",
+    "build:minify": "uglifyjs dist/vyi.min.mjs -m -c --comments -o dist/vyi.min.mjs",
+    "build:prod": "npx webpack --mode production && npm run build:minify && node add-version-script.js && node add-banner-script.js && npm run build:docs",
+    "build:docs": "esdoc -c esdoc.json"
   },
   "keywords": [],
   "author": "https://github.com/doubleactii",
-  "license": ""
+  "license": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EvitcaStudio/VYI-Reader"
+  }
 }

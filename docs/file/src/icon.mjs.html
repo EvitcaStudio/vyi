@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">src/icon.mjs | vyi-reader</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="A lightweight module to read / manage .vyi extensions created in the Vylocity Game Engine."><meta property="twitter:card" content="summary"><meta property="twitter:title" content="vyi-reader"><meta property="twitter:description" content="A lightweight module to read / manage .vyi extensions created in the Vylocity Game Engine."><meta property="twitter:image" content="./evitcastudio_round_branding.png"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./" style="display: flex; align-items: center;"><img src="./image/brand_logo.png" style="width:34px;"></a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/EvitcaStudio/vyi-reader"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/frame.mjs~Frame.html">Frame</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/icon.mjs~Icon.html">Icon</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/vyi.mjs~VYI.html">VYI</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/icon.mjs</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { Frame } from &apos;./frame.mjs&apos;;
+// *     [
+// *         name, // 0
+// *         width, // 1
+// *         height, // 2
+// *         frame delay, // 3
+// *         data url, // 4
+// *         frame array // 5
+// *         [
+// *            // frame 1 
+// *               [
+// *                  data url
+// *              ],
+// *            // frame 2 
+// *               [
+// *                  data url
+// *              ],
+// *            // etc
+// *         ]
+// *         states array // 6 // optional
+// *         [
+// *              [
+// *                  state name, // 0
+// *                  state data url, // 1
+// *                  state frame delay, // 2
+// *                  state frame array  // 3 // optional
+// *                  [
+// *                      [
+// *                          state frame data url
+// *                      ],
+// *                      [
+// *                          state frame data url
+// *                      ]
+// *                  ]
+// *              ]
+// *         ]
+// *         
+// *     ]
+// A icon can have states that are also icons
+export class Icon {
+    /**
+     * An array of Icon&apos;s that are state of this icon.
+     * @private
+     * @type {Array}
+     */
+    states = [];
+    /**
+     * An arary of Frame&apos;s that are the frames of this icon.
+     * @private
+     * @type {Array}
+     */
+    frames = [];
+    /**
+     * The width of this icon. All states and frames of this icon must match this size.
+     * @private
+     * @type {number}
+     */
+    width = 32;
+    /**
+     * The height of this icon. All states and frames of this icon must match this size.
+     * @private
+     * @type {number}
+     */
+    height = 32;
+    /**
+     * The name of this icon.
+     * @private
+     * @type {string}
+     */
+    name = &apos;default-name&apos;;
+    /**
+     * Creates this icon instance.
+     * @param {Object} pIconData - The icon data that is used to build this icon.
+     * @param {VYI} pVYI - The vyi that owns this icon.
+     */
+    constructor(pIconData, pVYI) {
+        /**
+         * The VYI that owns this icon.
+         * @private
+         * @type {pVYI}
+         */
+        this.vyi = pVYI;
+        this.sift(pIconData);
+    }
+    /**
+     * Sifts through the icon data and adds data to this icon.
+     * @param {Object} pIconData - The icon data that is used to build this icon.
+     * @private
+     */
+    sift(pIconData) {
+        // Loop through pIconData and create this icon
+        console.log(pIconData);
+    }
+    /**
+     * Sets the size of this icon.
+     * @param {number} pWidth - The width of this icon.
+     * @param {number} pHeight - THe height of this icon.
+     * @returns {self} This icon instance.
+     */
+    setSize(pWidth, pHeight) {
+        if (typeof(pWidth) === &apos;number&apos;) {
+            this.width = pWidth;
+        }
+        if (typeof(pHeight) === &apos;number&apos;) {
+            this.height = pHeight;
+        }
+    }
+    /**
+     * 
+     * @param {string} pName - The new name of the icon.
+     * @returns {self} This icon instance.
+     */
+    rename(pName) {
+        if (typeof(pName) === &apos;string&apos;) {
+            this.name = pName;
+        } else {
+            this.vyi.logger.prefix(&apos;VYI-Module&apos;).error(&apos;Invalid type for pName!&apos;);
+        }
+        return this;
+    }
+    /**
+     * Sets all the frames belonging to this icon to the same delay.
+     * @param {number} pDelay - The delay to set all frames to.
+     * @returns {self} This icon instance.
+     */
+    setAllFrameDelays(pDelay) {
+        if (typeof(pDelay) === &apos;number&apos;) {
+            this.frames.forEach((pFrame) =&gt; {
+                pFrame.setDelay(pDelay);
+            });
+        } else {
+            this.vyi.logger.prefix(&apos;VYI-Module&apos;).error(&apos;Invalid type for pDelay!&apos;);
+        }
+        return this;
+    }
+    /**
+     * Sets the frame delay of the passed frame.
+     * @param {number} pFrame - The frame to change the delay of.
+     * @param {number} pDelay - The delay to set this frame to.
+     * @returns {self} This icon instance.
+     */
+    setFrameDelay(pFrame, pDelay) {
+        if (pFrame) {
+            if (typeof(pDelay) === &apos;number&apos;) {
+                pFrame.setDelay(pDelay);
+            }
+        } else {
+            this.vyi.logger.prefix(&apos;VYI-Module&apos;).error(&apos;Frame not found. Cannot set frame delay.&apos;);
+        }
+        return this;
+    }
+    /**
+     * Adds a new frame to this icon.
+     * @returns {Frame|undefined} The frame that was added or undefined.
+     */
+    addFrame(pFrameData) {
+        if (pFrameData) {
+            if (pFrameData instanceof Object) {
+                // We pass &quot;this.vyi&quot; because this passes the vyi module to the frane.
+                return new Frame(pFrameData, this.vyi);
+            } else {
+                this.vyi.logger.prefix(&apos;VYI-Module&apos;).error(&apos;Invalid frame data passed!&apos;);
+            }
+        } else {
+            this.vyi.logger.prefix(&apos;VYI-Module&apos;).error(&apos;No frame data passed!&apos;);
+        }
+    }
+    /**
+     * Removes the frame from this icon.
+     * @param {Frame} pFrame - The frame to remove from this icon.
+     * @returns {self} This icon instance.
+     */
+    removeFrame(pFrame) {
+        if (this.frames.includes(pFrame)) {
+            this.frames.splice(this.frames.indexOf(pFrame), 1);
+        }
+        return this;
+    }
+    /**
+     * Reorders the frame in this icon.
+     * @param {Frame} - The frame that will be changing in order.pFrame
+     * @param {number} - The index the frame will be moving to.
+     * @returns {self} This icon instance.
+     */
+    reorderFrame(pFrame, pIndex) {
+        return this;
+    }
+    /**
+     * Gets all the frames belonging to this icon.
+     * @returns {Ovject} An object containing the frame data of all frames.
+     */
+    getFrames() {
+        const frameDataObject = {};
+        this.frames.forEach((pFrame) =&gt; {
+            frameDataObject[pFrame.index] = pFrame.getDataURL();
+        });
+        return frameDataObject;
+    }   
+}</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>
