@@ -57,6 +57,7 @@ export class Icon {
      * @param {Array} pArray - The array in which to swap elements.
      * @param {number} pIndex1 - The index of the first element to swap.
      * @param {number} pIndex2 - The index of the second element to swap.
+     * @private
      * @returns {void}
      */
     static swapArrayElements(pArray, pIndex1, pIndex2) {
