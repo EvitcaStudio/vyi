@@ -1,0 +1,12 @@
+{
+  "name": "vyi-reader",
+  "version": "1.0.0",
+  "description": "A lightweight module to read / manage .vyi extensions created in the Vylocity Game Engine.",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "https://github.com/doubleactii",
+  "license": ""
+}
