@@ -227,7 +227,7 @@ export class Icon {
         }
     }
     /**
-     * Removes the state with the name pName.
+     * Removes the state passed or the state with the name pName.
      * @param {Icon} pState - The state to remove from this icon. pName should be not be used in tandem with this method of removing.
      * @param {string} pName - The name of the state to remove. pState must be undefined to use this method for removing.
      * @returns {self} This icon instance.
@@ -276,7 +276,7 @@ export class Icon {
         }
     }
     /**
-     * Removes the frame from this icon via passed frame reference or via index passed.
+     * Removes the frame passed or the frame that exists at pIndex.
      * @param {Frame} pFrame - The frame to remove from this icon. pIndex should be not be used in tandem with this method of removing.
      * @param {number} pIndex - The index of the frame to remove. pFrame must be undefined to use this method for removing.
      * @returns {self} This icon instance.

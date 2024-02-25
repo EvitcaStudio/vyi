@@ -107,12 +107,16 @@ export class VYI {
         }
     }
     /**
-     * Removes the icon from this VYI.
-     * @param {Icon} - The icon to remove.
+     * Removes the icon passed or the icon with the name pName.
+     * @param {Icon} pIcon - The state to remove from this icon. pName should be not be used in tandem with this method of removing.
+     * @param {string} pName - The name of the icon to remove. pIcon must be undefined to use this method for removing.
      */
-    removeIcon(pIcon) {
-        if (this.icons.includes(pIcon)) {
-            this.icons.splice(this.icons.indexOf(pIcon), 1);
+    removeIcon(pIcon, pName) {
+        const icon = pIcon || this.getIcon(pName);
+        if (icon) {
+            if (this.icons.includes(icon)) {
+                this.icons.splice(this.icons.indexOf(icon), 1);
+            }
         }
     }
     /**
@@ -133,12 +137,16 @@ export class VYI {
      * @returns {Icon|undefined} The icon that has the name pName or undefined.
      */
     getIcon(pName) {
-        for (const icon of this.icons) {
-            // If the icon has the same name, return that icon
-            if (icon.getName() === pName) {
-                return icon;
-            }
-        };
+        if (typeof(pName) === 'string') {
+            for (const icon of this.icons) {
+                // If the icon has the same name, return that icon
+                if (icon.getName() === pName) {
+                    return icon;
+                }
+            };
+        } else {
+            this.logger.prefix('VYI-module').error('Invalid name type used!');
+        }
     }
     /**
      * Exports this VYI into VYI format.
