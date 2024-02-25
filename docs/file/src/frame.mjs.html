@@ -59,6 +59,12 @@ export class Frame {
      */
     index = 0;
     /**
+     * The icon that owns this frame. 
+     * @private
+     * @type {Icon}
+     */
+    parent;
+    /**
      * The default delay in ms of frames.
      * @private
      * @type {number}
@@ -67,9 +73,11 @@ export class Frame {
     /**
      * Create this frame class instance.
      * @param {Object} pFrameData - The frame data that is used to build this frame.
+     * @param {Icon} pParentIcon - The icon that created this frame.
      * @private
      */
-    constructor(pFrameData) {
+    constructor(pFrameData, pParentIcon) {
+        this.parent = pParentIcon;
         this.parse(pFrameData);
     }
     /**
@@ -131,30 +139,8 @@ export class Frame {
         return this.dataURL;
     }
     /**
-     * Sets the index of the frame.
-     * @private
-     * @param {number} pIndex - The index to set the frame to.
-     * @returns {self} This frame instance.
-     */
-    setIndex(pIndex) {
-        if (pIndex) {
-            if (typeof(pIndex) === &apos;number&apos;) {
-                this.index = pIndex;
-            } else {
-                VYI.logger.prefix(&apos;VYI-module&apos;).error(&apos;Invalid index type!&apos;);
-            }
-        }
-        return this;
-    }
-    /**
-     * Gets the index of this frame.
-     * @returns {number} The index of this frame.
-     */
-    getIndex() {
-        return this.index;
-    }
-    /**
      * Exports this frame&apos;s data into proper vyi format.
+     * @private
      * @returns {Array} An array of data related to this frame in the proper vyi format.
      */
     export() {

@@ -342,15 +342,15 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/frame.mjs~frame#getindex",
-    "class/src/frame.mjs~Frame.html#instance-method-getIndex",
-    "src/frame.mjs~Frame#getIndex",
-    "method"
-  ],
-  [
     "src/frame.mjs~frame#index",
     "class/src/frame.mjs~Frame.html#instance-member-index",
     "src/frame.mjs~Frame#index",
+    "member"
+  ],
+  [
+    "src/frame.mjs~frame#parent",
+    "class/src/frame.mjs~Frame.html#instance-member-parent",
+    "src/frame.mjs~Frame#parent",
     "member"
   ],
   [
@@ -369,12 +369,6 @@ window.esdocSearchIndex = [
     "src/frame.mjs~frame#setdelay",
     "class/src/frame.mjs~Frame.html#instance-method-setDelay",
     "src/frame.mjs~Frame#setDelay",
-    "method"
-  ],
-  [
-    "src/frame.mjs~frame#setindex",
-    "class/src/frame.mjs~Frame.html#instance-method-setIndex",
-    "src/frame.mjs~Frame#setIndex",
     "method"
   ],
   [
@@ -580,12 +574,6 @@ window.esdocSearchIndex = [
     "class/src/icon.mjs~Icon.html#instance-member-width",
     "src/icon.mjs~Icon#width",
     "member"
-  ],
-  [
-    "src/icon.mjs~icon.swaparrayelements",
-    "class/src/icon.mjs~Icon.html#static-method-swapArrayElements",
-    "src/icon.mjs~Icon.swapArrayElements",
-    "method"
   ],
   [
     "src/vyi.mjs",

@@ -92,16 +92,6 @@ export class Icon {
         this.parse(pIconData);
     }
     /**
-     * Swaps the positions of two elements in an array.
-     * @param {Array} pArray - The array in which to swap elements.
-     * @param {number} pIndex1 - The index of the first element to swap.
-     * @param {number} pIndex2 - The index of the second element to swap.
-     * @returns {void}
-     */
-    static swapArrayElements(pArray, pIndex1, pIndex2) {
-        [pArray[pIndex1], pArray[pIndex2]] = [pArray[pIndex2], pArray[pIndex1]];
-    }
-    /**
      * parses through the icon data and adds data to this icon.
      * @param {Object} pIconData - The icon data that is used to build this icon.
      * @private
@@ -311,7 +301,7 @@ export class Icon {
     addFrame(pFrameData) {
         if (pFrameData) {
             if (pFrameData instanceof Object) {
-                const frame = new Frame(pFrameData);
+                const frame = new Frame(pFrameData, this);
                 // Add the frame to the frames array.
                 this.frames.push(frame);
                 // Re-index frames after a change
@@ -369,18 +359,45 @@ export class Icon {
     }
     /**
      * Reorders the frame in the animation. The index of the passed frame will be swapped with the frame at pIndex.
+     * The &quot;first&quot; frame of the animation is technically this icon&apos;s dataURL. So if you are aiming to change the order of this icon and convert it into a frame.
+     * pCurrentIndex must be set to -1 to match this icon.
      * @param {number} pCurrentIndex - The current index of the frame.
      * @param {number} pIndex - The index the frame will be moving to.
      * @returns {self} This icon instance.
      */
     reorderFrame(pCurrentIndex, pIndex) {
         if (typeof(pCurrentIndex) === &apos;number&apos; &amp;&amp; typeof(pIndex) === &apos;number&apos;) {
-            // We check if there is a valid frame at the current index and at the index we want to swap with.
-            if (this.frames[pCurrentIndex] &amp;&amp; this.frames[pIndex]) {
-                // Swaps the frames
-                Icon.swapArrayElements(this.frames, pCurrentIndex, pIndex);
-                // Re-index frames after a change
-                this.indexFrames();
+            let frameAtIndex;
+            let currentFrame;
+            // We check if the current index is -1, if it is then it means we want to treat this icon as a frame. As the icon data and delay of this icon serves
+            // as the frame 0.
+            if (pCurrentIndex === -1) {
+                currentFrame = this;
+            // Otherwise if the index passed can be found in the frames array, then we use that frame.
+            } else if (this.frames[pCurrentIndex]) {
+                currentFrame = this.frames[pCurrentIndex];
+            }
+
+            // We get the frame at the specified index.
+            if (this.frames[pIndex]) {
+                frameAtIndex = this.frames[pIndex];
+            }
+
+            // If both frames can be found, we can swap their data.
+            if (currentFrame &amp;&amp; frameAtIndex) {
+                // Store frame data
+                const currentFrameDataURL = currentFrame.getDataURL();
+                const currentFrameDelay = currentFrame.getDelay();
+
+                const frameAtIndexDataURL = frameAtIndex.getDataURL();
+                const frameAtIndexDelay = frameAtIndex.getDelay();
+
+                // Swap data from frame
+                currentFrame.setDataURL(frameAtIndexDataURL);
+                currentFrame.setDelay(frameAtIndexDelay);
+                // Swap data to frame
+                frameAtIndex.setDataURL(currentFrameDataURL);
+                frameAtIndex.setDelay(currentFrameDelay);
             } else {
                 VYI.logger.prefix(&apos;VYI-Module&apos;).error(&apos;There was no frame found at pCurrentIndex, or there was no frame found at pIndex!&apos;);
             }
@@ -391,11 +408,12 @@ export class Icon {
     }
     /**
      * Gets the frame existing at pIndex.
+     * Frame 0 will actually be frame &quot;1&quot; in the animation. As this icon will actually be frame 0.
+     * If you are trying to get &quot;frame&quot; 1. Then you will need to use the icon&apos;s delay and data url. As that is frame 0.
      * @param {number} pIndex - The index of the frame to get.
      * @returns {Frame|undefined} The frame found at pIndex.
      */
     getFrame(pIndex) {
-        // Frame 0 will actually be frame &quot;1&quot; in the animation. As this icon will actually be frame 0.
         if (typeof(pIndex) === &apos;number&apos;) {
             return this.frames[pIndex];
         } else {
