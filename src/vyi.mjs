@@ -1,63 +1,17 @@
 import { Logger } from './vendor/logger.min.mjs';
 import { Icon } from './icon.mjs';
 
-// /**
-//  * FORMAT
-//  * {
-//  *  v: 1, // version
-//  *  i: [
-//  *     [empty] // icon 0
-//  *     [
-//  *         name, // 0
-//  *         width, // 1
-//  *         height, // 2
-//  *         frame delay, // 3
-//  *         data url, // 4
-//  *         frame array // 5
-//  *         [
-//  *            // frame 1 
-//  *               [
-//  *                  data url,
-//                     frame delay
-//  *              ],
-//  *            // frame 2 
-//  *               [
-//  *                  data url,
-//                     frame delay
-//  *              ],
-//  *            // etc
-//  *         ]
-//  *         states array // 6 // optional
-//  *         [
-//  *              [
-//  *                  state name, // 0
-//  *                  state data url, // 1
-//  *                  state frame delay, // 2
-//  *                  state frame array  // 3 // optional
-//  *                  [
-//  *                      [
-//  *                          state frame data url,
-//  *                          state frame delay
-//  *                      ],
-//  *                      [
-//  *                          state frame data url,
-//  *                          state frame delay
-//  *                      ]
-//  *                  ]
-//  *              ]
-//  *         ]
-//  *         
-//  *     ] // icon 1
-//  *  ] // array of icons, the length of "i" is how many "icons" are in the vyi
-//  * }
-//  */
-// // ...
-
 export class VYI {
 	/**
 	 * The version of the module.
 	 */
 	version = "VERSION_REPLACE_ME";
+    /**
+     * A message that is attached to exported vyi's made with this tool.
+     * @private
+     * @type {string}
+     */
+    generatedMessage = 'https://github.com/EvitcaStudio/vyi-reader'
     /** The logger module this module uses to log errors / logs.
      * @private
      * @type {Object}
@@ -80,65 +34,70 @@ export class VYI {
      * @private
      * @type {string}
      */
-    name = 'default-name';
+    name = 'rename-this-vyi';
     /**
      * The version of the VYI.
      * @private
      * @type {number}
      */
-    vyiVersion;
+    formatVersion;
     /**
      * Initializes this module with the information from the VYI passed.
      * @param {Object|string} pVYIData - A string containing the path to the vyi json or a JSON / Javascript object containing the vyi information.
      */
 	constructor(pVYIData) {
-        this.logger.registerType('VYI-Module', '#ff6600');
-        this.init(pVYIData);
+        return new Promise((pResolve, pReject) => {
+            this.logger.registerType('VYI-Module', '#ff6600');
+            this.sift(pVYIData, pResolve);
+        });
 	}
     /**
      * Initializes this module with the information from the VYI passed.
+     * @async
      * @param {Object|string} pVYIData - A string containing the path to the vyi json or a JSON / Javascript object containing the vyi information.
-     * @private
+     * @param {any} - The resolve callback.
      */
-    async init(pVYIData) {
-        // Can only be initialized one time.
-        if (!this.initiated) { 
-            await this.sift(pVYIData);
-            this.initiated = true;
-        }
-    }
-    /**
-     * Initializes this module with the information from the VYI passed.
-     * @param {Object|string} pVYIData - A string containing the path to the vyi json or a JSON / Javascript object containing the vyi information.
-     * @private
-     */
-    async sift(pVYIData) {
-        if (pVYIData) {
-            let vyi;
-            // If the data is a path then we need to use fetch to acquire the data first
-            // Then sift through it
-            if (typeof(pVYIData) === 'string') {
-                const url = pVYIData;
-                const response = await fetch(url);
-                vyi = await response.json();
-            } else if (pVYIData instanceof Object) {
-                vyi = pVYIData;
+    async sift(pVYIData, pResolve) {
+        if (!this.initiated) {
+            if (pVYIData) {
+                let vyi;
+                // If the data is a path then we need to use fetch to acquire the data first
+                if (typeof(pVYIData) === 'string') {
+                    const url = pVYIData;
+                    const response = await fetch(url);
+                    vyi = await response.json();
+                } else if (pVYIData instanceof Object) {
+                    vyi = pVYIData;
+                }
+                // If there is data to parse
+                // Then sift through it
+                if (vyi) {
+                    /**
+                     * An array of icons that this vyi holds.
+                     * @type {Array}
+                     */
+                    const icons = vyi.i;
+                    /**
+                     * The version of the vyi. 1 for default if no version is found.
+                     * @type {number}
+                     */
+                    this.formatVersion = vyi.v || 1;;
+
+                    if (Array.isArray(icons)) {
+                        // Loop through the icons and add them to the vyi module instance.
+                        icons.forEach((pIconData) => {
+                            this.addIcon(pIconData);
+                        });
+                        this.initiated = true;
+                        // Resolve the promise.
+                        if (typeof(pResolve) === 'function') {
+                            pResolve(this);
+                        }
+                    } else {
+                        this.logger.prefix('VYI-module').error('Invalid .vyi file! Cannot parse.')
+                    }
+                }
             }
-            /**
-             * The version of the vyi.
-             * @type {number}
-             */
-            const vyiVersion = vyi.v;
-            /**
-             * An array of icons that this vyi holds.
-             * @type {Array}
-             */
-            const icons = vyi.i;
-            this.vyiVersion = vyiVersion;
-            // Loop through the icons and add them to the vyi module instance.
-            icons.forEach((pIconData) => {
-                this.addIcon(pIconData);
-            });
         }
     }
     /**
@@ -183,12 +142,34 @@ export class VYI {
         return iconNames;
     }
     /**
+     * Gets the icon that has the name pName.
+     * @param {string} pName - The name of the icon to get.
+     * @returns {Icon|undefined} The icon that has the name pName or undefined.
+     */
+    getIcon(pName) {
+        for (const icon of this.icons) {
+            // If the icon has the same name, return that icon
+            if (icon.getName() === pName) {
+                return icon;
+            }
+        };
+    }
+    /**
      * Exports this VYI into VYI format.
      * @returns {Object} Returns the vyi data.
      */
     export() {
-        const vyiData = {};
-        // ...
-        return vyiData;
+        const vyi = {};
+        // Set version
+        vyi.v = this.formatVersion;
+        // Set the icons array
+        vyi.i = [];
+        // A helpful note attached to this vyi
+        vyi.generatedMessage = this.generatedMessage;
+        this.icons.forEach((pIcon) => {
+            // Push the icon data to the vyi export object.
+            vyi.i.push(pIcon.export());
+        });
+        return vyi;
     }
 }

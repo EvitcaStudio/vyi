@@ -566,10 +566,10 @@
   {
     "__docId__": 48,
     "kind": "file",
-    "name": "src/vyi.mjs",
-    "content": "import { Logger } from './vendor/logger.min.mjs';\r\nimport { Icon } from './icon.mjs';\r\n\r\n// /**\r\n//  * FORMAT\r\n//  * {\r\n//  *  v: 1, // version\r\n//  *  i: [\r\n//  *     [empty] // icon 0\r\n//  *     [\r\n//  *         name, // 0\r\n//  *         width, // 1\r\n//  *         height, // 2\r\n//  *         frame delay, // 3\r\n//  *         data url, // 4\r\n//  *         frame array // 5\r\n//  *         [\r\n//  *            // frame 1 \r\n//  *               [\r\n//  *                  data url,\r\n//                     frame delay\r\n//  *              ],\r\n//  *            // frame 2 \r\n//  *               [\r\n//  *                  data url,\r\n//                     frame delay\r\n//  *              ],\r\n//  *            // etc\r\n//  *         ]\r\n//  *         states array // 6 // optional\r\n//  *         [\r\n//  *              [\r\n//  *                  state name, // 0\r\n//  *                  state data url, // 1\r\n//  *                  state frame delay, // 2\r\n//  *                  state frame array  // 3 // optional\r\n//  *                  [\r\n//  *                      [\r\n//  *                          state frame data url,\r\n//  *                          state frame delay\r\n//  *                      ],\r\n//  *                      [\r\n//  *                          state frame data url,\r\n//  *                          state frame delay\r\n//  *                      ]\r\n//  *                  ]\r\n//  *              ]\r\n//  *         ]\r\n//  *         \r\n//  *     ] // icon 1\r\n//  *  ] // array of icons, the length of \"i\" is how many \"icons\" are in the vyi\r\n//  * }\r\n//  */\r\n// // ...\r\n\r\nexport class VYI {\r\n\t/**\r\n\t * The version of the module.\r\n\t */\r\n\tversion = \"VERSION_REPLACE_ME\";\r\n    /** The logger module this module uses to log errors / logs.\r\n     * @private\r\n     * @type {Object}\r\n     */\r\n    logger = new Logger();\r\n    /**\r\n     * If this VYI has initialized a vyi.\r\n     * @private\r\n     * @type {boolean}\r\n     */\r\n    initiated = false;\r\n    /**\r\n     * An array of icons that belong to this VYI\r\n     * @private\r\n     * @type {Array}\r\n     */\r\n    icons = [];\r\n    /**\r\n     * The name of this vyi.\r\n     * @private\r\n     * @type {string}\r\n     */\r\n    name = 'default-name';\r\n    /**\r\n     * The version of the VYI.\r\n     * @private\r\n     * @type {number}\r\n     */\r\n    vyiVersion;\r\n    /**\r\n     * Initializes this module with the information from the VYI passed.\r\n     * @param {Object|string} pVYIData - A string containing the path to the vyi json or a JSON / Javascript object containing the vyi information.\r\n     */\r\n\tconstructor(pVYIData) {\r\n        this.logger.registerType('VYI-Module', '#ff6600');\r\n        this.init(pVYIData);\r\n\t}\r\n    /**\r\n     * Initializes this module with the information from the VYI passed.\r\n     * @param {Object|string} pVYIData - A string containing the path to the vyi json or a JSON / Javascript object containing the vyi information.\r\n     * @private\r\n     */\r\n    async init(pVYIData) {\r\n        // Can only be initialized one time.\r\n        if (!this.initiated) { \r\n            await this.sift(pVYIData);\r\n            this.initiated = true;\r\n        }\r\n    }\r\n    /**\r\n     * Initializes this module with the information from the VYI passed.\r\n     * @param {Object|string} pVYIData - A string containing the path to the vyi json or a JSON / Javascript object containing the vyi information.\r\n     * @private\r\n     */\r\n    async sift(pVYIData) {\r\n        if (pVYIData) {\r\n            let vyi;\r\n            // If the data is a path then we need to use fetch to acquire the data first\r\n            // Then sift through it\r\n            if (typeof(pVYIData) === 'string') {\r\n                const url = pVYIData;\r\n                const response = await fetch(url);\r\n                vyi = await response.json();\r\n            } else if (pVYIData instanceof Object) {\r\n                vyi = pVYIData;\r\n            }\r\n            /**\r\n             * The version of the vyi.\r\n             * @type {number}\r\n             */\r\n            const vyiVersion = vyi.v;\r\n            /**\r\n             * An array of icons that this vyi holds.\r\n             * @type {Array}\r\n             */\r\n            const icons = vyi.i;\r\n            this.vyiVersion = vyiVersion;\r\n            // Loop through the icons and add them to the vyi module instance.\r\n            icons.forEach((pIconData) => {\r\n                this.addIcon(pIconData);\r\n            });\r\n        }\r\n    }\r\n    /**\r\n     * Adds an icon to this VYI.\r\n     * @param {Object} pIconData - The icon data to use.\r\n     * @returns {Icon|undefined} - The Icon added or undefined.\r\n     */\r\n    addIcon(pIconData) {\r\n        if (pIconData) {\r\n            if (pIconData instanceof Object) {\r\n                // We pass \"this\" because this passes the vyi module to the icon.\r\n                const icon = new Icon(pIconData, this);\r\n                // Add the icon to the icons array.\r\n                this.icons.push(icon);\r\n                return icon;\r\n            } else {\r\n                this.logger.prefix('VYI-module').error('Invalid icon data type passed!');\r\n            }\r\n        } else {\r\n            this.logger.prefix('VYI-module').error('No icon data passed!');\r\n        }\r\n    }\r\n    /**\r\n     * Removes the icon from this VYI.\r\n     * @param {Icon} - The icon to remove.\r\n     */\r\n    removeIcon(pIcon) {\r\n        if (this.icons.includes(pIcon)) {\r\n            this.icons.splice(this.icons.indexOf(pIcon), 1);\r\n        }\r\n    }\r\n    /**\r\n     * Returns all the icon names in this vyi.\r\n     * @returns {Array} An array of icon names in this vyi.\r\n     */\r\n    getIconNames() {\r\n        // Array to store the icon names.\r\n        const iconNames = [];\r\n        this.icons.forEach((pIcon) => {\r\n            iconNames.push(pIcon.name);\r\n        });\r\n        return iconNames;\r\n    }\r\n    /**\r\n     * Exports this VYI into VYI format.\r\n     * @returns {Object} Returns the vyi data.\r\n     */\r\n    export() {\r\n        const vyiData = {};\r\n        // ...\r\n        return vyiData;\r\n    }\r\n}",
+    "name": "src/frame.mjs",
+    "content": "export class Frame {\r\n    /**\r\n     * The delay of this frame.\r\n     * @private\r\n     * @type {number}\r\n     */\r\n    delay = 100;\r\n    /**\r\n     * The data URL of the sprite in this frame.\r\n     * @private\r\n     * @type {string}\r\n     */\r\n    dataURL;\r\n    /**\r\n     * The index of this frame. This indicates the order of the frame. 0 - Infinity.\r\n     * @private\r\n     * @type {number}\r\n     */\r\n    index = 0;\r\n    /**\r\n     * The default delay in ms of frames.\r\n     * @private\r\n     * @type {number}\r\n     */\r\n    static defaultDelay = 100;\r\n    /**\r\n     * Create this frame class instance.\r\n     * @param {Object} pFrameData - The frame data that is used to build this frame.\r\n     * @param {VYI} pVYI - The vyi that owns this frame.\r\n     */\r\n    constructor(pFrameData, pVYI) {\r\n        /**\r\n         * The VYI that owns this icon.\r\n         * @private\r\n         * @type {pVYI}\r\n         */\r\n        this.vyi = pVYI;\r\n        this.sift(pFrameData);\r\n    }\r\n    /**\r\n     * Sifts through the icon data and adds data to this frame.\r\n     * @param {Object} pFrameData - The frame data that is used to build this frame.\r\n     * @private\r\n     */\r\n    sift(pFrameData) {\r\n        // Loop through frame data and build frame.\r\n        const dataURL = pFrameData[0];\r\n        const frameDelay = pFrameData[1];\r\n        // Set the data url\r\n        this.setDataURL(dataURL);\r\n        // Set the frame delay\r\n        this.setDelay(frameDelay);\r\n    }\r\n    /**\r\n     * Sets the delay of this frame in ms.\r\n     * @param {number} pDelay - The delay in ms to set this frame to.\r\n     * @returns {self} This frame instance.\r\n     */\r\n    setDelay(pDelay) {\r\n        if (pDelay) {\r\n            if (typeof(pDelay) === 'number') {\r\n                this.delay = pDelay;\r\n            } else {\r\n                this.vyi.logger.prefix('VYI-module').error('Invalid delay type!');\r\n            }\r\n        }\r\n        return this;\r\n    }\r\n    /**\r\n     * Gets the delay of this frame.\r\n     * @returns {number} The delay of this frame.\r\n     */\r\n    getDelay() {\r\n        return this.delay;\r\n    }\r\n    /**\r\n     * Sets the data url of this frame.\r\n     * @param {DataURL} pDataURL - The base64 data of this image.\r\n     * @returns {self} This frame instance.\r\n     */\r\n    setDataURL(pDataURL) {\r\n        if (pDataURL) {\r\n            if (typeof(pDataURL) === 'string') {\r\n                this.dataURL = pDataURL;\r\n            } else {\r\n                this.vyi.logger.prefix('VYI-module').error('Invalid data url type!');\r\n            }\r\n        }\r\n        return this;\r\n    }\r\n    /**\r\n     * Gets the data URL of this frame.\r\n     * @returns {DataURL} - The base64 data of this image.\r\n     */\r\n    getDataURL() {\r\n        return this.dataURL;\r\n    }\r\n    /**\r\n     * Sets the index of the frame.\r\n     * @private\r\n     * @param {number} pIndex - The index to set the frame to.\r\n     * @returns {self} This frame instance.\r\n     */\r\n    setIndex(pIndex) {\r\n        if (pIndex) {\r\n            if (typeof(pIndex) === 'number') {\r\n                this.index = pIndex;\r\n            } else {\r\n                this.vyi.logger.prefix('VYI-module').error('Invalid index type!');\r\n            }\r\n        }\r\n        return this;\r\n    }\r\n    /**\r\n     * Gets the index of this frame.\r\n     * @returns {number} The index of this frame.\r\n     */\r\n    getIndex() {\r\n        return this.index;\r\n    }\r\n    /**\r\n     * Exports this frame's data into proper vyi format.\r\n     * @returns {Array} An array of data related to this frame in the proper vyi format.\r\n     */\r\n    export() {\r\n        const frameData = [];\r\n        // frame dataURL\r\n        frameData[0] = this.getDataURL();\r\n        // We do not have to store the delay if it is the default value of 100. This will save data.\r\n        const delayIsDefault = this.getDelay() === Frame.defaultDelay;\r\n        if (!delayIsDefault) {\r\n            // frame delay\r\n            frameData[1] = this.getDelay();\r\n        }\r\n        return frameData;\r\n    }\r\n}",
     "static": true,
-    "longname": "C:/Users/jared/Documents/Github/vyi-reader/src/vyi.mjs",
+    "longname": "C:/Users/jared/Documents/Github/vyi-reader/src/frame.mjs",
     "access": "public",
     "description": null,
     "lineNumber": 1
@@ -577,121 +577,29 @@
   {
     "__docId__": 49,
     "kind": "class",
-    "name": "VYI",
-    "memberof": "src/vyi.mjs",
+    "name": "Frame",
+    "memberof": "src/frame.mjs",
     "static": true,
-    "longname": "src/vyi.mjs~VYI",
+    "longname": "src/frame.mjs~Frame",
     "access": "public",
     "export": true,
-    "importPath": "vyi-reader/src/vyi.mjs",
-    "importStyle": "{VYI}",
+    "importPath": "vyi-reader/src/frame.mjs",
+    "importStyle": "{Frame}",
     "description": null,
-    "lineNumber": 56,
+    "lineNumber": 1,
     "undocument": true,
     "interface": false
   },
   {
     "__docId__": 50,
     "kind": "member",
-    "name": "version",
-    "memberof": "src/vyi.mjs~VYI",
+    "name": "delay",
+    "memberof": "src/frame.mjs~Frame",
     "static": false,
-    "longname": "src/vyi.mjs~VYI#version",
-    "access": "public",
-    "description": "The version of the module.",
-    "lineNumber": 60,
-    "type": {
-      "types": [
-        "*"
-      ]
-    }
-  },
-  {
-    "__docId__": 51,
-    "kind": "member",
-    "name": "logger",
-    "memberof": "src/vyi.mjs~VYI",
-    "static": false,
-    "longname": "src/vyi.mjs~VYI#logger",
+    "longname": "src/frame.mjs~Frame#delay",
     "access": "private",
-    "description": "The logger module this module uses to log errors / logs.",
-    "lineNumber": 65,
-    "type": {
-      "nullable": null,
-      "types": [
-        "Object"
-      ],
-      "spread": false,
-      "description": null
-    }
-  },
-  {
-    "__docId__": 52,
-    "kind": "member",
-    "name": "initiated",
-    "memberof": "src/vyi.mjs~VYI",
-    "static": false,
-    "longname": "src/vyi.mjs~VYI#initiated",
-    "access": "private",
-    "description": "If this VYI has initialized a vyi.",
-    "lineNumber": 71,
-    "type": {
-      "nullable": null,
-      "types": [
-        "boolean"
-      ],
-      "spread": false,
-      "description": null
-    }
-  },
-  {
-    "__docId__": 53,
-    "kind": "member",
-    "name": "icons",
-    "memberof": "src/vyi.mjs~VYI",
-    "static": false,
-    "longname": "src/vyi.mjs~VYI#icons",
-    "access": "private",
-    "description": "An array of icons that belong to this VYI",
-    "lineNumber": 77,
-    "type": {
-      "nullable": null,
-      "types": [
-        "Array"
-      ],
-      "spread": false,
-      "description": null
-    }
-  },
-  {
-    "__docId__": 54,
-    "kind": "member",
-    "name": "name",
-    "memberof": "src/vyi.mjs~VYI",
-    "static": false,
-    "longname": "src/vyi.mjs~VYI#name",
-    "access": "private",
-    "description": "The name of this vyi.",
-    "lineNumber": 83,
-    "type": {
-      "nullable": null,
-      "types": [
-        "string"
-      ],
-      "spread": false,
-      "description": null
-    }
-  },
-  {
-    "__docId__": 55,
-    "kind": "member",
-    "name": "vyiVersion",
-    "memberof": "src/vyi.mjs~VYI",
-    "static": false,
-    "longname": "src/vyi.mjs~VYI#vyiVersion",
-    "access": "private",
-    "description": "The version of the VYI.",
-    "lineNumber": 89,
+    "description": "The delay of this frame.",
+    "lineNumber": 7,
     "type": {
       "nullable": null,
       "types": [
@@ -702,7 +610,1635 @@
     }
   },
   {
+    "__docId__": 51,
+    "kind": "member",
+    "name": "dataURL",
+    "memberof": "src/frame.mjs~Frame",
+    "static": false,
+    "longname": "src/frame.mjs~Frame#dataURL",
+    "access": "private",
+    "description": "The data URL of the sprite in this frame.",
+    "lineNumber": 13,
+    "type": {
+      "nullable": null,
+      "types": [
+        "string"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 52,
+    "kind": "member",
+    "name": "index",
+    "memberof": "src/frame.mjs~Frame",
+    "static": false,
+    "longname": "src/frame.mjs~Frame#index",
+    "access": "private",
+    "description": "The index of this frame. This indicates the order of the frame. 0 - Infinity.",
+    "lineNumber": 19,
+    "type": {
+      "nullable": null,
+      "types": [
+        "number"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 53,
+    "kind": "member",
+    "name": "defaultDelay",
+    "memberof": "src/frame.mjs~Frame",
+    "static": true,
+    "longname": "src/frame.mjs~Frame.defaultDelay",
+    "access": "private",
+    "description": "The default delay in ms of frames.",
+    "lineNumber": 25,
+    "type": {
+      "nullable": null,
+      "types": [
+        "number"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 54,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "src/frame.mjs~Frame",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/frame.mjs~Frame#constructor",
+    "access": "public",
+    "description": "Create this frame class instance.",
+    "lineNumber": 31,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "pFrameData",
+        "description": "The frame data that is used to build this frame."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "VYI"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "pVYI",
+        "description": "The vyi that owns this frame."
+      }
+    ]
+  },
+  {
+    "__docId__": 55,
+    "kind": "member",
+    "name": "vyi",
+    "memberof": "src/frame.mjs~Frame",
+    "static": false,
+    "longname": "src/frame.mjs~Frame#vyi",
+    "access": "private",
+    "description": "The VYI that owns this icon.",
+    "lineNumber": 37,
+    "type": {
+      "nullable": null,
+      "types": [
+        "pVYI"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
     "__docId__": 56,
+    "kind": "method",
+    "name": "sift",
+    "memberof": "src/frame.mjs~Frame",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/frame.mjs~Frame#sift",
+    "access": "private",
+    "description": "Sifts through the icon data and adds data to this frame.",
+    "lineNumber": 45,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "pFrameData",
+        "description": "The frame data that is used to build this frame."
+      }
+    ],
+    "return": null
+  },
+  {
+    "__docId__": 57,
+    "kind": "method",
+    "name": "setDelay",
+    "memberof": "src/frame.mjs~Frame",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/frame.mjs~Frame#setDelay",
+    "access": "public",
+    "description": "Sets the delay of this frame in ms.",
+    "lineNumber": 59,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{self} This frame instance."
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "number"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "pDelay",
+        "description": "The delay in ms to set this frame to."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "self"
+      ],
+      "spread": false,
+      "description": "This frame instance."
+    }
+  },
+  {
+    "__docId__": 59,
+    "kind": "method",
+    "name": "getDelay",
+    "memberof": "src/frame.mjs~Frame",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/frame.mjs~Frame#getDelay",
+    "access": "public",
+    "description": "Gets the delay of this frame.",
+    "lineNumber": 73,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{number} The delay of this frame."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "number"
+      ],
+      "spread": false,
+      "description": "The delay of this frame."
+    },
+    "params": []
+  },
+  {
+    "__docId__": 60,
+    "kind": "method",
+    "name": "setDataURL",
+    "memberof": "src/frame.mjs~Frame",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/frame.mjs~Frame#setDataURL",
+    "access": "public",
+    "description": "Sets the data url of this frame.",
+    "lineNumber": 81,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{self} This frame instance."
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "DataURL"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "pDataURL",
+        "description": "The base64 data of this image."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "self"
+      ],
+      "spread": false,
+      "description": "This frame instance."
+    }
+  },
+  {
+    "__docId__": 62,
+    "kind": "method",
+    "name": "getDataURL",
+    "memberof": "src/frame.mjs~Frame",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/frame.mjs~Frame#getDataURL",
+    "access": "public",
+    "description": "Gets the data URL of this frame.",
+    "lineNumber": 95,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{DataURL} - The base64 data of this image."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "DataURL"
+      ],
+      "spread": false,
+      "description": "The base64 data of this image."
+    },
+    "params": []
+  },
+  {
+    "__docId__": 63,
+    "kind": "method",
+    "name": "setIndex",
+    "memberof": "src/frame.mjs~Frame",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/frame.mjs~Frame#setIndex",
+    "access": "private",
+    "description": "Sets the index of the frame.",
+    "lineNumber": 104,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{self} This frame instance."
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "number"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "pIndex",
+        "description": "The index to set the frame to."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "self"
+      ],
+      "spread": false,
+      "description": "This frame instance."
+    }
+  },
+  {
+    "__docId__": 65,
+    "kind": "method",
+    "name": "getIndex",
+    "memberof": "src/frame.mjs~Frame",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/frame.mjs~Frame#getIndex",
+    "access": "public",
+    "description": "Gets the index of this frame.",
+    "lineNumber": 118,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{number} The index of this frame."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "number"
+      ],
+      "spread": false,
+      "description": "The index of this frame."
+    },
+    "params": []
+  },
+  {
+    "__docId__": 66,
+    "kind": "method",
+    "name": "export",
+    "memberof": "src/frame.mjs~Frame",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/frame.mjs~Frame#export",
+    "access": "public",
+    "description": "Exports this frame's data into proper vyi format.",
+    "lineNumber": 125,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Array} An array of data related to this frame in the proper vyi format."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Array"
+      ],
+      "spread": false,
+      "description": "An array of data related to this frame in the proper vyi format."
+    },
+    "params": []
+  },
+  {
+    "__docId__": 67,
+    "kind": "file",
+    "name": "src/icon.mjs",
+    "content": "import { Frame } from './frame.mjs';\r\n\r\nexport class Icon {\r\n    /**\r\n     * An array of Icon's that are state of this icon.\r\n     * @private\r\n     * @type {Array}\r\n     */\r\n    states = [];\r\n    /**\r\n     * An arary of Frame's that are the frames of this icon.\r\n     * @private\r\n     * @type {Array}\r\n     */\r\n    frames = [];\r\n    /**\r\n     * The width of this icon. All states and frames of this icon must match this size.\r\n     * @private\r\n     * @type {number}\r\n     */\r\n    width = 32;\r\n    /**\r\n     * The height of this icon. All states and frames of this icon must match this size.\r\n     * @private\r\n     * @type {number}\r\n     */\r\n    height = 32;\r\n    /**\r\n     * The data URL of the sprite in this frame.\r\n     * @private\r\n     * @type {string}\r\n     */\r\n    dataURL;\r\n    /**\r\n     * The delay of this frame.\r\n     * @private\r\n     * @type {number}\r\n     */\r\n    delay = 100;\r\n    /**\r\n     * The name of this icon.\r\n     * @private\r\n     * @type {string}\r\n     */\r\n    name = 'rename-this-icon';\r\n    /**\r\n     * Creates this icon instance.\r\n     * @param {Object} pIconData - The icon data that is used to build this icon.\r\n     * @param {VYI} pVYI - The vyi that owns this icon.\r\n     */\r\n    constructor(pIconData, pVYI) {\r\n        /**\r\n         * The VYI that owns this icon.\r\n         * @private\r\n         * @type {pVYI}\r\n         */\r\n        this.vyi = pVYI;\r\n        this.sift(pIconData);\r\n    }\r\n    /**\r\n     * Swaps the positions of two elements in an array.\r\n     * @param {Array} pArray - The array in which to swap elements.\r\n     * @param {number} pIndex1 - The index of the first element to swap.\r\n     * @param {number} pIndex2 - The index of the second element to swap.\r\n     * @returns {void}\r\n     */\r\n    static swapArrayElements(pArray, pIndex1, pIndex2) {\r\n        [pArray[pIndex1], pArray[pIndex2]] = [pArray[pIndex2], pArray[pIndex1]];\r\n    }\r\n    /**\r\n     * Sifts through the icon data and adds data to this icon.\r\n     * @param {Object} pIconData - The icon data that is used to build this icon.\r\n     * @private\r\n     */\r\n    sift(pIconData) {\r\n        // Loop through pIconData and create this icon\r\n        const iconName = pIconData[0];\r\n        const iconWidth = pIconData[1];\r\n        const iconHeight = pIconData[2];\r\n        const iconDelay = pIconData[3];\r\n        const iconDataURL = pIconData[4];\r\n        const frameArray = pIconData[5];\r\n        const stateArray = pIconData[6];\r\n\r\n        // Set name\r\n        this.rename(iconName);\r\n        // Set size\r\n        this.setSize(iconWidth, iconHeight);\r\n        // Set icon delay\r\n        this.setDelay(iconDelay);\r\n        // Set dataURL\r\n        this.setDataURL(iconDataURL);\r\n        // Check if the frame data is an array\r\n        if (Array.isArray(frameArray)) {\r\n            // If the frame array has data then we need to store it.\r\n            if (frameArray.length) {\r\n                frameArray.forEach((pFrame) => {\r\n                    // pFrame is an array holding the datalURL and frameDelay of the frame\r\n                    this.addFrame(pFrame);\r\n                });\r\n            }\r\n        }\r\n        // Check if the states data is an array\r\n        if (Array.isArray(stateArray)) {\r\n            // If the state array has data then we need to store it.\r\n            if (stateArray.length) {\r\n                stateArray.forEach((pState) => {\r\n                    // Here we create a icon with aggregated data because the state data is not enough to make it an icon.\r\n                    // We do this because a state is basically an icon, but it just \"inherits\" alot of the data. But this makes it easier to manage if we treat it internally as an icon.\r\n                    const aggregatedIconData = [];\r\n                    // iconName\r\n                    aggregatedIconData[0] = pState[0];\r\n                    // iconWidth\r\n                    aggregatedIconData[1] = iconWidth;\r\n                    // iconHeight\r\n                    aggregatedIconData[2] = iconHeight;\r\n                    // frame delay\r\n                    aggregatedIconData[3] = pState[2];\r\n                    // iconDataURL\r\n                    aggregatedIconData[4] = pState[1];\r\n                    // frame array\r\n                    aggregatedIconData[5] = pState[3];\r\n                    this.addState(aggregatedIconData);\r\n                });\r\n            }\r\n        }\r\n    }\r\n    /**\r\n     * Sets the size of this icon.\r\n     * @param {number} pWidth - The width of this icon.\r\n     * @param {number} pHeight - THe height of this icon.\r\n     * @returns {self} This icon instance.\r\n     */\r\n    setSize(pWidth, pHeight) {\r\n        if (typeof(pWidth) === 'number') {\r\n            this.width = pWidth;\r\n        }\r\n        if (typeof(pHeight) === 'number') {\r\n            this.height = pHeight;\r\n        }\r\n    }\r\n    /**\r\n     * Gets the width and height of this icon and returns it.\r\n     * @returns {Object} An object with the width and height of this icon.\r\n     */\r\n    getSize() {\r\n        return { width: this.width, height: this.height };\r\n    }\r\n    /**\r\n     * Sets the data url of this icon.\r\n     * @param {DataURL} pDataURL - The base64 data of this image.\r\n     * @returns {self} This icon instance.\r\n     */\r\n    setDataURL(pDataURL) {\r\n        if (pDataURL) {\r\n            if (typeof(pDataURL) === 'string') {\r\n                this.dataURL = pDataURL;\r\n            } else {\r\n                this.vyi.logger.prefix('VYI-module').error('Invalid data url type!');\r\n            }\r\n        }\r\n        return this;\r\n    }\r\n    /**\r\n     * Gets the data URL of this icon.\r\n     * @returns {DataURL} - The base64 data of this image.\r\n     */\r\n    getDataURL() {\r\n        return this.dataURL;\r\n    }\r\n    /**\r\n     * Sets the frame delay of this icon.\r\n     * @param {number} pDelay - The delay to set this frame to.\r\n     * @returns {self} This icon instance.\r\n     */\r\n    setDelay(pDelay) {\r\n        if (pDelay) {\r\n            if (typeof(pDelay) === 'number') {\r\n                this.delay = pDelay;\r\n            } else {\r\n                this.vyi.logger.prefix('VYI-module').error('Invalid delay type!');\r\n            }\r\n        }\r\n        return this;\r\n    }\r\n    /**\r\n     * Gets the delay of this icon.\r\n     * @returns {number} The delay of this icon.\r\n     */\r\n    getDelay() {\r\n        return this.delay;\r\n    }\r\n    /**\r\n     * Changes the name of this icon.\r\n     * @param {string} pName - The new name of the icon.\r\n     * @returns {self} This icon instance.\r\n     */\r\n    rename(pName) {\r\n        if (pName) {\r\n            if (typeof(pName) === 'string') {\r\n                this.name = pName;\r\n            } else {\r\n                this.vyi.logger.prefix('VYI-Module').error('Invalid type for pName!');\r\n            }\r\n        }\r\n        return this;\r\n    }\r\n    /**\r\n     * Returns the name of this icon.\r\n     * @returns {string} The name of this icon.\r\n     */\r\n    getName() {\r\n        return this.name;\r\n    }\r\n    /**\r\n     * Sets all the frames belonging to this icon to the same delay.\r\n     * @param {number} pDelay - The delay to set all frames to.\r\n     * @returns {self} This icon instance.\r\n     */\r\n    setAllFrameDelays(pDelay) {\r\n        if (pDelay) {\r\n            if (typeof(pDelay) === 'number') {\r\n                this.frames.forEach((pFrame) => {\r\n                    pFrame.setDelay(pDelay);\r\n                });\r\n            } else {\r\n                this.vyi.logger.prefix('VYI-Module').error('Invalid type for pDelay!');\r\n            }\r\n        }\r\n        return this;\r\n    }\r\n    /**\r\n     * Adds this icon data as a state. A state is also an icon.\r\n     * @param {Object} pIconData - The data used to create this state icon.\r\n     * @returns {Icon|undefined} The state that was added or undefined.\r\n     */\r\n    addState(pIconData) {\r\n        if (pIconData instanceof Object) {\r\n            const state = new Icon(pIconData, this.vyi);\r\n            this.states.push(state);\r\n            return state;\r\n        }\r\n    }\r\n    /**\r\n     * Removes the state with the name pName.\r\n     * @param {Icon} pState - The state to remove from this icon. pName should be not be used in tandem with this method of removing.\r\n     * @param {string} pName - The name of the state to remove. pState must be undefined to use this method for removing.\r\n     * @returns {self} This icon instance.\r\n     */\r\n    removeState(pState, pName) {\r\n        // The index used to remove this frame.\r\n        let index;\r\n        // Remove via reference to state.\r\n        if (this.states.includes(pState)) {\r\n            index = this.states.indexOf(pState);\r\n        // Remove via reference to name\r\n        } else if (typeof(pName) === 'string') {\r\n            const state = this.getState(pName);\r\n            if (state) {\r\n                index = this.states.indexOf(state);\r\n            }\r\n        } else {\r\n            this.vyi.logger.prefix('VYI-Module').error('Failed to remove state!');\r\n            return this;\r\n        }\r\n        if (typeof(index) === 'number') {\r\n            // Remove the state\r\n            this.states.splice(index, 1);\r\n        }\r\n        return this;\r\n    }\r\n    /**\r\n     * Adds a new frame to this icon.\r\n     * @param {Object} pFrameData - The frame data to give this frame.\r\n     * @returns {Frame|undefined} The frame that was added or undefined.\r\n     */\r\n    addFrame(pFrameData) {\r\n        if (pFrameData) {\r\n            if (pFrameData instanceof Object) {\r\n                // We pass \"this.vyi\" because this passes the vyi module to the frane.\r\n                const frame = new Frame(pFrameData, this.vyi);\r\n                // Add the frame to the frames array.\r\n                this.frames.push(frame);\r\n                // Re-index frames after a change\r\n                this.indexFrames();\r\n                return frame;\r\n            } else {\r\n                this.vyi.logger.prefix('VYI-Module').error('Invalid frame data passed!');\r\n            }\r\n        } else {\r\n            this.vyi.logger.prefix('VYI-Module').error('No frame data passed!');\r\n        }\r\n    }\r\n    /**\r\n     * Removes the frame from this icon via passed frame reference or via index passed.\r\n     * @param {Frame} pFrame - The frame to remove from this icon. pIndex should be not be used in tandem with this method of removing.\r\n     * @param {number} pIndex - The index of the frame to remove. pFrame must be undefined to use this method for removing.\r\n     * @returns {self} This icon instance.\r\n     */\r\n    removeFrame(pFrame, pIndex) {\r\n        // The index used to remove this frame.\r\n        let index;\r\n        // Remove via reference to frame.\r\n        if (this.frames.includes(pFrame)) {\r\n            index = this.frames.indexOf(pFrame);\r\n        // Remove via index passed.\r\n        } else if (pIndex || pIndex === 0) {\r\n            if (typeof(pIndex) === 'number') {\r\n                const frame = this.getFrame(pIndex);\r\n                if (frame) {\r\n                    index = pIndex;\r\n                }\r\n            } else {\r\n                this.vyi.logger.prefix('VYI-Module').error('Invalid pIndex type!');\r\n            }\r\n        } else {\r\n            this.vyi.logger.prefix('VYI-Module').error('Failed to remove frame!');\r\n        }\r\n        if (typeof(index) === 'number') {\r\n            // Remove the frame\r\n            this.frames.splice(index, 1);\r\n            // Re-index frames after a change\r\n            this.indexFrames();\r\n        }\r\n        return this;\r\n    }\r\n    /**\r\n     * Index the frames properly.\r\n     * @private\r\n     */\r\n    indexFrames() {\r\n        // Reorder the frames after removing.\r\n        this.frames.forEach((pFrame, pIndex) => {\r\n            pFrame.index = pIndex;\r\n        });\r\n    }\r\n    /**\r\n     * Reorders the frame in the animation. The index of the passed frame will be swapped with the frame at pIndex.\r\n     * @param {number} pCurrentIndex - The current index of the frame.\r\n     * @param {number} pIndex - The index the frame will be moving to.\r\n     * @returns {self} This icon instance.\r\n     */\r\n    reorderFrame(pCurrentIndex, pIndex) {\r\n        if (typeof(pCurrentIndex) === 'number' && typeof(pIndex) === 'number') {\r\n            // We check if there is a valid frame at the current index and at the index we want to swap with.\r\n            if (this.frames[pCurrentIndex] && this.frames[pIndex]) {\r\n                // Swaps the frames\r\n                Icon.swapArrayElements(this.frames, pCurrentIndex, pIndex);\r\n                // Re-index frames after a change\r\n                this.indexFrames();\r\n            } else {\r\n                this.vyi.logger.prefix('VYI-Module').error('There was no frame found at pCurrentIndex, or there was no frame found at pIndex!');\r\n            }\r\n        } else {\r\n            this.vyi.logger.prefix('VYI-Module').error('Invalid type used!');\r\n        }\r\n        return this;\r\n    }\r\n    /**\r\n     * Gets the frame existing at pIndex.\r\n     * @param {number} pIndex - The index of the frame to get.\r\n     * @returns {Frame|undefined} The frame found at pIndex.\r\n     */\r\n    getFrame(pIndex) {\r\n        // Frame 0 will actually be frame \"1\" in the animation. As this icon will actually be frame 0.\r\n        if (typeof(pIndex) === 'number') {\r\n            return this.frames[pIndex];\r\n        } else {\r\n            this.vyi.logger.prefix('VYI-Module').error('Invalid type used!');\r\n        }\r\n    }\r\n    /**\r\n     * Returns an array of all the frames this icons has.\r\n     * @returns {Array} An array of frames this icon has.\r\n     */\r\n    getFrames() {\r\n        return [ ...this.frames ];\r\n    }\r\n    /**\r\n     * Gets all the frames belonging to this icon.\r\n     * @private\r\n     * @returns {Array} An array containing the frame data of all frames.\r\n     */\r\n    getFramesData() {\r\n        const frameDataArray = [];\r\n        this.frames.forEach((pFrame) => {\r\n            frameDataArray.push(pFrame.export());\r\n        });\r\n        return frameDataArray;\r\n    }\r\n    /**\r\n     * Gets the state that has the name pName.\r\n     * @param {string} pName - The name of the state to get.\r\n     * @returns {Icon} The state that has the name of pName.\r\n     */\r\n    getState(pName) {\r\n        for (const icon of this.states) {\r\n            // If the state has the same name, return that state\r\n            if (icon.getName() === pName) {\r\n                return icon;\r\n            }\r\n        };\r\n    }\r\n    /**\r\n     * Returns an array of all the states this icons has.\r\n     * @returns {Array} An array of states this icon has.\r\n     */\r\n    getStates() {\r\n        return [ ...this.states ];\r\n    }\r\n    /**\r\n     * Gets all the states belonging to this icon.\r\n     * @private\r\n     * @returns {Array} An array containing the state data of all frames.\r\n     */\r\n    getStatesData() {\r\n        const stateDataArray = [];\r\n        // Loop state array to export relevant information.\r\n        this.states.forEach((pState) => {\r\n            stateDataArray.push(pState.exportAsState());\r\n        });\r\n        return stateDataArray;        \r\n    }\r\n    /**\r\n     * Exports this icon as if it was a state in the proper vyi format.\r\n     * @private\r\n     * @returns {Array} An array of data related to this icon as if it were a state.\r\n     */\r\n    exportAsState() {\r\n        const stateData = [];\r\n        // state name\r\n        stateData[0] = this.getName();\r\n        // state dataURL\r\n        stateData[1] = this.getDataURL();\r\n        // state frame delay\r\n        stateData[2] = this.getDelay();\r\n        // state frame array\r\n        stateData[3] = [];\r\n\r\n        // Loop frame array to export relevant information.\r\n        this.frames.forEach((pFrame) => {\r\n            stateData[3].push(pFrame.export());\r\n        });\r\n        return stateData;\r\n    }\r\n    /**\r\n     * Exports this icon's data into proper vyi format.\r\n     * @private\r\n     * @returns {Array} An array of data related to this icon in the proper vyi format.\r\n     */\r\n    export() {\r\n        const iconData = [];\r\n        // icon name\r\n        iconData[0] = this.getName();\r\n        // Get the size of this icon.\r\n        const size = this.getSize();\r\n        // icon width\r\n        iconData[1] = size.width;\r\n        // icon height\r\n        iconData[2] = size.height;\r\n        // frame delay\r\n        iconData[3] = this.getDelay();\r\n        // icon DataURL\r\n        iconData[4] = this.getDataURL();\r\n        // frame array\r\n        iconData[5] = this.getFramesData();\r\n\r\n        // this is actually an optional data entry into the vyi, only used if states actually exist on this icon.\r\n        // this will save data\r\n        if (this.states.length) {\r\n            // states array\r\n            iconData[6] = this.getStatesData();\r\n        }\r\n        return iconData;\r\n    }\r\n}",
+    "static": true,
+    "longname": "C:/Users/jared/Documents/Github/vyi-reader/src/icon.mjs",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 68,
+    "kind": "class",
+    "name": "Icon",
+    "memberof": "src/icon.mjs",
+    "static": true,
+    "longname": "src/icon.mjs~Icon",
+    "access": "public",
+    "export": true,
+    "importPath": "vyi-reader/src/icon.mjs",
+    "importStyle": "{Icon}",
+    "description": null,
+    "lineNumber": 3,
+    "undocument": true,
+    "interface": false
+  },
+  {
+    "__docId__": 69,
+    "kind": "member",
+    "name": "states",
+    "memberof": "src/icon.mjs~Icon",
+    "static": false,
+    "longname": "src/icon.mjs~Icon#states",
+    "access": "private",
+    "description": "An array of Icon's that are state of this icon.",
+    "lineNumber": 9,
+    "type": {
+      "nullable": null,
+      "types": [
+        "Array"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 70,
+    "kind": "member",
+    "name": "frames",
+    "memberof": "src/icon.mjs~Icon",
+    "static": false,
+    "longname": "src/icon.mjs~Icon#frames",
+    "access": "private",
+    "description": "An arary of Frame's that are the frames of this icon.",
+    "lineNumber": 15,
+    "type": {
+      "nullable": null,
+      "types": [
+        "Array"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 71,
+    "kind": "member",
+    "name": "width",
+    "memberof": "src/icon.mjs~Icon",
+    "static": false,
+    "longname": "src/icon.mjs~Icon#width",
+    "access": "private",
+    "description": "The width of this icon. All states and frames of this icon must match this size.",
+    "lineNumber": 21,
+    "type": {
+      "nullable": null,
+      "types": [
+        "number"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 72,
+    "kind": "member",
+    "name": "height",
+    "memberof": "src/icon.mjs~Icon",
+    "static": false,
+    "longname": "src/icon.mjs~Icon#height",
+    "access": "private",
+    "description": "The height of this icon. All states and frames of this icon must match this size.",
+    "lineNumber": 27,
+    "type": {
+      "nullable": null,
+      "types": [
+        "number"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 73,
+    "kind": "member",
+    "name": "dataURL",
+    "memberof": "src/icon.mjs~Icon",
+    "static": false,
+    "longname": "src/icon.mjs~Icon#dataURL",
+    "access": "private",
+    "description": "The data URL of the sprite in this frame.",
+    "lineNumber": 33,
+    "type": {
+      "nullable": null,
+      "types": [
+        "string"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 74,
+    "kind": "member",
+    "name": "delay",
+    "memberof": "src/icon.mjs~Icon",
+    "static": false,
+    "longname": "src/icon.mjs~Icon#delay",
+    "access": "private",
+    "description": "The delay of this frame.",
+    "lineNumber": 39,
+    "type": {
+      "nullable": null,
+      "types": [
+        "number"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 75,
+    "kind": "member",
+    "name": "name",
+    "memberof": "src/icon.mjs~Icon",
+    "static": false,
+    "longname": "src/icon.mjs~Icon#name",
+    "access": "private",
+    "description": "The name of this icon.",
+    "lineNumber": 45,
+    "type": {
+      "nullable": null,
+      "types": [
+        "string"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 76,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "src/icon.mjs~Icon",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/icon.mjs~Icon#constructor",
+    "access": "public",
+    "description": "Creates this icon instance.",
+    "lineNumber": 51,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "pIconData",
+        "description": "The icon data that is used to build this icon."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "VYI"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "pVYI",
+        "description": "The vyi that owns this icon."
+      }
+    ]
+  },
+  {
+    "__docId__": 77,
+    "kind": "member",
+    "name": "vyi",
+    "memberof": "src/icon.mjs~Icon",
+    "static": false,
+    "longname": "src/icon.mjs~Icon#vyi",
+    "access": "private",
+    "description": "The VYI that owns this icon.",
+    "lineNumber": 57,
+    "type": {
+      "nullable": null,
+      "types": [
+        "pVYI"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 78,
+    "kind": "method",
+    "name": "swapArrayElements",
+    "memberof": "src/icon.mjs~Icon",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/icon.mjs~Icon.swapArrayElements",
+    "access": "public",
+    "description": "Swaps the positions of two elements in an array.",
+    "lineNumber": 67,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{void}"
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Array"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "pArray",
+        "description": "The array in which to swap elements."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "number"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "pIndex1",
+        "description": "The index of the first element to swap."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "number"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "pIndex2",
+        "description": "The index of the second element to swap."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "void"
+      ],
+      "spread": false,
+      "description": ""
+    }
+  },
+  {
+    "__docId__": 79,
+    "kind": "method",
+    "name": "sift",
+    "memberof": "src/icon.mjs~Icon",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/icon.mjs~Icon#sift",
+    "access": "private",
+    "description": "Sifts through the icon data and adds data to this icon.",
+    "lineNumber": 75,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "pIconData",
+        "description": "The icon data that is used to build this icon."
+      }
+    ],
+    "return": null
+  },
+  {
+    "__docId__": 80,
+    "kind": "method",
+    "name": "setSize",
+    "memberof": "src/icon.mjs~Icon",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/icon.mjs~Icon#setSize",
+    "access": "public",
+    "description": "Sets the size of this icon.",
+    "lineNumber": 134,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{self} This icon instance."
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "number"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "pWidth",
+        "description": "The width of this icon."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "number"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "pHeight",
+        "description": "THe height of this icon."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "self"
+      ],
+      "spread": false,
+      "description": "This icon instance."
+    }
+  },
+  {
+    "__docId__": 83,
+    "kind": "method",
+    "name": "getSize",
+    "memberof": "src/icon.mjs~Icon",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/icon.mjs~Icon#getSize",
+    "access": "public",
+    "description": "Gets the width and height of this icon and returns it.",
+    "lineNumber": 146,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Object} An object with the width and height of this icon."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Object"
+      ],
+      "spread": false,
+      "description": "An object with the width and height of this icon."
+    },
+    "params": []
+  },
+  {
+    "__docId__": 84,
+    "kind": "method",
+    "name": "setDataURL",
+    "memberof": "src/icon.mjs~Icon",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/icon.mjs~Icon#setDataURL",
+    "access": "public",
+    "description": "Sets the data url of this icon.",
+    "lineNumber": 154,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{self} This icon instance."
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "DataURL"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "pDataURL",
+        "description": "The base64 data of this image."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "self"
+      ],
+      "spread": false,
+      "description": "This icon instance."
+    }
+  },
+  {
+    "__docId__": 86,
+    "kind": "method",
+    "name": "getDataURL",
+    "memberof": "src/icon.mjs~Icon",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/icon.mjs~Icon#getDataURL",
+    "access": "public",
+    "description": "Gets the data URL of this icon.",
+    "lineNumber": 168,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{DataURL} - The base64 data of this image."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "DataURL"
+      ],
+      "spread": false,
+      "description": "The base64 data of this image."
+    },
+    "params": []
+  },
+  {
+    "__docId__": 87,
+    "kind": "method",
+    "name": "setDelay",
+    "memberof": "src/icon.mjs~Icon",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/icon.mjs~Icon#setDelay",
+    "access": "public",
+    "description": "Sets the frame delay of this icon.",
+    "lineNumber": 176,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{self} This icon instance."
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "number"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "pDelay",
+        "description": "The delay to set this frame to."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "self"
+      ],
+      "spread": false,
+      "description": "This icon instance."
+    }
+  },
+  {
+    "__docId__": 89,
+    "kind": "method",
+    "name": "getDelay",
+    "memberof": "src/icon.mjs~Icon",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/icon.mjs~Icon#getDelay",
+    "access": "public",
+    "description": "Gets the delay of this icon.",
+    "lineNumber": 190,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{number} The delay of this icon."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "number"
+      ],
+      "spread": false,
+      "description": "The delay of this icon."
+    },
+    "params": []
+  },
+  {
+    "__docId__": 90,
+    "kind": "method",
+    "name": "rename",
+    "memberof": "src/icon.mjs~Icon",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/icon.mjs~Icon#rename",
+    "access": "public",
+    "description": "Changes the name of this icon.",
+    "lineNumber": 198,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{self} This icon instance."
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "pName",
+        "description": "The new name of the icon."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "self"
+      ],
+      "spread": false,
+      "description": "This icon instance."
+    }
+  },
+  {
+    "__docId__": 92,
+    "kind": "method",
+    "name": "getName",
+    "memberof": "src/icon.mjs~Icon",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/icon.mjs~Icon#getName",
+    "access": "public",
+    "description": "Returns the name of this icon.",
+    "lineNumber": 212,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{string} The name of this icon."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "string"
+      ],
+      "spread": false,
+      "description": "The name of this icon."
+    },
+    "params": []
+  },
+  {
+    "__docId__": 93,
+    "kind": "method",
+    "name": "setAllFrameDelays",
+    "memberof": "src/icon.mjs~Icon",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/icon.mjs~Icon#setAllFrameDelays",
+    "access": "public",
+    "description": "Sets all the frames belonging to this icon to the same delay.",
+    "lineNumber": 220,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{self} This icon instance."
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "number"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "pDelay",
+        "description": "The delay to set all frames to."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "self"
+      ],
+      "spread": false,
+      "description": "This icon instance."
+    }
+  },
+  {
+    "__docId__": 94,
+    "kind": "method",
+    "name": "addState",
+    "memberof": "src/icon.mjs~Icon",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/icon.mjs~Icon#addState",
+    "access": "public",
+    "description": "Adds this icon data as a state. A state is also an icon.",
+    "lineNumber": 237,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Icon|undefined} The state that was added or undefined."
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "pIconData",
+        "description": "The data used to create this state icon."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Icon",
+        "undefined"
+      ],
+      "spread": false,
+      "description": "The state that was added or undefined."
+    }
+  },
+  {
+    "__docId__": 95,
+    "kind": "method",
+    "name": "removeState",
+    "memberof": "src/icon.mjs~Icon",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/icon.mjs~Icon#removeState",
+    "access": "public",
+    "description": "Removes the state with the name pName.",
+    "lineNumber": 250,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{self} This icon instance."
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Icon"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "pState",
+        "description": "The state to remove from this icon. pName should be not be used in tandem with this method of removing."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "pName",
+        "description": "The name of the state to remove. pState must be undefined to use this method for removing."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "self"
+      ],
+      "spread": false,
+      "description": "This icon instance."
+    }
+  },
+  {
+    "__docId__": 96,
+    "kind": "method",
+    "name": "addFrame",
+    "memberof": "src/icon.mjs~Icon",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/icon.mjs~Icon#addFrame",
+    "access": "public",
+    "description": "Adds a new frame to this icon.",
+    "lineNumber": 277,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Frame|undefined} The frame that was added or undefined."
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "pFrameData",
+        "description": "The frame data to give this frame."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Frame",
+        "undefined"
+      ],
+      "spread": false,
+      "description": "The frame that was added or undefined."
+    }
+  },
+  {
+    "__docId__": 97,
+    "kind": "method",
+    "name": "removeFrame",
+    "memberof": "src/icon.mjs~Icon",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/icon.mjs~Icon#removeFrame",
+    "access": "public",
+    "description": "Removes the frame from this icon via passed frame reference or via index passed.",
+    "lineNumber": 300,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{self} This icon instance."
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Frame"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "pFrame",
+        "description": "The frame to remove from this icon. pIndex should be not be used in tandem with this method of removing."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "number"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "pIndex",
+        "description": "The index of the frame to remove. pFrame must be undefined to use this method for removing."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "self"
+      ],
+      "spread": false,
+      "description": "This icon instance."
+    }
+  },
+  {
+    "__docId__": 98,
+    "kind": "method",
+    "name": "indexFrames",
+    "memberof": "src/icon.mjs~Icon",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/icon.mjs~Icon#indexFrames",
+    "access": "private",
+    "description": "Index the frames properly.",
+    "lineNumber": 331,
+    "params": [],
+    "return": null
+  },
+  {
+    "__docId__": 99,
+    "kind": "method",
+    "name": "reorderFrame",
+    "memberof": "src/icon.mjs~Icon",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/icon.mjs~Icon#reorderFrame",
+    "access": "public",
+    "description": "Reorders the frame in the animation. The index of the passed frame will be swapped with the frame at pIndex.",
+    "lineNumber": 343,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{self} This icon instance."
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "number"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "pCurrentIndex",
+        "description": "The current index of the frame."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "number"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "pIndex",
+        "description": "The index the frame will be moving to."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "self"
+      ],
+      "spread": false,
+      "description": "This icon instance."
+    }
+  },
+  {
+    "__docId__": 100,
+    "kind": "method",
+    "name": "getFrame",
+    "memberof": "src/icon.mjs~Icon",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/icon.mjs~Icon#getFrame",
+    "access": "public",
+    "description": "Gets the frame existing at pIndex.",
+    "lineNumber": 364,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Frame|undefined} The frame found at pIndex."
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "number"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "pIndex",
+        "description": "The index of the frame to get."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Frame",
+        "undefined"
+      ],
+      "spread": false,
+      "description": "The frame found at pIndex."
+    }
+  },
+  {
+    "__docId__": 101,
+    "kind": "method",
+    "name": "getFrames",
+    "memberof": "src/icon.mjs~Icon",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/icon.mjs~Icon#getFrames",
+    "access": "public",
+    "description": "Returns an array of all the frames this icons has.",
+    "lineNumber": 376,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Array} An array of frames this icon has."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Array"
+      ],
+      "spread": false,
+      "description": "An array of frames this icon has."
+    },
+    "params": []
+  },
+  {
+    "__docId__": 102,
+    "kind": "method",
+    "name": "getFramesData",
+    "memberof": "src/icon.mjs~Icon",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/icon.mjs~Icon#getFramesData",
+    "access": "private",
+    "description": "Gets all the frames belonging to this icon.",
+    "lineNumber": 384,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Array} An array containing the frame data of all frames."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Array"
+      ],
+      "spread": false,
+      "description": "An array containing the frame data of all frames."
+    },
+    "params": []
+  },
+  {
+    "__docId__": 103,
+    "kind": "method",
+    "name": "getState",
+    "memberof": "src/icon.mjs~Icon",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/icon.mjs~Icon#getState",
+    "access": "public",
+    "description": "Gets the state that has the name pName.",
+    "lineNumber": 396,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Icon} The state that has the name of pName."
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "pName",
+        "description": "The name of the state to get."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Icon"
+      ],
+      "spread": false,
+      "description": "The state that has the name of pName."
+    }
+  },
+  {
+    "__docId__": 104,
+    "kind": "method",
+    "name": "getStates",
+    "memberof": "src/icon.mjs~Icon",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/icon.mjs~Icon#getStates",
+    "access": "public",
+    "description": "Returns an array of all the states this icons has.",
+    "lineNumber": 408,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Array} An array of states this icon has."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Array"
+      ],
+      "spread": false,
+      "description": "An array of states this icon has."
+    },
+    "params": []
+  },
+  {
+    "__docId__": 105,
+    "kind": "method",
+    "name": "getStatesData",
+    "memberof": "src/icon.mjs~Icon",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/icon.mjs~Icon#getStatesData",
+    "access": "private",
+    "description": "Gets all the states belonging to this icon.",
+    "lineNumber": 416,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Array} An array containing the state data of all frames."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Array"
+      ],
+      "spread": false,
+      "description": "An array containing the state data of all frames."
+    },
+    "params": []
+  },
+  {
+    "__docId__": 106,
+    "kind": "method",
+    "name": "exportAsState",
+    "memberof": "src/icon.mjs~Icon",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/icon.mjs~Icon#exportAsState",
+    "access": "private",
+    "description": "Exports this icon as if it was a state in the proper vyi format.",
+    "lineNumber": 429,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Array} An array of data related to this icon as if it were a state."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Array"
+      ],
+      "spread": false,
+      "description": "An array of data related to this icon as if it were a state."
+    },
+    "params": []
+  },
+  {
+    "__docId__": 107,
+    "kind": "method",
+    "name": "export",
+    "memberof": "src/icon.mjs~Icon",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/icon.mjs~Icon#export",
+    "access": "private",
+    "description": "Exports this icon's data into proper vyi format.",
+    "lineNumber": 451,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Array} An array of data related to this icon in the proper vyi format."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Array"
+      ],
+      "spread": false,
+      "description": "An array of data related to this icon in the proper vyi format."
+    },
+    "params": []
+  },
+  {
+    "__docId__": 108,
+    "kind": "file",
+    "name": "src/vyi.mjs",
+    "content": "import { Logger } from './vendor/logger.min.mjs';\r\nimport { Icon } from './icon.mjs';\r\n\r\nexport class VYI {\r\n\t/**\r\n\t * The version of the module.\r\n\t */\r\n\tversion = \"VERSION_REPLACE_ME\";\r\n    /**\r\n     * A message that is attached to exported vyi's made with this tool.\r\n     * @private\r\n     * @type {string}\r\n     */\r\n    generatedMessage = 'https://github.com/EvitcaStudio/vyi-reader'\r\n    /** The logger module this module uses to log errors / logs.\r\n     * @private\r\n     * @type {Object}\r\n     */\r\n    logger = new Logger();\r\n    /**\r\n     * If this VYI has initialized a vyi.\r\n     * @private\r\n     * @type {boolean}\r\n     */\r\n    initiated = false;\r\n    /**\r\n     * An array of icons that belong to this VYI\r\n     * @private\r\n     * @type {Array}\r\n     */\r\n    icons = [];\r\n    /**\r\n     * The name of this vyi.\r\n     * @private\r\n     * @type {string}\r\n     */\r\n    name = 'rename-this-vyi';\r\n    /**\r\n     * The version of the VYI.\r\n     * @private\r\n     * @type {number}\r\n     */\r\n    formatVersion;\r\n    /**\r\n     * Initializes this module with the information from the VYI passed.\r\n     * @param {Object|string} pVYIData - A string containing the path to the vyi json or a JSON / Javascript object containing the vyi information.\r\n     */\r\n\tconstructor(pVYIData) {\r\n        return new Promise((pResolve, pReject) => {\r\n            this.logger.registerType('VYI-Module', '#ff6600');\r\n            this.sift(pVYIData, pResolve);\r\n        });\r\n\t}\r\n    /**\r\n     * Initializes this module with the information from the VYI passed.\r\n     * @async\r\n     * @param {Object|string} pVYIData - A string containing the path to the vyi json or a JSON / Javascript object containing the vyi information.\r\n     * @param {any} - The resolve callback.\r\n     */\r\n    async sift(pVYIData, pResolve) {\r\n        if (!this.initiated) {\r\n            if (pVYIData) {\r\n                let vyi;\r\n                // If the data is a path then we need to use fetch to acquire the data first\r\n                if (typeof(pVYIData) === 'string') {\r\n                    const url = pVYIData;\r\n                    const response = await fetch(url);\r\n                    vyi = await response.json();\r\n                } else if (pVYIData instanceof Object) {\r\n                    vyi = pVYIData;\r\n                }\r\n                // If there is data to parse\r\n                // Then sift through it\r\n                if (vyi) {\r\n                    /**\r\n                     * An array of icons that this vyi holds.\r\n                     * @type {Array}\r\n                     */\r\n                    const icons = vyi.i;\r\n                    /**\r\n                     * The version of the vyi. 1 for default if no version is found.\r\n                     * @type {number}\r\n                     */\r\n                    this.formatVersion = vyi.v || 1;;\r\n\r\n                    if (Array.isArray(icons)) {\r\n                        // Loop through the icons and add them to the vyi module instance.\r\n                        icons.forEach((pIconData) => {\r\n                            this.addIcon(pIconData);\r\n                        });\r\n                        this.initiated = true;\r\n                        // Resolve the promise.\r\n                        if (typeof(pResolve) === 'function') {\r\n                            pResolve(this);\r\n                        }\r\n                    } else {\r\n                        this.logger.prefix('VYI-module').error('Invalid .vyi file! Cannot parse.')\r\n                    }\r\n                }\r\n            }\r\n        }\r\n    }\r\n    /**\r\n     * Adds an icon to this VYI.\r\n     * @param {Object} pIconData - The icon data to use.\r\n     * @returns {Icon|undefined} - The Icon added or undefined.\r\n     */\r\n    addIcon(pIconData) {\r\n        if (pIconData) {\r\n            if (pIconData instanceof Object) {\r\n                // We pass \"this\" because this passes the vyi module to the icon.\r\n                const icon = new Icon(pIconData, this);\r\n                // Add the icon to the icons array.\r\n                this.icons.push(icon);\r\n                return icon;\r\n            } else {\r\n                this.logger.prefix('VYI-module').error('Invalid icon data type passed!');\r\n            }\r\n        } else {\r\n            this.logger.prefix('VYI-module').error('No icon data passed!');\r\n        }\r\n    }\r\n    /**\r\n     * Removes the icon from this VYI.\r\n     * @param {Icon} - The icon to remove.\r\n     */\r\n    removeIcon(pIcon) {\r\n        if (this.icons.includes(pIcon)) {\r\n            this.icons.splice(this.icons.indexOf(pIcon), 1);\r\n        }\r\n    }\r\n    /**\r\n     * Returns all the icon names in this vyi.\r\n     * @returns {Array} An array of icon names in this vyi.\r\n     */\r\n    getIconNames() {\r\n        // Array to store the icon names.\r\n        const iconNames = [];\r\n        this.icons.forEach((pIcon) => {\r\n            iconNames.push(pIcon.name);\r\n        });\r\n        return iconNames;\r\n    }\r\n    /**\r\n     * Gets the icon that has the name pName.\r\n     * @param {string} pName - The name of the icon to get.\r\n     * @returns {Icon|undefined} The icon that has the name pName or undefined.\r\n     */\r\n    getIcon(pName) {\r\n        for (const icon of this.icons) {\r\n            // If the icon has the same name, return that icon\r\n            if (icon.getName() === pName) {\r\n                return icon;\r\n            }\r\n        };\r\n    }\r\n    /**\r\n     * Exports this VYI into VYI format.\r\n     * @returns {Object} Returns the vyi data.\r\n     */\r\n    export() {\r\n        const vyi = {};\r\n        // Set version\r\n        vyi.v = this.formatVersion;\r\n        // Set the icons array\r\n        vyi.i = [];\r\n        // A helpful note attached to this vyi\r\n        vyi.generatedMessage = this.generatedMessage;\r\n        this.icons.forEach((pIcon) => {\r\n            // Push the icon data to the vyi export object.\r\n            vyi.i.push(pIcon.export());\r\n        });\r\n        return vyi;\r\n    }\r\n}",
+    "static": true,
+    "longname": "C:/Users/jared/Documents/Github/vyi-reader/src/vyi.mjs",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 109,
+    "kind": "class",
+    "name": "VYI",
+    "memberof": "src/vyi.mjs",
+    "static": true,
+    "longname": "src/vyi.mjs~VYI",
+    "access": "public",
+    "export": true,
+    "importPath": "vyi-reader/src/vyi.mjs",
+    "importStyle": "{VYI}",
+    "description": null,
+    "lineNumber": 4,
+    "undocument": true,
+    "interface": false
+  },
+  {
+    "__docId__": 110,
+    "kind": "member",
+    "name": "version",
+    "memberof": "src/vyi.mjs~VYI",
+    "static": false,
+    "longname": "src/vyi.mjs~VYI#version",
+    "access": "public",
+    "description": "The version of the module.",
+    "lineNumber": 8,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 111,
+    "kind": "member",
+    "name": "generatedMessage",
+    "memberof": "src/vyi.mjs~VYI",
+    "static": false,
+    "longname": "src/vyi.mjs~VYI#generatedMessage",
+    "access": "private",
+    "description": "A message that is attached to exported vyi's made with this tool.",
+    "lineNumber": 14,
+    "type": {
+      "nullable": null,
+      "types": [
+        "string"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 112,
+    "kind": "member",
+    "name": "logger",
+    "memberof": "src/vyi.mjs~VYI",
+    "static": false,
+    "longname": "src/vyi.mjs~VYI#logger",
+    "access": "private",
+    "description": "The logger module this module uses to log errors / logs.",
+    "lineNumber": 19,
+    "type": {
+      "nullable": null,
+      "types": [
+        "Object"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 113,
+    "kind": "member",
+    "name": "initiated",
+    "memberof": "src/vyi.mjs~VYI",
+    "static": false,
+    "longname": "src/vyi.mjs~VYI#initiated",
+    "access": "private",
+    "description": "If this VYI has initialized a vyi.",
+    "lineNumber": 25,
+    "type": {
+      "nullable": null,
+      "types": [
+        "boolean"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 114,
+    "kind": "member",
+    "name": "icons",
+    "memberof": "src/vyi.mjs~VYI",
+    "static": false,
+    "longname": "src/vyi.mjs~VYI#icons",
+    "access": "private",
+    "description": "An array of icons that belong to this VYI",
+    "lineNumber": 31,
+    "type": {
+      "nullable": null,
+      "types": [
+        "Array"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 115,
+    "kind": "member",
+    "name": "name",
+    "memberof": "src/vyi.mjs~VYI",
+    "static": false,
+    "longname": "src/vyi.mjs~VYI#name",
+    "access": "private",
+    "description": "The name of this vyi.",
+    "lineNumber": 37,
+    "type": {
+      "nullable": null,
+      "types": [
+        "string"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 116,
+    "kind": "member",
+    "name": "formatVersion",
+    "memberof": "src/vyi.mjs~VYI",
+    "static": false,
+    "longname": "src/vyi.mjs~VYI#formatVersion",
+    "access": "private",
+    "description": "The version of the VYI.",
+    "lineNumber": 43,
+    "type": {
+      "nullable": null,
+      "types": [
+        "number"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 117,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "src/vyi.mjs~VYI",
@@ -712,7 +2248,7 @@
     "longname": "src/vyi.mjs~VYI#constructor",
     "access": "public",
     "description": "Initializes this module with the information from the VYI passed.",
-    "lineNumber": 94,
+    "lineNumber": 48,
     "params": [
       {
         "nullable": null,
@@ -728,34 +2264,7 @@
     ]
   },
   {
-    "__docId__": 57,
-    "kind": "method",
-    "name": "init",
-    "memberof": "src/vyi.mjs~VYI",
-    "generator": false,
-    "async": true,
-    "static": false,
-    "longname": "src/vyi.mjs~VYI#init",
-    "access": "private",
-    "description": "Initializes this module with the information from the VYI passed.",
-    "lineNumber": 103,
-    "params": [
-      {
-        "nullable": null,
-        "types": [
-          "Object",
-          "string"
-        ],
-        "spread": false,
-        "optional": false,
-        "name": "pVYIData",
-        "description": "A string containing the path to the vyi json or a JSON / Javascript object containing the vyi information."
-      }
-    ],
-    "return": null
-  },
-  {
-    "__docId__": 59,
+    "__docId__": 118,
     "kind": "method",
     "name": "sift",
     "memberof": "src/vyi.mjs~VYI",
@@ -763,9 +2272,9 @@
     "async": true,
     "static": false,
     "longname": "src/vyi.mjs~VYI#sift",
-    "access": "private",
+    "access": "public",
     "description": "Initializes this module with the information from the VYI passed.",
-    "lineNumber": 115,
+    "lineNumber": 60,
     "params": [
       {
         "nullable": null,
@@ -777,12 +2286,22 @@
         "optional": false,
         "name": "pVYIData",
         "description": "A string containing the path to the vyi json or a JSON / Javascript object containing the vyi information."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "any"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "-",
+        "description": "The resolve callback."
       }
     ],
     "return": null
   },
   {
-    "__docId__": 61,
+    "__docId__": 121,
     "kind": "method",
     "name": "addIcon",
     "memberof": "src/vyi.mjs~VYI",
@@ -792,7 +2311,7 @@
     "longname": "src/vyi.mjs~VYI#addIcon",
     "access": "public",
     "description": "Adds an icon to this VYI.",
-    "lineNumber": 149,
+    "lineNumber": 108,
     "unknown": [
       {
         "tagName": "@returns",
@@ -822,7 +2341,7 @@
     }
   },
   {
-    "__docId__": 62,
+    "__docId__": 122,
     "kind": "method",
     "name": "removeIcon",
     "memberof": "src/vyi.mjs~VYI",
@@ -832,7 +2351,7 @@
     "longname": "src/vyi.mjs~VYI#removeIcon",
     "access": "public",
     "description": "Removes the icon from this VYI.",
-    "lineNumber": 168,
+    "lineNumber": 127,
     "params": [
       {
         "nullable": null,
@@ -848,7 +2367,7 @@
     "return": null
   },
   {
-    "__docId__": 63,
+    "__docId__": 123,
     "kind": "method",
     "name": "getIconNames",
     "memberof": "src/vyi.mjs~VYI",
@@ -858,7 +2377,7 @@
     "longname": "src/vyi.mjs~VYI#getIconNames",
     "access": "public",
     "description": "Returns all the icon names in this vyi.",
-    "lineNumber": 177,
+    "lineNumber": 136,
     "unknown": [
       {
         "tagName": "@returns",
@@ -876,7 +2395,47 @@
     "params": []
   },
   {
-    "__docId__": 64,
+    "__docId__": 124,
+    "kind": "method",
+    "name": "getIcon",
+    "memberof": "src/vyi.mjs~VYI",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/vyi.mjs~VYI#getIcon",
+    "access": "public",
+    "description": "Gets the icon that has the name pName.",
+    "lineNumber": 149,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Icon|undefined} The icon that has the name pName or undefined."
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "pName",
+        "description": "The name of the icon to get."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Icon",
+        "undefined"
+      ],
+      "spread": false,
+      "description": "The icon that has the name pName or undefined."
+    }
+  },
+  {
+    "__docId__": 125,
     "kind": "method",
     "name": "export",
     "memberof": "src/vyi.mjs~VYI",
@@ -886,7 +2445,7 @@
     "longname": "src/vyi.mjs~VYI#export",
     "access": "public",
     "description": "Exports this VYI into VYI format.",
-    "lineNumber": 189,
+    "lineNumber": 161,
     "unknown": [
       {
         "tagName": "@returns",

@@ -38,44 +38,7 @@
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/icon.mjs</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { Frame } from &apos;./frame.mjs&apos;;
-// *     [
-// *         name, // 0
-// *         width, // 1
-// *         height, // 2
-// *         frame delay, // 3
-// *         data url, // 4
-// *         frame array // 5
-// *         [
-// *            // frame 1 
-// *               [
-// *                  data url
-// *              ],
-// *            // frame 2 
-// *               [
-// *                  data url
-// *              ],
-// *            // etc
-// *         ]
-// *         states array // 6 // optional
-// *         [
-// *              [
-// *                  state name, // 0
-// *                  state data url, // 1
-// *                  state frame delay, // 2
-// *                  state frame array  // 3 // optional
-// *                  [
-// *                      [
-// *                          state frame data url
-// *                      ],
-// *                      [
-// *                          state frame data url
-// *                      ]
-// *                  ]
-// *              ]
-// *         ]
-// *         
-// *     ]
-// A icon can have states that are also icons
+
 export class Icon {
     /**
      * An array of Icon&apos;s that are state of this icon.
@@ -102,11 +65,23 @@ export class Icon {
      */
     height = 32;
     /**
+     * The data URL of the sprite in this frame.
+     * @private
+     * @type {string}
+     */
+    dataURL;
+    /**
+     * The delay of this frame.
+     * @private
+     * @type {number}
+     */
+    delay = 100;
+    /**
      * The name of this icon.
      * @private
      * @type {string}
      */
-    name = &apos;default-name&apos;;
+    name = &apos;rename-this-icon&apos;;
     /**
      * Creates this icon instance.
      * @param {Object} pIconData - The icon data that is used to build this icon.
@@ -122,13 +97,72 @@ export class Icon {
         this.sift(pIconData);
     }
     /**
+     * Swaps the positions of two elements in an array.
+     * @param {Array} pArray - The array in which to swap elements.
+     * @param {number} pIndex1 - The index of the first element to swap.
+     * @param {number} pIndex2 - The index of the second element to swap.
+     * @returns {void}
+     */
+    static swapArrayElements(pArray, pIndex1, pIndex2) {
+        [pArray[pIndex1], pArray[pIndex2]] = [pArray[pIndex2], pArray[pIndex1]];
+    }
+    /**
      * Sifts through the icon data and adds data to this icon.
      * @param {Object} pIconData - The icon data that is used to build this icon.
      * @private
      */
     sift(pIconData) {
         // Loop through pIconData and create this icon
-        console.log(pIconData);
+        const iconName = pIconData[0];
+        const iconWidth = pIconData[1];
+        const iconHeight = pIconData[2];
+        const iconDelay = pIconData[3];
+        const iconDataURL = pIconData[4];
+        const frameArray = pIconData[5];
+        const stateArray = pIconData[6];
+
+        // Set name
+        this.rename(iconName);
+        // Set size
+        this.setSize(iconWidth, iconHeight);
+        // Set icon delay
+        this.setDelay(iconDelay);
+        // Set dataURL
+        this.setDataURL(iconDataURL);
+        // Check if the frame data is an array
+        if (Array.isArray(frameArray)) {
+            // If the frame array has data then we need to store it.
+            if (frameArray.length) {
+                frameArray.forEach((pFrame) =&gt; {
+                    // pFrame is an array holding the datalURL and frameDelay of the frame
+                    this.addFrame(pFrame);
+                });
+            }
+        }
+        // Check if the states data is an array
+        if (Array.isArray(stateArray)) {
+            // If the state array has data then we need to store it.
+            if (stateArray.length) {
+                stateArray.forEach((pState) =&gt; {
+                    // Here we create a icon with aggregated data because the state data is not enough to make it an icon.
+                    // We do this because a state is basically an icon, but it just &quot;inherits&quot; alot of the data. But this makes it easier to manage if we treat it internally as an icon.
+                    const aggregatedIconData = [];
+                    // iconName
+                    aggregatedIconData[0] = pState[0];
+                    // iconWidth
+                    aggregatedIconData[1] = iconWidth;
+                    // iconHeight
+                    aggregatedIconData[2] = iconHeight;
+                    // frame delay
+                    aggregatedIconData[3] = pState[2];
+                    // iconDataURL
+                    aggregatedIconData[4] = pState[1];
+                    // frame array
+                    aggregatedIconData[5] = pState[3];
+                    this.addState(aggregatedIconData);
+                });
+            }
+        }
     }
     /**
      * Sets the size of this icon.
@@ -145,17 +179,77 @@ export class Icon {
         }
     }
     /**
-     * 
+     * Gets the width and height of this icon and returns it.
+     * @returns {Object} An object with the width and height of this icon.
+     */
+    getSize() {
+        return { width: this.width, height: this.height };
+    }
+    /**
+     * Sets the data url of this icon.
+     * @param {DataURL} pDataURL - The base64 data of this image.
+     * @returns {self} This icon instance.
+     */
+    setDataURL(pDataURL) {
+        if (pDataURL) {
+            if (typeof(pDataURL) === &apos;string&apos;) {
+                this.dataURL = pDataURL;
+            } else {
+                this.vyi.logger.prefix(&apos;VYI-module&apos;).error(&apos;Invalid data url type!&apos;);
+            }
+        }
+        return this;
+    }
+    /**
+     * Gets the data URL of this icon.
+     * @returns {DataURL} - The base64 data of this image.
+     */
+    getDataURL() {
+        return this.dataURL;
+    }
+    /**
+     * Sets the frame delay of this icon.
+     * @param {number} pDelay - The delay to set this frame to.
+     * @returns {self} This icon instance.
+     */
+    setDelay(pDelay) {
+        if (pDelay) {
+            if (typeof(pDelay) === &apos;number&apos;) {
+                this.delay = pDelay;
+            } else {
+                this.vyi.logger.prefix(&apos;VYI-module&apos;).error(&apos;Invalid delay type!&apos;);
+            }
+        }
+        return this;
+    }
+    /**
+     * Gets the delay of this icon.
+     * @returns {number} The delay of this icon.
+     */
+    getDelay() {
+        return this.delay;
+    }
+    /**
+     * Changes the name of this icon.
      * @param {string} pName - The new name of the icon.
      * @returns {self} This icon instance.
      */
     rename(pName) {
-        if (typeof(pName) === &apos;string&apos;) {
-            this.name = pName;
-        } else {
-            this.vyi.logger.prefix(&apos;VYI-Module&apos;).error(&apos;Invalid type for pName!&apos;);
+        if (pName) {
+            if (typeof(pName) === &apos;string&apos;) {
+                this.name = pName;
+            } else {
+                this.vyi.logger.prefix(&apos;VYI-Module&apos;).error(&apos;Invalid type for pName!&apos;);
+            }
         }
         return this;
+    }
+    /**
+     * Returns the name of this icon.
+     * @returns {string} The name of this icon.
+     */
+    getName() {
+        return this.name;
     }
     /**
      * Sets all the frames belonging to this icon to the same delay.
@@ -163,40 +257,72 @@ export class Icon {
      * @returns {self} This icon instance.
      */
     setAllFrameDelays(pDelay) {
-        if (typeof(pDelay) === &apos;number&apos;) {
-            this.frames.forEach((pFrame) =&gt; {
-                pFrame.setDelay(pDelay);
-            });
-        } else {
-            this.vyi.logger.prefix(&apos;VYI-Module&apos;).error(&apos;Invalid type for pDelay!&apos;);
+        if (pDelay) {
+            if (typeof(pDelay) === &apos;number&apos;) {
+                this.frames.forEach((pFrame) =&gt; {
+                    pFrame.setDelay(pDelay);
+                });
+            } else {
+                this.vyi.logger.prefix(&apos;VYI-Module&apos;).error(&apos;Invalid type for pDelay!&apos;);
+            }
         }
         return this;
     }
     /**
-     * Sets the frame delay of the passed frame.
-     * @param {number} pFrame - The frame to change the delay of.
-     * @param {number} pDelay - The delay to set this frame to.
+     * Adds this icon data as a state. A state is also an icon.
+     * @param {Object} pIconData - The data used to create this state icon.
+     * @returns {Icon|undefined} The state that was added or undefined.
+     */
+    addState(pIconData) {
+        if (pIconData instanceof Object) {
+            const state = new Icon(pIconData, this.vyi);
+            this.states.push(state);
+            return state;
+        }
+    }
+    /**
+     * Removes the state with the name pName.
+     * @param {Icon} pState - The state to remove from this icon. pName should be not be used in tandem with this method of removing.
+     * @param {string} pName - The name of the state to remove. pState must be undefined to use this method for removing.
      * @returns {self} This icon instance.
      */
-    setFrameDelay(pFrame, pDelay) {
-        if (pFrame) {
-            if (typeof(pDelay) === &apos;number&apos;) {
-                pFrame.setDelay(pDelay);
+    removeState(pState, pName) {
+        // The index used to remove this frame.
+        let index;
+        // Remove via reference to state.
+        if (this.states.includes(pState)) {
+            index = this.states.indexOf(pState);
+        // Remove via reference to name
+        } else if (typeof(pName) === &apos;string&apos;) {
+            const state = this.getState(pName);
+            if (state) {
+                index = this.states.indexOf(state);
             }
         } else {
-            this.vyi.logger.prefix(&apos;VYI-Module&apos;).error(&apos;Frame not found. Cannot set frame delay.&apos;);
+            this.vyi.logger.prefix(&apos;VYI-Module&apos;).error(&apos;Failed to remove state!&apos;);
+            return this;
+        }
+        if (typeof(index) === &apos;number&apos;) {
+            // Remove the state
+            this.states.splice(index, 1);
         }
         return this;
     }
     /**
      * Adds a new frame to this icon.
+     * @param {Object} pFrameData - The frame data to give this frame.
      * @returns {Frame|undefined} The frame that was added or undefined.
      */
     addFrame(pFrameData) {
         if (pFrameData) {
             if (pFrameData instanceof Object) {
                 // We pass &quot;this.vyi&quot; because this passes the vyi module to the frane.
-                return new Frame(pFrameData, this.vyi);
+                const frame = new Frame(pFrameData, this.vyi);
+                // Add the frame to the frames array.
+                this.frames.push(frame);
+                // Re-index frames after a change
+                this.indexFrames();
+                return frame;
             } else {
                 this.vyi.logger.prefix(&apos;VYI-Module&apos;).error(&apos;Invalid frame data passed!&apos;);
             }
@@ -205,36 +331,187 @@ export class Icon {
         }
     }
     /**
-     * Removes the frame from this icon.
-     * @param {Frame} pFrame - The frame to remove from this icon.
+     * Removes the frame from this icon via passed frame reference or via index passed.
+     * @param {Frame} pFrame - The frame to remove from this icon. pIndex should be not be used in tandem with this method of removing.
+     * @param {number} pIndex - The index of the frame to remove. pFrame must be undefined to use this method for removing.
      * @returns {self} This icon instance.
      */
-    removeFrame(pFrame) {
+    removeFrame(pFrame, pIndex) {
+        // The index used to remove this frame.
+        let index;
+        // Remove via reference to frame.
         if (this.frames.includes(pFrame)) {
-            this.frames.splice(this.frames.indexOf(pFrame), 1);
+            index = this.frames.indexOf(pFrame);
+        // Remove via index passed.
+        } else if (pIndex || pIndex === 0) {
+            if (typeof(pIndex) === &apos;number&apos;) {
+                const frame = this.getFrame(pIndex);
+                if (frame) {
+                    index = pIndex;
+                }
+            } else {
+                this.vyi.logger.prefix(&apos;VYI-Module&apos;).error(&apos;Invalid pIndex type!&apos;);
+            }
+        } else {
+            this.vyi.logger.prefix(&apos;VYI-Module&apos;).error(&apos;Failed to remove frame!&apos;);
+        }
+        if (typeof(index) === &apos;number&apos;) {
+            // Remove the frame
+            this.frames.splice(index, 1);
+            // Re-index frames after a change
+            this.indexFrames();
         }
         return this;
     }
     /**
-     * Reorders the frame in this icon.
-     * @param {Frame} - The frame that will be changing in order.pFrame
-     * @param {number} - The index the frame will be moving to.
+     * Index the frames properly.
+     * @private
+     */
+    indexFrames() {
+        // Reorder the frames after removing.
+        this.frames.forEach((pFrame, pIndex) =&gt; {
+            pFrame.index = pIndex;
+        });
+    }
+    /**
+     * Reorders the frame in the animation. The index of the passed frame will be swapped with the frame at pIndex.
+     * @param {number} pCurrentIndex - The current index of the frame.
+     * @param {number} pIndex - The index the frame will be moving to.
      * @returns {self} This icon instance.
      */
-    reorderFrame(pFrame, pIndex) {
+    reorderFrame(pCurrentIndex, pIndex) {
+        if (typeof(pCurrentIndex) === &apos;number&apos; &amp;&amp; typeof(pIndex) === &apos;number&apos;) {
+            // We check if there is a valid frame at the current index and at the index we want to swap with.
+            if (this.frames[pCurrentIndex] &amp;&amp; this.frames[pIndex]) {
+                // Swaps the frames
+                Icon.swapArrayElements(this.frames, pCurrentIndex, pIndex);
+                // Re-index frames after a change
+                this.indexFrames();
+            } else {
+                this.vyi.logger.prefix(&apos;VYI-Module&apos;).error(&apos;There was no frame found at pCurrentIndex, or there was no frame found at pIndex!&apos;);
+            }
+        } else {
+            this.vyi.logger.prefix(&apos;VYI-Module&apos;).error(&apos;Invalid type used!&apos;);
+        }
         return this;
     }
     /**
-     * Gets all the frames belonging to this icon.
-     * @returns {Ovject} An object containing the frame data of all frames.
+     * Gets the frame existing at pIndex.
+     * @param {number} pIndex - The index of the frame to get.
+     * @returns {Frame|undefined} The frame found at pIndex.
+     */
+    getFrame(pIndex) {
+        // Frame 0 will actually be frame &quot;1&quot; in the animation. As this icon will actually be frame 0.
+        if (typeof(pIndex) === &apos;number&apos;) {
+            return this.frames[pIndex];
+        } else {
+            this.vyi.logger.prefix(&apos;VYI-Module&apos;).error(&apos;Invalid type used!&apos;);
+        }
+    }
+    /**
+     * Returns an array of all the frames this icons has.
+     * @returns {Array} An array of frames this icon has.
      */
     getFrames() {
-        const frameDataObject = {};
+        return [ ...this.frames ];
+    }
+    /**
+     * Gets all the frames belonging to this icon.
+     * @private
+     * @returns {Array} An array containing the frame data of all frames.
+     */
+    getFramesData() {
+        const frameDataArray = [];
         this.frames.forEach((pFrame) =&gt; {
-            frameDataObject[pFrame.index] = pFrame.getDataURL();
+            frameDataArray.push(pFrame.export());
         });
-        return frameDataObject;
-    }   
+        return frameDataArray;
+    }
+    /**
+     * Gets the state that has the name pName.
+     * @param {string} pName - The name of the state to get.
+     * @returns {Icon} The state that has the name of pName.
+     */
+    getState(pName) {
+        for (const icon of this.states) {
+            // If the state has the same name, return that state
+            if (icon.getName() === pName) {
+                return icon;
+            }
+        };
+    }
+    /**
+     * Returns an array of all the states this icons has.
+     * @returns {Array} An array of states this icon has.
+     */
+    getStates() {
+        return [ ...this.states ];
+    }
+    /**
+     * Gets all the states belonging to this icon.
+     * @private
+     * @returns {Array} An array containing the state data of all frames.
+     */
+    getStatesData() {
+        const stateDataArray = [];
+        // Loop state array to export relevant information.
+        this.states.forEach((pState) =&gt; {
+            stateDataArray.push(pState.exportAsState());
+        });
+        return stateDataArray;        
+    }
+    /**
+     * Exports this icon as if it was a state in the proper vyi format.
+     * @private
+     * @returns {Array} An array of data related to this icon as if it were a state.
+     */
+    exportAsState() {
+        const stateData = [];
+        // state name
+        stateData[0] = this.getName();
+        // state dataURL
+        stateData[1] = this.getDataURL();
+        // state frame delay
+        stateData[2] = this.getDelay();
+        // state frame array
+        stateData[3] = [];
+
+        // Loop frame array to export relevant information.
+        this.frames.forEach((pFrame) =&gt; {
+            stateData[3].push(pFrame.export());
+        });
+        return stateData;
+    }
+    /**
+     * Exports this icon&apos;s data into proper vyi format.
+     * @private
+     * @returns {Array} An array of data related to this icon in the proper vyi format.
+     */
+    export() {
+        const iconData = [];
+        // icon name
+        iconData[0] = this.getName();
+        // Get the size of this icon.
+        const size = this.getSize();
+        // icon width
+        iconData[1] = size.width;
+        // icon height
+        iconData[2] = size.height;
+        // frame delay
+        iconData[3] = this.getDelay();
+        // icon DataURL
+        iconData[4] = this.getDataURL();
+        // frame array
+        iconData[5] = this.getFramesData();
+
+        // this is actually an optional data entry into the vyi, only used if states actually exist on this icon.
+        // this will save data
+        if (this.states.length) {
+            // states array
+            iconData[6] = this.getStatesData();
+        }
+        return iconData;
+    }
 }</code></pre>
 
 </div>

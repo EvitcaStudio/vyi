@@ -18,27 +18,31 @@ export class Frame {
      */
     index = 0;
     /**
+     * The default delay in ms of frames.
+     * @private
+     * @type {number}
+     */
+    static defaultDelay = 100;
+    /**
      * Create this frame class instance.
      * @param {Object} pFrameData - The frame data that is used to build this frame.
-     * @param {number} pIndex - The index of this frame.
      * @param {VYI} pVYI - The vyi that owns this frame.
      */
-    constructor(pFrameData, pIndex, pVYI) {
+    constructor(pFrameData, pVYI) {
         /**
          * The VYI that owns this icon.
          * @private
          * @type {pVYI}
          */
         this.vyi = pVYI;
-        this.sift(pFrameData, pIndex);
+        this.sift(pFrameData);
     }
     /**
      * Sifts through the icon data and adds data to this frame.
      * @param {Object} pFrameData - The frame data that is used to build this frame.
-     * @param {number} pIndex - The index of this frame.
      * @private
      */
-    sift(pFrameData, pIndex) {
+    sift(pFrameData) {
         // Loop through frame data and build frame.
         const dataURL = pFrameData[0];
         const frameDelay = pFrameData[1];
@@ -46,8 +50,6 @@ export class Frame {
         this.setDataURL(dataURL);
         // Set the frame delay
         this.setDelay(frameDelay);
-        // Set the index of the frame
-        this.setIndex(pIndex);
     }
     /**
      * Sets the delay of this frame in ms.
@@ -65,6 +67,13 @@ export class Frame {
         return this;
     }
     /**
+     * Gets the delay of this frame.
+     * @returns {number} The delay of this frame.
+     */
+    getDelay() {
+        return this.delay;
+    }
+    /**
      * Sets the data url of this frame.
      * @param {DataURL} pDataURL - The base64 data of this image.
      * @returns {self} This frame instance.
@@ -80,16 +89,16 @@ export class Frame {
         return this;
     }
     /**
-     * Gets the delay of this frame.
-     * @returns {number} The delay of this frame.
+     * Gets the data URL of this frame.
+     * @returns {DataURL} - The base64 data of this image.
      */
-    getDelay() {
-        return this.delay;
+    getDataURL() {
+        return this.dataURL;
     }
     /**
      * Sets the index of the frame.
      * @private
-     * @param {number} pIndex - THe index to set the frame to.
+     * @param {number} pIndex - The index to set the frame to.
      * @returns {self} This frame instance.
      */
     setIndex(pIndex) {
@@ -110,10 +119,19 @@ export class Frame {
         return this.index;
     }
     /**
-     * Gets the data URL of this frame.
-     * @returns {DataURL} - The base64 data of this image.
+     * Exports this frame's data into proper vyi format.
+     * @returns {Array} An array of data related to this frame in the proper vyi format.
      */
-    getDataURL() {
-        return this.dataURL;
+    export() {
+        const frameData = [];
+        // frame dataURL
+        frameData[0] = this.getDataURL();
+        // We do not have to store the delay if it is the default value of 100. This will save data.
+        const delayIsDefault = this.getDelay() === Frame.defaultDelay;
+        if (!delayIsDefault) {
+            // frame delay
+            frameData[1] = this.getDelay();
+        }
+        return frameData;
     }
 }
