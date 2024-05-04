@@ -1945,7 +1945,7 @@
     "longname": "src/vyi.mjs~VYI",
     "access": "public",
     "export": true,
-    "importPath": "vyi/src/vyi.mjs",
+    "importPath": "vyi",
     "importStyle": "{VYI}",
     "description": null,
     "lineNumber": 4,
@@ -2270,7 +2270,7 @@
   },
   {
     "kind": "index",
-    "content": "# vyi\r\nA lightweight module to read / manage .vyi extensions created in the Vylocity Game Engine.\r\n",
+    "content": "# VYI Module\r\nA lightweight module to read / manage .vyi files created in the Vylocity Game Engine.\r\n\r\n## Installation\r\n\r\n### ES Module\r\n\r\n```js\r\nimport { VYI } from './vyi.mjs';\r\n```\r\n\r\n### IIFE (Immediately Invoked Function Expression)\r\n\r\n```js\r\n<script src=\"vyi.js\"></script>;\r\n// ...\r\nwindow.VyiBundle.VYI;\r\n```\r\n\r\n### CommonJS (CJS) Module\r\n\r\n```js\r\nconst { VYI } = require('./vyi.cjs.js');\r\n```\r\n\r\n### Global Dependency\r\n\r\nVYI relies on the `VYLO` variable being globally accessible.\r\n",
     "longname": "C:\\Users\\jared\\Documents\\Github\\vyi\\README.md",
     "name": "./README.md",
     "static": true,
@@ -2278,7 +2278,7 @@
   },
   {
     "kind": "packageJSON",
-    "content": "{\r\n  \"name\": \"vyi\",\r\n  \"version\": \"1.0.0\",\r\n  \"description\": \"A lightweight module to read / manage .vyi extensions created in the Vylocity Game Engine.\",\r\n  \"private\": true,\r\n  \"scripts\": {\r\n    \"test\": \"echo \\\"Error: no test specified\\\" && exit 1\",\r\n    \"build\": \"npx webpack && npm run build:minify && node add-version-script.js && node add-banner-script.js\",\r\n    \"build:minify\": \"uglifyjs dist/vyi.min.mjs -m -c --comments -o dist/vyi.min.mjs\",\r\n    \"build:prod\": \"npx webpack --mode production && npm run build:minify && node add-version-script.js && node add-banner-script.js && npm run build:docs\",\r\n    \"build:docs\": \"esdoc -c esdoc.json\"\r\n  },\r\n  \"keywords\": [],\r\n  \"author\": \"https://github.com/doubleactii\",\r\n  \"license\": \"\",\r\n  \"repository\": {\r\n    \"type\": \"git\",\r\n    \"url\": \"https://github.com/EvitcaStudio/vyi\"\r\n  }\r\n}\r\n",
+    "content": "{\r\n  \"name\": \"vyi\",\r\n  \"version\": \"1.0.0\",\r\n  \"description\": \"A lightweight module to read / manage .vyi files created in the Vylocity Game Engine.\",\r\n  \"main\": \"src/vyi.mjs\",\r\n  \"scripts\": {\r\n    \"test\": \"echo \\\"Error: no test specified\\\" && exit 1\",\r\n    \"build:rollup\": \"npx rollup -c\",\r\n    \"build:docs\": \"esdoc -c esdoc.json\",\r\n    \"build:dist\": \"npm run build:rollup && npm run build:docs\"\r\n  },\r\n  \"keywords\": [],\r\n  \"author\": \"https://github.com/doubleactii\",\r\n  \"license\": \"MIT\",\r\n  \"repository\": {\r\n    \"type\": \"git\",\r\n    \"url\": \"https://github.com/EvitcaStudio/vyi\"\r\n  },\r\n  \"devDependencies\": {\r\n    \"@rollup/plugin-babel\": \"^6.0.4\",\r\n    \"@rollup/plugin-terser\": \"^0.4.4\",\r\n    \"rollup\": \"^4.14.1\",\r\n    \"rollup-plugin-banner2\": \"^1.2.3\",\r\n    \"rollup-plugin-cleandir\": \"^2.0.0\",\r\n    \"rollup-plugin-replace\": \"^2.2.0\"\r\n  }\r\n}\r\n",
     "longname": "C:\\Users\\jared\\Documents\\Github\\vyi\\package.json",
     "name": "package.json",
     "static": true,

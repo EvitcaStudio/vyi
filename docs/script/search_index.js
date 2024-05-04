@@ -12,9 +12,9 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
-    "vyi/src/vyi.mjs~vyi",
+    "vyi~vyi",
     "class/src/vyi.mjs~VYI.html",
-    "<span>VYI</span> <span class=\"search-result-import-path\">vyi/src/vyi.mjs</span>",
+    "<span>VYI</span> <span class=\"search-result-import-path\">vyi</span>",
     "class"
   ],
   [

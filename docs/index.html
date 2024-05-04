@@ -36,7 +36,16 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><h1 id="vyi">vyi</h1><p>A lightweight module to read / manage .vyi extensions created in the Vylocity Game Engine.</p>
+<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><h1 id="vyi-module">VYI Module</h1><p>A lightweight module to read / manage .vyi files created in the Vylocity Game Engine.</p>
+<h2 id="installation">Installation</h2><h3 id="es-module">ES Module</h3><pre><code class="lang-js"><code class="source-code prettyprint">import { VYI } from &apos;./vyi.mjs&apos;;</code>
+</code></pre>
+<h3 id="iife--immediately-invoked-function-expression-">IIFE (Immediately Invoked Function Expression)</h3><pre><code class="lang-js"><code class="source-code prettyprint">&lt;script src=&quot;vyi.js&quot;&gt;&lt;/script&gt;;
+// ...
+window.VyiBundle.VYI;</code>
+</code></pre>
+<h3 id="commonjs--cjs--module">CommonJS (CJS) Module</h3><pre><code class="lang-js"><code class="source-code prettyprint">const { VYI } = require(&apos;./vyi.cjs.js&apos;);</code>
+</code></pre>
+<h3 id="global-dependency">Global Dependency</h3><p>VYI relies on the <code>VYLO</code> variable being globally accessible.</p>
 </div>
 </div>
 
