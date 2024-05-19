@@ -43,7 +43,7 @@ export class Icon {
      * @private
      * @type {string}
      */
-    name = 'rename-this-icon';
+    name = '';
     /**
      * Creates this icon instance.
      * @param {Object} pIconData - The icon data that is used to build this icon.
