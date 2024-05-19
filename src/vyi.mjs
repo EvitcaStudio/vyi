@@ -140,12 +140,13 @@ export class VYI {
      */
     getIcon(pName) {
         if (typeof(pName) === 'string') {
-            for (const icon of this.icons) {
+            for (let i = this.icons.length - 1; i >= 0; i--) {
+                const icon = this.icons[i];
                 // If the icon has the same name, return that icon
                 if (icon.getName() === pName) {
                     return icon;
                 }
-            };
+            }
         } else {
             this.logger.prefix('VYI-module').error('Invalid name type used!');
         }
