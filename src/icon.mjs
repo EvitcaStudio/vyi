@@ -181,7 +181,7 @@ export class Icon {
      * @returns {self} This icon instance.
      */
     rename(pName) {
-        if (pName) {
+        if (pName || pName === '') {
             if (typeof(pName) === 'string') {
                 this.name = pName;
             } else {

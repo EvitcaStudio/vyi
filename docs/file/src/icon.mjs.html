@@ -220,7 +220,7 @@ export class Icon {
      * @returns {self} This icon instance.
      */
     rename(pName) {
-        if (pName) {
+        if (pName || pName === &apos;&apos;) {
             if (typeof(pName) === &apos;string&apos;) {
                 this.name = pName;
             } else {

@@ -22,7 +22,7 @@ export class VYI {
      * @private
      * @type {string}
      */
-    name = 'vyi-to-be-renamed';
+    name = 'failed-to-find-vyi-name';
     /**
      * The version of the VYI.
      * @private
