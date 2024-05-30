@@ -1,4 +1,4 @@
-import { Logger } from './vendor/logger.min.mjs';
+import { Logger } from './vendor/logger.mjs';
 import { Icon } from './icon.mjs';
 
 export class VYI {
@@ -150,6 +150,13 @@ export class VYI {
         } else {
             this.logger.prefix('VYI-module').error('Invalid name type used!');
         }
+    }
+    /**
+     * Gets all the icons in this vyi.
+     * @returns {Array<Icon>}
+     */
+    getIcons() {
+        return [...this.icons];
     }
     /**
      * Exports this VYI into VYI format.

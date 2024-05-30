@@ -618,6 +618,12 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/vyi.mjs~vyi#geticons",
+    "class/src/vyi.mjs~VYI.html#instance-method-getIcons",
+    "src/vyi.mjs~VYI#getIcons",
+    "method"
+  ],
+  [
     "src/vyi.mjs~vyi#icons",
     "class/src/vyi.mjs~VYI.html#instance-member-icons",
     "src/vyi.mjs~VYI#icons",

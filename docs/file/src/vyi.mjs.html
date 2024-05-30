@@ -37,7 +37,7 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/vyi.mjs</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { Logger } from &apos;./vendor/logger.min.mjs&apos;;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { Logger } from &apos;./vendor/logger.mjs&apos;;
 import { Icon } from &apos;./icon.mjs&apos;;
 
 export class VYI {
@@ -189,6 +189,13 @@ export class VYI {
         } else {
             this.logger.prefix(&apos;VYI-module&apos;).error(&apos;Invalid name type used!&apos;);
         }
+    }
+    /**
+     * Gets all the icons in this vyi.
+     * @returns {Array&lt;Icon&gt;}
+     */
+    getIcons() {
+        return [...this.icons];
     }
     /**
      * Exports this VYI into VYI format.
