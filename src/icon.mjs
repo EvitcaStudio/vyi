@@ -406,12 +406,17 @@ export class Icon {
      * @returns {Icon} The state that has the name of pName.
      */
     getState(pName) {
-        for (const icon of this.states) {
-            // If the state has the same name, return that state
-            if (icon.getName() === pName) {
-                return icon;
+        if (typeof(pName) === 'string') {
+            for (let i = this.states.length - 1; i >= 0; i--) {
+                const icon = this.states[i];
+                // If the icon has the same name, return that icon
+                if (icon.getName() === pName) {
+                    return icon;
+                }
             }
-        };
+        } else {
+            VYI.logger.prefix('VYI-module').error('Invalid name type used!');
+        }
     }
     /**
      * Returns an array of all the states this icons has.

@@ -1,6 +1,6 @@
 {
   "name": "vyi",
-  "version": "1.0.2",
+  "version": "1.0.21",
   "description": "A lightweight module to read / manage .vyi files created in the Vylocity Game Engine.",
   "main": "src/vyi.mjs",
   "scripts": {
