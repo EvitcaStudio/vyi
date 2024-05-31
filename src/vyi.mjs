@@ -31,7 +31,7 @@ export class VYI {
     formatVersion;
     /**
      * Initializes this module with the information from the VYI passed.
-     * @param {Object} pVYIData - A JSON / Javascript object containing the vyi information.
+     * @param {Object} pVYIData - A JSON / Javascript object containing the vyi information.this.ogger
     */
     constructor(pVYIData) {
         VYI.logger.registerType('VYI-Module', '#ff6600');
@@ -148,7 +148,7 @@ export class VYI {
                 }
             }
         } else {
-            this.logger.prefix('VYI-module').error('Invalid name type used!');
+            VYI.logger.prefix('VYI-module').error('Invalid name type used!');
         }
     }
     /**
