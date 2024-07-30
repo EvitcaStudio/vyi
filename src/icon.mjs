@@ -205,6 +205,7 @@ export class Icon {
     setAllFrameDelays(pDelay) {
         if (pDelay) {
             if (typeof(pDelay) === 'number') {
+                this.setDelay(pDelay);
                 this.frames.forEach((pFrame) => {
                     pFrame.setDelay(pDelay);
                 });
