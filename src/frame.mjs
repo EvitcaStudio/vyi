@@ -46,6 +46,7 @@ export class Frame {
      */
     constructor(pFrameData, pParentIcon) {
         this.vyi = pParentIcon.vyi;
+        this.parent = pParentIcon;
         this.parse(pFrameData);
     }
     /**

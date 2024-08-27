@@ -280,7 +280,6 @@ export class Icon {
         if (pFrameData) {
             if (pFrameData instanceof Object) {
                 const frame = new Frame(pFrameData, this);
-                frame.parent = this;
                 // Add the frame to the frames array.
                 this.frames.push(frame);
                 // Re-index frames after a change
