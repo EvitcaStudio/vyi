@@ -45,11 +45,26 @@ export class Icon {
      */
     name = '';
     /**
+     * The icon that owns this frame. 
+     * @private
+     * @type {Icon}
+     */
+    parent;
+    /**
+     * The vyi this icon belongs to.
+     * 
+     * @private
+     * @type {VYI}
+     */
+    vyi;
+    /**
      * Creates this icon instance.
      * @param {Object} pIconData - The icon data that is used to build this icon.
+     * @param {VYI} pVYI - The vyi this icon | state belongs to.
      * @private
      */
-    constructor(pIconData) {
+    constructor(pIconData, pVYI) {
+        this.vyi = pVYI;
         this.parse(pIconData);
     }
     /**
@@ -222,7 +237,8 @@ export class Icon {
      */
     addState(pIconData) {
         if (pIconData instanceof Object) {
-            const state = new Icon(pIconData);
+            const state = new Icon(pIconData, this.vyi);
+            state.parent = this;
             this.states.push(state);
             return state;
         }
@@ -264,6 +280,7 @@ export class Icon {
         if (pFrameData) {
             if (pFrameData instanceof Object) {
                 const frame = new Frame(pFrameData, this);
+                frame.parent = this;
                 // Add the frame to the frames array.
                 this.frames.push(frame);
                 // Re-index frames after a change

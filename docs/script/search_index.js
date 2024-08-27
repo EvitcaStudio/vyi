@@ -372,6 +372,12 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/frame.mjs~frame#vyi",
+    "class/src/frame.mjs~Frame.html#instance-member-vyi",
+    "src/frame.mjs~Frame#vyi",
+    "member"
+  ],
+  [
     "src/frame.mjs~frame.defaultdelay",
     "class/src/frame.mjs~Frame.html#static-member-defaultDelay",
     "src/frame.mjs~Frame.defaultDelay",
@@ -510,6 +516,12 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
+    "src/icon.mjs~icon#parent",
+    "class/src/icon.mjs~Icon.html#instance-member-parent",
+    "src/icon.mjs~Icon#parent",
+    "member"
+  ],
+  [
     "src/icon.mjs~icon#parse",
     "class/src/icon.mjs~Icon.html#instance-method-parse",
     "src/icon.mjs~Icon#parse",
@@ -567,6 +579,12 @@ window.esdocSearchIndex = [
     "src/icon.mjs~icon#states",
     "class/src/icon.mjs~Icon.html#instance-member-states",
     "src/icon.mjs~Icon#states",
+    "member"
+  ],
+  [
+    "src/icon.mjs~icon#vyi",
+    "class/src/icon.mjs~Icon.html#instance-member-vyi",
+    "src/icon.mjs~Icon#vyi",
     "member"
   ],
   [

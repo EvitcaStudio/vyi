@@ -30,6 +30,13 @@ export class Frame {
      * @private
      * @type {number}
      */
+    /**
+     * The vyi this frame belongs to.
+     * 
+     * @private
+     * @type {VYI}
+     */
+    vyi;
     static defaultDelay = 100;
     /**
      * Create this frame class instance.
@@ -38,7 +45,7 @@ export class Frame {
      * @private
      */
     constructor(pFrameData, pParentIcon) {
-        this.parent = pParentIcon;
+        this.vyi = pParentIcon.vyi;
         this.parse(pFrameData);
     }
     /**

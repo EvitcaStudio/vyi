@@ -95,7 +95,7 @@
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/src/icon.mjs~Icon.html#instance-constructor-constructor">constructor</a></span></span><span class="code" data-ice="signature">(pIconData: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>)</span>
+          <span class="code" data-ice="name"><span><a href="class/src/icon.mjs~Icon.html#instance-constructor-constructor">constructor</a></span></span><span class="code" data-ice="signature">(pIconData: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>, pVYI: <span><a href="class/src/vyi.mjs~VYI.html">VYI</a></span>)</span>
         </p>
       </div>
       <div>
@@ -276,6 +276,35 @@
           
           
           
+          <span class="code" data-ice="name"><span><a href="class/src/icon.mjs~Icon.html#instance-member-parent">parent</a></span></span><span class="code" data-ice="signature">: <span><a href="class/src/icon.mjs~Icon.html">Icon</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>The icon that owns this frame.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">private</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
           <span class="code" data-ice="name"><span><a href="class/src/icon.mjs~Icon.html#instance-member-states">states</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span></span>
         </p>
       </div>
@@ -283,6 +312,35 @@
         
         
         <div data-ice="description"><p>An array of Icon&apos;s that are state of this icon.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">private</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/icon.mjs~Icon.html#instance-member-vyi">vyi</a></span></span><span class="code" data-ice="signature">: <span><a href="class/src/vyi.mjs~VYI.html">VYI</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>The vyi this icon belongs to.</p>
 </div>
       </div>
     </td>
@@ -1047,11 +1105,11 @@
     
     
     
-    <span class="code" data-ice="name">constructor</span><span class="code" data-ice="signature">(pIconData: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>)</span>
+    <span class="code" data-ice="name">constructor</span><span class="code" data-ice="signature">(pIconData: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>, pVYI: <span><a href="class/src/vyi.mjs~VYI.html">VYI</a></span>)</span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber52">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber66">source</a></span></span>
     </span>
   </h3>
 
@@ -1076,6 +1134,13 @@
       <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></td>
       <td data-ice="appendix"></td>
       <td data-ice="description"><p>The icon data that is used to build this icon.</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">pVYI</td>
+      <td data-ice="type" class="code"><span><a href="class/src/vyi.mjs~VYI.html">VYI</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>The vyi this icon | state belongs to.</p>
 </td>
     </tr>
 </tbody>
@@ -1324,6 +1389,50 @@
   
 </div>
 <div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-member-parent">
+    <span class="access" data-ice="access">private</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">parent</span><span class="code" data-ice="signature">: <span><a href="class/src/icon.mjs~Icon.html">Icon</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber52">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>The icon that owns this frame. </p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-member-states">
     <span class="access" data-ice="access">private</span>
     
@@ -1343,6 +1452,50 @@
   
   
   <div data-ice="description"><p>An array of Icon&apos;s that are state of this icon.</p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-member-vyi">
+    <span class="access" data-ice="access">private</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">vyi</span><span class="code" data-ice="signature">: <span><a href="class/src/vyi.mjs~VYI.html">VYI</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber59">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>The vyi this icon belongs to.</p>
 </div>
 
   
@@ -1426,7 +1579,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber263">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber279">source</a></span></span>
     </span>
   </h3>
 
@@ -1500,7 +1653,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber223">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber238">source</a></span></span>
     </span>
   </h3>
 
@@ -1574,7 +1727,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber153">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber168">source</a></span></span>
     </span>
   </h3>
 
@@ -1631,7 +1784,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber175">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber190">source</a></span></span>
     </span>
   </h3>
 
@@ -1688,7 +1841,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber378">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber395">source</a></span></span>
     </span>
   </h3>
 
@@ -1764,7 +1917,7 @@ If you are trying to get &quot;frame&quot; 1. Then you will need to use the icon
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber389">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber406">source</a></span></span>
     </span>
   </h3>
 
@@ -1821,7 +1974,7 @@ If you are trying to get &quot;frame&quot; 1. Then you will need to use the icon
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber197">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber212">source</a></span></span>
     </span>
   </h3>
 
@@ -1878,7 +2031,7 @@ If you are trying to get &quot;frame&quot; 1. Then you will need to use the icon
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber131">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber146">source</a></span></span>
     </span>
   </h3>
 
@@ -1935,7 +2088,7 @@ If you are trying to get &quot;frame&quot; 1. Then you will need to use the icon
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber409">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber426">source</a></span></span>
     </span>
   </h3>
 
@@ -2009,7 +2162,7 @@ If you are trying to get &quot;frame&quot; 1. Then you will need to use the icon
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber426">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber443">source</a></span></span>
     </span>
   </h3>
 
@@ -2066,7 +2219,7 @@ If you are trying to get &quot;frame&quot; 1. Then you will need to use the icon
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber285">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber302">source</a></span></span>
     </span>
   </h3>
 
@@ -2147,7 +2300,7 @@ If you are trying to get &quot;frame&quot; 1. Then you will need to use the icon
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber236">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber252">source</a></span></span>
     </span>
   </h3>
 
@@ -2228,7 +2381,7 @@ If you are trying to get &quot;frame&quot; 1. Then you will need to use the icon
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber183">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber198">source</a></span></span>
     </span>
   </h3>
 
@@ -2302,7 +2455,7 @@ If you are trying to get &quot;frame&quot; 1. Then you will need to use the icon
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber330">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber347">source</a></span></span>
     </span>
   </h3>
 
@@ -2385,7 +2538,7 @@ pCurrentIndex must be set to -1 to match this icon.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber205">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber220">source</a></span></span>
     </span>
   </h3>
 
@@ -2459,7 +2612,7 @@ pCurrentIndex must be set to -1 to match this icon.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber139">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber154">source</a></span></span>
     </span>
   </h3>
 
@@ -2533,7 +2686,7 @@ pCurrentIndex must be set to -1 to match this icon.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber161">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber176">source</a></span></span>
     </span>
   </h3>
 
@@ -2607,7 +2760,7 @@ pCurrentIndex must be set to -1 to match this icon.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber119">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber134">source</a></span></span>
     </span>
   </h3>
 
@@ -2690,7 +2843,7 @@ pCurrentIndex must be set to -1 to match this icon.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber469">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber486">source</a></span></span>
     </span>
   </h3>
 
@@ -2747,7 +2900,7 @@ pCurrentIndex must be set to -1 to match this icon.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber447">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber464">source</a></span></span>
     </span>
   </h3>
 
@@ -2804,7 +2957,7 @@ pCurrentIndex must be set to -1 to match this icon.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber397">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber414">source</a></span></span>
     </span>
   </h3>
 
@@ -2861,7 +3014,7 @@ pCurrentIndex must be set to -1 to match this icon.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber434">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber451">source</a></span></span>
     </span>
   </h3>
 
@@ -2918,7 +3071,7 @@ pCurrentIndex must be set to -1 to match this icon.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber316">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber333">source</a></span></span>
     </span>
   </h3>
 
@@ -2962,7 +3115,7 @@ pCurrentIndex must be set to -1 to match this icon.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber60">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/icon.mjs.html#lineNumber75">source</a></span></span>
     </span>
   </h3>
 
