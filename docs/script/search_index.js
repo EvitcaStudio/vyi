@@ -402,6 +402,12 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/icon.mjs~icon#assignid",
+    "class/src/icon.mjs~Icon.html#instance-method-assignID",
+    "src/icon.mjs~Icon#assignID",
+    "method"
+  ],
+  [
     "src/icon.mjs~icon#constructor",
     "class/src/icon.mjs~Icon.html#instance-constructor-constructor",
     "src/icon.mjs~Icon#constructor",
@@ -468,6 +474,12 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/icon.mjs~icon#getid",
+    "class/src/icon.mjs~Icon.html#instance-method-getID",
+    "src/icon.mjs~Icon#getID",
+    "method"
+  ],
+  [
     "src/icon.mjs~icon#getname",
     "class/src/icon.mjs~Icon.html#instance-method-getName",
     "src/icon.mjs~Icon#getName",
@@ -501,6 +513,12 @@ window.esdocSearchIndex = [
     "src/icon.mjs~icon#height",
     "class/src/icon.mjs~Icon.html#instance-member-height",
     "src/icon.mjs~Icon#height",
+    "member"
+  ],
+  [
+    "src/icon.mjs~icon#id",
+    "class/src/icon.mjs~Icon.html#instance-member-id",
+    "src/icon.mjs~Icon#id",
     "member"
   ],
   [
@@ -594,6 +612,12 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
+    "src/icon.mjs~icon.generateid",
+    "class/src/icon.mjs~Icon.html#static-method-generateID",
+    "src/icon.mjs~Icon.generateID",
+    "method"
+  ],
+  [
     "src/vyi.mjs",
     "file/src/vyi.mjs.html",
     "src/vyi.mjs",
@@ -627,6 +651,12 @@ window.esdocSearchIndex = [
     "src/vyi.mjs~vyi#geticon",
     "class/src/vyi.mjs~VYI.html#instance-method-getIcon",
     "src/vyi.mjs~VYI#getIcon",
+    "method"
+  ],
+  [
+    "src/vyi.mjs~vyi#geticonbyid",
+    "class/src/vyi.mjs~VYI.html#instance-method-getIconByID",
+    "src/vyi.mjs~VYI#getIconByID",
     "method"
   ],
   [
@@ -664,6 +694,12 @@ window.esdocSearchIndex = [
     "class/src/vyi.mjs~VYI.html#instance-method-removeIcon",
     "src/vyi.mjs~VYI#removeIcon",
     "method"
+  ],
+  [
+    "src/vyi.mjs~vyi#reservedids",
+    "class/src/vyi.mjs~VYI.html#instance-member-reservedIDs",
+    "src/vyi.mjs~VYI#reservedIDs",
+    "member"
   ],
   [
     "src/vyi.mjs~vyi.logger",

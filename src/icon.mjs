@@ -45,7 +45,7 @@ export class Icon {
      */
     name = '';
     /**
-     * The icon that owns this frame. 
+     * The icon that owns this icon. This means this icon is state. 
      * @private
      * @type {Icon}
      */
@@ -58,6 +58,32 @@ export class Icon {
      */
     vyi;
     /**
+     * A random unique ID attached to each icon to distinguish them from others in the event another icon shares the same name.
+     * 
+     * @private
+     * @type {string}
+     */
+    id;
+    /**
+    * Generates a UUID (Universally Unique Identifier) version 4.
+    * 
+    * @private
+    * @param {VYI} pVYI - The vyi that will reserve this ID.
+    * @returns {string} The generated UUID.
+    */
+    static generateID(pVYI) {
+       const genID = () => {
+           return Math.floor(Math.random() * 0xFFFFFFFF).toString(16).padStart(8, '0');
+       }
+       // Generate a random number in the range of 0 to 0xFFFFFFFF (8 hex digits) and convert to hex
+       let id = genID();
+       while (pVYI.reservedIDs.includes(id)) {
+           id = genID();
+       }
+       pVYI.reservedIDs.push(id);
+       return id;
+   }
+    /**
      * Creates this icon instance.
      * @param {Object} pIconData - The icon data that is used to build this icon.
      * @param {VYI} pVYI - The vyi this icon | state belongs to.
@@ -65,7 +91,25 @@ export class Icon {
      */
     constructor(pIconData, pVYI) {
         this.vyi = pVYI;
+        this.assignID(pVYI);
         this.parse(pIconData);
+    }
+    /**
+     * Assigns an ID to this icon.
+     * 
+     * @param {VYI} pVYI - The vyi that holds this ID.
+     * @private
+     */
+    assignID(pVYI) {
+        this.id = Icon.generateID(pVYI);
+    }
+    /**
+     * Gets the id of this icon.
+     * 
+     * @returns {string} The id of this icon.
+     */
+    getID() {
+        return this.id;
     }
     /**
      * parses through the icon data and adds data to this icon.
@@ -273,12 +317,12 @@ export class Icon {
     }
     /**
      * Adds a new frame to this icon.
-     * @param {Object} pFrameData - The frame data to give this frame.
+     * @param {Array} pFrameData - The frame data to give this frame.
      * @returns {Frame|undefined} The frame that was added or undefined.
      */
     addFrame(pFrameData) {
         if (pFrameData) {
-            if (pFrameData instanceof Object) {
+            if (Array.isArray(pFrameData)) {
                 const frame = new Frame(pFrameData, this);
                 // Add the frame to the frames array.
                 this.frames.push(frame);

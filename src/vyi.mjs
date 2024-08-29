@@ -30,6 +30,13 @@ export class VYI {
      */
     formatVersion;
     /**
+     * An array of used IDs to prevent collusion between duplicate named icons.
+     * 
+     * @private
+     * @type {Array}
+     */
+    reservedIDs = [];
+    /**
      * Initializes this module with the information from the VYI passed.
      * @param {Object} pVYIData - A JSON / Javascript object containing the vyi information.this.ogger
     */
@@ -78,7 +85,7 @@ export class VYI {
                     if (Array.isArray(icons)) {
                         // Loop through the icons and add them to the vyi module instance.
                         icons.forEach((pIconData) => {
-                            this.addIcon(pIconData);
+                            this.addIcon(pIconData, this);
                         });
                     } else {
                         VYI.logger.prefix('VYI-module').error('Invalid .vyi file! Cannot parse.');
@@ -97,7 +104,7 @@ export class VYI {
     addIcon(pIconData) {
         if (pIconData) {
             if (pIconData instanceof Object) {
-                const icon = new Icon(pIconData);
+                const icon = new Icon(pIconData, this);
                 // Add the icon to the icons array.
                 this.icons.push(icon);
                 return icon;
@@ -149,6 +156,22 @@ export class VYI {
             }
         } else {
             VYI.logger.prefix('VYI-module').error('Invalid name type used!');
+        }
+    }
+    /**
+     * Gets an icon by the id provided.
+     * 
+     * @private
+     * @param {string} pID - The id of the icon.
+     * @returns {Icon} The icon that has the id that was passed.
+     */
+    getIconByID(pID) {
+        if (!pID) return;
+        for (const icon of this.icons) {
+            for (const state of icon.states) {
+                if (state.id === pID) return state;
+            }
+            if (icon.id === pID) return icon;
         }
     }
     /**
