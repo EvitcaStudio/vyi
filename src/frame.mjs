@@ -1,5 +1,8 @@
 import { VYI } from './vyi.mjs';
 
+/**
+ * @public
+ */
 export class Frame {
     /**
      * The delay of this frame.
@@ -26,17 +29,17 @@ export class Frame {
      */
     parent;
     /**
-     * The default delay in ms of frames.
-     * @private
-     * @type {number}
-     */
-    /**
      * The vyi this frame belongs to.
      * 
      * @private
      * @type {VYI}
      */
     vyi;
+    /**
+     * The default delay in ms of frames.
+     * @private
+     * @type {number}
+     */
     static defaultDelay = 100;
     /**
      * Create this frame class instance.
@@ -106,6 +109,22 @@ export class Frame {
      */
     getDataURL() {
         return this.dataURL;
+    }
+    /**
+     * Gets the vyi this frame belongs to.
+     * 
+     * @returns {VYI} The vyi this frame belongs to.
+     */
+    getVyi() {
+        return this.vyi;
+    }
+    /**
+     * Gets the icon this frame belongs to.
+     * 
+     * @returns {Icon} The icon this frame belongs to.
+     */
+    getParent() {
+        return this.parent;
     }
     /**
      * Exports this frame's data into proper vyi format.

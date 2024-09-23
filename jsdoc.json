@@ -1,0 +1,25 @@
+{
+    "source": {
+        "include": ["./src"],
+        "includePattern": "\\.js$|\\.mjs$",
+        "excludePattern": "(logger\\.mjs|test\\.js|pako\\.esm\\.mjs)"
+    },
+    "sourceType": "module",
+    "opts": {
+        "destination": "./docs",
+        "readme": "./README.md",
+        "encoding": "utf8",
+        "template": "node_modules/minami"
+    },
+    "templates": {
+        "logo": "./evitcastudio_round_branding.png",
+        "title": "vyi",
+        "description": "A lightweight module to read/manage .vyi extensions created in the Vylocity Game Engine.",
+        "repository": "https://github.com/EvitcaStudio/vyi",
+        "author": "https://github.com/doubleactii",
+        "image": "./evitcastudio_round_branding.png"
+    },
+    "lint": {
+        "enable": true
+    }
+}
