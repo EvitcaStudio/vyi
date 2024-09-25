@@ -1,11 +1,12 @@
 import { Logger } from './vendor/logger.mjs';
 import { Icon } from './icon.mjs';
+import { Frame } from './frame.mjs';
 import pako from './vendor/pako.esm.mjs';
 
 /**
  * @public
  */
-export class VYI {
+class VYI {
 	/**
 	 * The version of the module.
 	 */
@@ -16,11 +17,11 @@ export class VYI {
      */
     static logger = new Logger();
     /**
-     * An array of icons that belong to this VYI
+     * A map of icons that belong to this VYI
      * @private
-     * @type {Array}
+     * @type {Map}
      */
-    icons = [];
+    icons = new Map();
     /**
      * The name of this vyi.
      * @private
@@ -32,20 +33,13 @@ export class VYI {
      * @private
      * @type {number}
      */
-    formatVersion;
-    /**
-     * An array of used IDs to prevent collusion between duplicate named icons.
-     * 
-     * @private
-     * @type {Array}
-     */
-    reservedIDs = [];
+    formatVersion = 1;
     /**
      * Initializes this module with the information from the VYI passed.
      * @param {Object} pVyiData - A JSON / Javascript object containing the vyi information.this.ogger
     */
     constructor(pVyiData) {
-        VYI.logger.registerType('VYI-Module', '#ff6600');
+        VYI.logger.registerType('Vyi-module', '#ff6600');
         this.parse(pVyiData);
     }
     /**
@@ -63,31 +57,28 @@ export class VYI {
         try {
             let vyi;
 
-            if (typeof(pVyiData) === 'string') {
-                const isNodeEnv = typeof(window) === 'undefined';
+            if (typeof pVyiData === 'string') {
+                const isNodeEnv = typeof window === 'undefined';
                 vyi = isNodeEnv 
                     ? await this.readFileAndGetVYI(pVyiData) 
                     : await this.fetchAndParseJSON(pVyiData);
-            } else if (typeof(pVyiData) === 'object' && !Array.isArray(pVyiData) && !(pVyiData instanceof ArrayBuffer || pVyiData instanceof Uint8Array)) {
+            } else if (pVyiData instanceof VYI) {
+                vyi = pVyiData.export();
+            } else if (pVyiData instanceof Object && !Array.isArray(pVyiData) && !(pVyiData instanceof ArrayBuffer || pVyiData instanceof Uint8Array)) {
                 vyi = pVyiData;
             } else if (pVyiData instanceof ArrayBuffer || pVyiData instanceof Uint8Array) {
                 vyi = await this.handleBinaryData(pVyiData);
             } else {
-                throw new Error('Invalid input type provided.');
+                throw new Error('Error processing: Invalid input type provided.');
             }
 
-            // If there is valid vyi data, process it
-            if (vyi) {
-                this.processVyiData(vyi);
-            }
+            this.processVyiData(vyi);
         } catch (pError) {
-            VYI.logger.prefix('VYI-module').error(`Error processing VYI data: ${pError.message}`);
-            throw pError; // Rethrow the error for further handling
+            VYI.logger.prefix('Vyi-module').error(`${pError.message}`);
         }
     }
     /**
      * Reads a file and returns the vyi from it.
-     * 
      * @private
      * @param {string} - The URL to read the data from.
      * @returns {Promise<Object>} - The vyi from the file.
@@ -99,7 +90,6 @@ export class VYI {
     }
     /**
      * Fetches data from a URL and parses it as JSON.
-     *
      * @private
      * @param {string} pURL - The URL to fetch the data from.
      * @returns {Promise<Object>} - A promise that resolves to the parsed JSON data.
@@ -115,7 +105,6 @@ export class VYI {
     }
     /**
      * Handles binary data (ArrayBuffer or Uint8Array). Attempts to inflate or decode it.
-     *
      * @private
      * @param {ArrayBuffer|Uint8Array} pBinaryData - The binary data to process.
      * @returns {Object|string|null} - The parsed JSON object or decoded string, or null if it fails.
@@ -135,7 +124,6 @@ export class VYI {
     }
     /**
      * Processes the parsed VYI data and adds icons to the VYI module instance.
-     * 
      * @private
      * @param {Object} pVyi - The parsed VYI data.
      */
@@ -148,104 +136,114 @@ export class VYI {
                 this.addIcon(pIconData, this);
             });
         } else {
-            VYI.logger.prefix('VYI-module').error('Invalid .vyi file! Cannot parse icons.');
+            VYI.logger.prefix('Vyi-module').error('Invalid .vyi file! Cannot parse icons.');
         }
     }
     /**
      * Adds an icon to this VYI.
-     * @param {Object} pIconData - The icon data to use.
+     * @param {Icon|Array} pIconData - The icon data to use.
      * @returns {Icon|undefined} - The Icon added or undefined.
      */
     addIcon(pIconData) {
-        if (pIconData) {
-            if (pIconData instanceof Object) {
-                const icon = new Icon(pIconData, this);
-                // Add the icon to the icons array.
-                this.icons.push(icon);
-                return icon;
-            } else {
-                VYI.logger.prefix('VYI-module').error('Invalid icon data type passed!');
+        if (!pIconData) {
+            VYI.logger.prefix('Vyi-module').error('No icon data passed!');
+            return;
+        }
+
+        if (!(pIconData instanceof Icon) && !Array.isArray(pIconData)) {
+            VYI.logger.prefix('Vyi-module').error('Invalid icon data type passed!');
+            return;
+        }
+
+        // Create the icon instance
+        const icon = pIconData instanceof Icon
+            ? pIconData
+            : new Icon(pIconData);
+
+        icon.setVyi(this);
+        this.icons.set(icon.id, icon);
+        return icon;
+    }
+    /**
+     * Removes the icon passed.
+     * @param {Icon} pIcon - The icon to remove from this vyi.
+     */
+    removeIcon(pIcon) {
+        if (!pIcon) return;
+        if (pIcon instanceof Icon) {
+            if (this.icons.delete(pIcon.id)) {;
+                pIcon.removeVyi();
             }
-        } else {
-            VYI.logger.prefix('VYI-module').error('No icon data passed!');
         }
     }
     /**
-     * Removes the icon passed or the icon with the name pName.
-     * @param {Icon} pIcon - The state to remove from this icon. pName should be not be used in tandem with this method of removing.
-     * @param {string} pName - The name of the icon to remove. pIcon must be undefined to use this method for removing.
+     * Removes the icon via it's name. The LAST defined icon that has the passed name will be removed. As names are not unique.
+     * @param {string} pName - The name to use to find the icon.
      */
-    removeIcon(pIcon, pName) {
-        const icon = pIcon || this.getIcon(pName);
-        if (icon) {
-            if (this.icons.includes(icon)) {
-                this.icons.splice(this.icons.indexOf(icon), 1);
-            }
-        }
+    removeIconByName(pName) {
+        const icon = this.getIcon(pName);
+        this.removeIcon(icon);
+    }
+    /**
+     * Removes the icon via it's id.
+     * @param {string} pName - The id to use to find the icon.
+     */
+    removeIconById(pId) {
+        const icon = this.getIconById(pId);
+        this.removeIcon(icon);
     }
     /**
      * Returns all the icon names in this vyi.
      * @returns {Array} An array of icon names in this vyi.
      */
     getIconNames() {
-        // Array to store the icon names.
-        const iconNames = [];
-        this.icons.forEach((pIcon) => {
-            iconNames.push(pIcon.name);
-        });
+        const iconNames = this.getIcons().map((pIcon) => pIcon.name);
         return iconNames;
     }
     /**
-     * Gets the icon that has the name pName.
+     * Gets the icon that has the name pName. The LAST defined icon that has the passed name will be returned.
      * @param {string} pName - The name of the icon to get.
      * @returns {Icon|undefined} The icon that has the name pName or undefined.
      */
     getIcon(pName) {
-        if (typeof(pName) === 'string') {
-            for (let i = this.icons.length - 1; i >= 0; i--) {
-                const icon = this.icons[i];
+        if (typeof pName === 'string') {
+            const icons = this.getIcons();
+            for (let i = icons.length - 1; i >= 0; i--) {
+                const icon = icons[i];
                 // If the icon has the same name, return that icon
                 if (icon.getName() === pName) {
                     return icon;
                 }
             }
         } else {
-            VYI.logger.prefix('VYI-module').error('Invalid name type used!');
+            VYI.logger.prefix('Vyi-module').error('Invalid name type used!');
         }
     }
     /**
      * Gets an icon by the id provided.
-     * 
-     * @private
-     * @param {string} pID - The id of the icon.
+     * @param {string} pId - The id of the icon.
      * @returns {Icon} The icon that has the id that was passed.
      */
-    getIconByID(pID) {
-        if (!pID) return;
-        for (const icon of this.icons) {
-            for (const state of icon.states) {
-                if (state.id === pID) return state;
-            }
-            if (icon.id === pID) return icon;
-        }
+    getIconById(pId) {
+        if (!pId) return;
+        return this.icons.get(pId);
     }
     /**
      * Gets all the icons in this vyi.
      * @returns {Array<Icon>}
      */
     getIcons() {
-        return [...this.icons];
+        return Array.from(this.icons.values());
     }
     /**
      * Renames the vyi.
-     * 
      * @param {string} pName - The name to give this vyi.
      */
     rename(pName) {
-        if (typeof(pName) === 'string') {
+        if (typeof pName === 'string') {
             this.name = pName;
         } else {
-            VYI.logger.prefix('VYI-module').error('Invalid name type used!');
+            VYI.logger.prefix('Vyi-module').error('Invalid name type used!');
         }
     }
     /**
@@ -261,14 +259,10 @@ export class VYI {
      */
     export() {
         const vyi = {};
-        // Set version
         vyi.v = this.formatVersion;
-        // Set the icons array
-        vyi.i = [];
-        this.icons.forEach((pIcon) => {
-            // Push the icon data to the vyi export object.
-            vyi.i.push(pIcon.export());
-        });
+        vyi.i = this.getIcons().map((pIcon) => pIcon.export());
         return vyi;
     }
 }
+
+export { VYI, Icon, Frame };
