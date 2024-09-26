@@ -112,6 +112,15 @@ export class Icon {
 
         if (pVyi instanceof VYI) {
             this.vyi = pVyi;
+
+            const states = this.getStates();
+            const frames = this.getFrames();
+            states.forEach((pState) => {
+                pState.setParent(this);
+                pState.setVyi(this.vyi);
+            });
+            frames.forEach((pFrame) => pFrame.setParent(this));
+
         }
     }
     /**
@@ -344,7 +353,6 @@ export class Icon {
         }
 
         frame.setParent(this);
-        // We store this frame under its index in the Map 0-1
         this.frames.set(this.frames.size, frame);
         this.indexFrames();
 
@@ -380,8 +388,11 @@ export class Icon {
      * @private
      */
     indexFrames() {
-        this.getFrames().forEach((pFrame, pIndex) => {
+        const frames = this.getFrames();
+        this.frames.clear();
+        frames.forEach((pFrame, pIndex) => {
             pFrame.index = pIndex;
+            this.frames.set(pIndex, pFrame);
         });
     }
     /**
