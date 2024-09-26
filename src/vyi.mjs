@@ -133,7 +133,7 @@ class VYI {
 
         if (Array.isArray(icons)) {
             icons.forEach((pIconData) => {
-                this.addIcon(pIconData, this);
+                this.addIcon(pIconData);
             });
         } else {
             VYI.logger.prefix('Vyi-module').error('Invalid .vyi file! Cannot parse icons.');
@@ -155,13 +155,12 @@ class VYI {
             return;
         }
 
-        // Create the icon instance
         const icon = pIconData instanceof Icon
             ? pIconData
             : new Icon(pIconData);
 
-        icon.setVyi(this);
         this.icons.set(icon.id, icon);
+        icon.setVyi(this);
         return icon;
     }
     /**
@@ -220,13 +219,22 @@ class VYI {
         }
     }
     /**
+     * Gets the number of icons this vyi has.
+     * @returns {number} The amount of icons this vyi has.
+     */
+    getIconCount() {
+        return this.icons.size;
+    }
+    /**
      * Gets an icon by the id provided.
      * @param {string} pId - The id of the icon.
      * @returns {Icon} The icon that has the id that was passed.
      */
     getIconById(pId) {
         if (!pId) return;
-        return this.icons.get(pId);
+        // We recursively check the states of the parent to get the icon if its not found on the vyi.
+        const icon = this.icons.get(pId) || this.getIcons().find((pIcon) => pIcon.states.has(pId))?.getStateById(pId);
+        return icon;
     }
     /**
      * Gets all the icons in this vyi.

@@ -58,7 +58,7 @@ export class Frame {
         if (!pFrameData) return;
         // Loop through frame data and build frame.
         const dataURL = pFrameData[0];
-        const frameDelay = pFrameData[1] 
+        const frameDelay = pFrameData[1]
             ? pFrameData[1] 
             : this.parent 
                 ? this.parent.getDelay()

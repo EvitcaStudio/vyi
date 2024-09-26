@@ -102,6 +102,27 @@ export class Icon {
         this.assignId();
     }
     /**
+     * Sets the parent for this state.
+     * @private
+     * @param {Icon} pParent - The parent icon of this state.
+     */
+    setParent(pParent) {
+        if (!pParent || this.parent) return;
+        if (pParent instanceof Icon) {
+            this.parent = pParent;
+        }
+    }
+    /**
+     * Removes the parent and vyi from this state.
+     * @private
+     */
+    removeParent() {
+        if (this.parent) {
+            this.parent = null;
+            this.vyi = null;
+        }
+    }
+    /**
      * Sets the vyi of this icon.
      * 
      * @private
@@ -113,14 +134,16 @@ export class Icon {
         if (pVyi instanceof VYI) {
             this.vyi = pVyi;
 
-            const states = this.getStates();
-            const frames = this.getFrames();
-            states.forEach((pState) => {
-                pState.setParent(this);
-                pState.setVyi(this.vyi);
-            });
-            frames.forEach((pFrame) => pFrame.setParent(this));
+            if (this.getStateCount() > 0) {
+                const states = this.getStates();
+                states.forEach((pState) => {
+                    pState.setParent(this);
+                    pState.setVyi(this.vyi);
+                });
+            }
 
+            const frames = this.getFrames();
+            frames.forEach((pFrame) => pFrame.setParent(this));
         }
     }
     /**
@@ -159,6 +182,20 @@ export class Icon {
         return this.parent;
     }
     /**
+     * Gets the number of states this icon has.
+     * @returns {number} The amount of states this icon has.
+     */
+    getStateCount() {
+        return this.states.size;
+    }
+    /**
+     * Gets the number of frames this icon has.
+     * @returns {number} The amount of frames this icon has.
+     */
+    getFrameCount() {
+        return this.frames.size;
+    }
+    /**
      * Parses through the icon data and adds data to this icon.
      * @param {Array} pIconData - The icon data that is used to build this icon.
      */
@@ -182,39 +219,37 @@ export class Icon {
         this.setDelay(iconDelay);
         // Set dataURL
         this.setDataURL(iconDataURL);
-        // Check if the frame data is an array
+
         if (Array.isArray(frameArray)) {
             // If the frame array has data then we need to store it.
-            if (frameArray.length) {
-                frameArray.forEach((pFrame) => {
-                    // pFrame is an array holding the datalURL and frameDelay of the frame
-                    this.addFrame(pFrame);
-                });
-            }
+            frameArray.forEach((pFrame) => {
+                // pFrame is an array holding the datalURL and frameDelay of the frame
+                this.addFrame(pFrame);
+            });
         }
-        // Check if the states data is an array
+
         if (Array.isArray(stateArray)) {
             // If the state array has data then we need to store it.
-            if (stateArray.length) {
-                stateArray.forEach((pState) => {
-                    // Here we create a icon with aggregated data because the state data is not enough to make it an icon.
-                    // We do this because a state is basically an icon, but it just "inherits" alot of the data. But this makes it easier to manage if we treat it internally as an icon.
-                    const aggregatedIconData = [];
-                    // iconName
-                    aggregatedIconData[0] = pState[0];
-                    // iconWidth
-                    aggregatedIconData[1] = iconWidth;
-                    // iconHeight
-                    aggregatedIconData[2] = iconHeight;
-                    // frame delay
-                    aggregatedIconData[3] = pState[2];
-                    // iconDataURL
-                    aggregatedIconData[4] = pState[1];
-                    // frame array
-                    aggregatedIconData[5] = pState[3];
-                    this.addState(aggregatedIconData);
-                });
-            }
+            stateArray.forEach((pStateData) => {
+                const state = new Icon();
+                const stateName = pStateData[0];
+                const stateDataURL = pStateData[1];
+                const stateDelay = pStateData[2];
+                const stateFrameArray = pStateData[3];
+
+                state.rename(stateName);
+                state.setSize(iconWidth, iconHeight);
+                state.setDelay(stateDelay);
+                state.setDataURL(stateDataURL);
+
+                if (Array.isArray(stateFrameArray)) {
+                    stateFrameArray.forEach((pFrame) => {
+                        state.addFrame(pFrame);
+                    });
+                }
+
+                this.addState(state);
+            });
         }
     }
     /**
@@ -492,27 +527,6 @@ export class Icon {
         this.states.set(state.id, state);
 
         return state;
-    }
-    /**
-     * Sets the parent for this state.
-     * @private
-     * @param {Icon} pParent - The parent icon of this state.
-     */
-    setParent(pParent) {
-        if (!pParent || this.parent) return;
-        if (pParent instanceof Icon) {
-            this.parent = pParent;
-        }
-    }
-    /**
-     * Removes the parent and vyi from this state.
-     * @private
-     */
-    removeParent() {
-        if (this.parent) {
-            this.parent = null;
-            this.vyi = null;
-        }
     }
     /**
      * Removes the state passed.
