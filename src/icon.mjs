@@ -94,8 +94,7 @@ export class Icon {
    }
     /**
      * Creates this icon instance.
-     * @param {Array} pIconData - The icon data that is used to build this icon.
-     * @private
+     * @param {Array} [pIconData] - The icon data that is used to build this icon.
      */
     constructor(pIconData) {
         this.parse(pIconData);
@@ -535,7 +534,7 @@ export class Icon {
      */
     removeState(pState) {
         if (pState instanceof Icon) {
-            if (this.icons.delete(pState.id)) {;
+            if (this.states.delete(pState.id)) {;
                 pState.removeParent();
             }
         }
