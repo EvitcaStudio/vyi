@@ -36,7 +36,7 @@ class VYI {
     formatVersion = 1;
     /**
      * Initializes this module with the information from the VYI passed.
-     * @param {Object} pVyiData - A JSON / Javascript object containing the vyi information.this.ogger
+     * @param {Object} [pVyiData] - A JSON / Javascript object containing the vyi information.this.ogger
     */
     constructor(pVyiData) {
         VYI.logger.registerType('Vyi-module', '#ff6600');
