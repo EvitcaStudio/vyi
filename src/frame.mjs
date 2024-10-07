@@ -42,9 +42,7 @@ export class Frame {
     static defaultDelay = 100;
     /**
      * Create this frame class instance.
-     * @param {Array} pFrameData - The frame data that is used to build this frame.
-     * @param {Icon} pParentIcon - The icon that created this frame.
-     * @private
+     * @param {Array} [pFrameData] - The frame data that is used to build this frame.
      */
     constructor(pFrameData) {
         this.parse(pFrameData);
@@ -113,6 +111,13 @@ export class Frame {
      */
     getDelay() {
         return this.delay;
+    }
+    /**
+     * Gets the index of this frame.
+     * @returns {number} The index of this frame.
+     */
+    getIndex() {
+        return this.index;
     }
     /**
      * Sets the data url of this frame.
