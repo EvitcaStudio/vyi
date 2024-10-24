@@ -179,7 +179,6 @@ export class Frame {
     }
     /**
      * Exports this frame's data into proper vyi format.
-     * @private
      * @returns {Array} An array of data related to this frame in the proper vyi format.
      */
     export() {

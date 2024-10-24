@@ -590,16 +590,23 @@ export class Icon {
         return this.states.get(pId);
     }
     /**
-     * Returns an array of all the states this icons has.
-     * @returns {Array} An array of states this icon has.
+     * Returns an array of all the states this icon has.
+     * @returns {Icon[]} An array of states this icon has.
      */
     getStates() {
         return Array.from(this.states.values());
     }
     /**
+     * Returns an array of all the state names this icon has.
+     * @returns {string[]} An array of the state names.
+     */
+    getStateNames() {
+        return this.states.map((pState) => pState.getName());
+    }
+    /**
      * Gets all the states belonging to this icon.
      * @private
-     * @returns {Array} An array containing the state data of all frames.
+     * @returns {object[]} An array containing the state data of all frames.
      */
     getStatesData() {
         const stateDataArray = this.getStates().map((pState) => pState.exportAsState());
@@ -624,7 +631,6 @@ export class Icon {
     }
     /**
      * Exports this icon's data into proper vyi format.
-     * @private
      * @returns {Array} An array of data related to this icon in the proper vyi format.
      */
     export() {
